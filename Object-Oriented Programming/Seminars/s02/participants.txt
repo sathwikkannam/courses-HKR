@@ -1,0 +1,8 @@
+Gudny,33,Female
+Kalle,28,Male
+Stina,30,Female
+John,53,Male
+Karitas,30,Female
+Axel,35,Male
+Jonas,57,Male
+Hanna,25,Female
