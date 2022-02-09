@@ -98,6 +98,15 @@ GROUP BY region, "Number of countries", "Average life expectancy"
 HAVING COUNT(name) >= 10
 ORDER BY AVG(lifeExpectancy) DESC;
 
+SELECT
+    continent AS Continent,
+    ROUND(AVG(lifeExpectancy), 1) AS 'Average life expectancy'
+FROM country
+GROUP BY continent
+ORDER BY AVG(lifeExpectancy) DESC;
+
+
+SHOW DATABASES;
 
 
 
