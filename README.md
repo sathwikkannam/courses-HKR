@@ -1,3 +1,8 @@
 # Courses in HKR
 
-What 99% Python. There is a significant amount of Java files. 
+Database Technique : MySQL
+Programming for Embedded Systems : Assembly and C
+Object Oriented Programming : Java
+Fundamental Programming : Python
+Introductory Course for Engineers : Some Arduino
+
