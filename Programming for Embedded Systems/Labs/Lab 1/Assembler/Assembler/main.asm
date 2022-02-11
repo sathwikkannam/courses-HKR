@@ -16,10 +16,11 @@ MOV R2, R18 ;copy R18 to R2
 MOV R1, R17 ;copy R17 to R1 
  
 START: 
-    ADD R1, R2 ;store sum of R1 and R2 to R1 
+  ADD R1, R2 ;store sum of R1 and R2 to R1 
   DEC R16 ;decrease R16 by 1 
   BRNE start 
   OUT PORTD, R1 ;store R1 in PORTD 
- 
-FOREVER: 
+
+  FOREVER: 
    RJMP FOREVER ;forever loop
+ 
