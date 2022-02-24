@@ -6,7 +6,8 @@
 ;
 
 
-; Replace with your application code
+;Write a short program that adds two integer values, where the sum is less 
+;than or equal to 9, and display the result on a 7-segment display
 .include "m328pdef.inc"
 
 start:

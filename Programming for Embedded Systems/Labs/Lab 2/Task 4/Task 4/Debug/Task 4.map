@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\SAKA0191\OneDrive - Högskolan Kristianstad\Skrivbordet\HKR\Programming for Embedded Systems\Labs\Lab 2\Task 3\Task 3\main.asm Thu Feb 24 15:34:11 2022
+AVRASM ver. 2.2.8  C:\Users\SAKA0191\OneDrive - Högskolan Kristianstad\Skrivbordet\HKR\Programming for Embedded Systems\Labs\Lab 2\Task 4\Task 4\main.asm Thu Feb 24 15:31:23 2022
 
 
 EQU  SIGNATURE_000 0000001e
@@ -695,16 +695,5 @@ EQU  ACIaddr      0000002e
 EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
-CSEG start        00000000
-CSEG equal_or_lower 00000017
-CSEG not_equal_or_higher 0000002b
-CSEG turn_on_one  00000031
-CSEG turn_on_two  00000035
-CSEG turn_on_three 0000003c
-CSEG turn_on_four 00000043
-CSEG turn_on_five 0000004a
-CSEG turn_on_six  00000051
-CSEG turn_on_seven 00000058
-CSEG turn_on_eight 0000005f
-CSEG turn_on_nine 00000066
-CSEG loop         0000006d
+CSEG START        0000000a
+CSEG loop         0000000b
