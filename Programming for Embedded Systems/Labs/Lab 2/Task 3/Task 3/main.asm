@@ -33,14 +33,14 @@ start:
 	LDI R19, 0 ;; R19 and R16 as inputs
 	LDI R16, 0
 	ADD R19, R16  ;; MUL R19, R16 or SUB R19, R16
-	CP R19, R28
+	CPI R19, nine
 	BRLO equal_or_lower
 	BREQ equal_or_lower
-	BRGE not_equal_or_higher
+	BRGE turn_on_zero
 
 equal_or_lower:
-	CPI R19, R29
-	BREQ not_equal_or_higher
+	CPI R19, zero
+	BREQ turn_on_zero
 	CPI R19, one
 	BREQ turn_on_one
 	CPI R19, two
@@ -60,12 +60,13 @@ equal_or_lower:
 	CPI R19, nine
 	BREQ turn_on_nine
 
-not_equal_or_higher: ;show 0 if higher of greater 
+turn_on_zero: ;show 0 if higher of zero 
 	LDI R17, 0b00001101
 	STS PB, R17
 
 	LDI R18, 0b11110000
 	STS PD, R18
+	rjmp loop
 	
 turn_on_one:
 	LDI R17, 0b00001001

@@ -13,8 +13,8 @@
 .equ nine          =               9
 .equ DDRB_PINS     =               0b00001111
 .equ DDRD_PINS     =               0b11110000
-.equ PB            =               0x25
-.equ PD            =               0x2B
+.equ PB            =               0x25 ;PORTB
+.equ PD            =               0x2B ;PORTD
 
 LDI R20, zero
 LDI R21, one
@@ -46,7 +46,7 @@ start:
 	BRGE h
 	CP R29, R20
 	BRGE i
-	rjmp display
+	RJMP display
 a:
 	MOV R20, R21
 	LDI R21, 0
