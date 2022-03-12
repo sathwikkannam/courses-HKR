@@ -1,45 +1,90 @@
 #include <stdio.h>
 
-void getInput();
+unsigned int getInput();
+void setBinary(unsigned int stat, char result[]);
+void printBinary(char * result);
+void checkConditions(const char result[]);
+
 
 int main() {
-    char input[16];
+    unsigned int n = getInput();
     char result[16];
 
-    getInput(input);
+    setBinary(n, result);
+    printBinary(result);
+    checkConditions(result);
 
-    int fuelIndex = 15-4;
-    int weatherIndex = 15-5;
-    int engineIndex = 15-2;
-    int brakeFluidIndex = 15-1;
-    int brakePadIndex = 15;
-
-    for (int i = 0; i < sizeof(input); ++i) {
-        printf("%c", input[i]);
-    }
-    printf("\n");
-
-    if(input[fuelIndex] == '1'){
-
-    }
-    if (input[weatherIndex] == '1' && input[engineIndex] == '1'){
-
-    }
-    if(input[brakeFluidIndex] == '1' || input[brakePadIndex] == '1') {
-        if (input[brakeFluidIndex] == '1') {
-
-        }
-        if (input[brakePadIndex] == '1') {
-        }
-
-    }
     return 0;
 }
 
 
-void getInput(char input[]){
-    printf("Enter the value of x: ");
-    scanf("%s", input);
+unsigned int getInput(){
+    unsigned int stat = 0;
+
+    printf("Enter the bit positions (ended with -1): ");
+    scanf("%d", &stat);
+
+    return stat;
 
 }
 
+
+void setBinary(unsigned int stat, char result[]){
+    while (stat) {
+        result[sizeof(result)-1 - stat%10] = '1';
+        stat /= 10;
+    }
+
+}
+
+void printBinary(char result[]){
+    printf("\nBit positions as 8-bit: ");
+    for (int i = 0; i < sizeof(result); i++) {
+        if(result[i] != '1'){
+            result[i] = '0';
+        }
+        printf("%c", result[i]);
+
+    }
+}
+
+void checkConditions(const char result[]){
+
+    int size = sizeof(result)-1;
+    int count = 0;
+
+    int fuel = size-4;
+    int weather = size-5;
+    int engineTemp = size-2;
+    int brakeFluid = size-1;
+
+    for (int i = (size/2)-1; i <= 0; i++) {
+        if(result[i] == '0'){
+            count++;
+        }
+    }
+
+    if(count == size/2){
+        printf("\nEverything in the car is working normally");
+
+    }else{
+        printf("\nConditions:\n");
+
+        if(result[fuel] == '1'){
+            printf("\tFuel is too low\n");
+        }
+        if(result[weather] == '1' && result[engineTemp] == '1'){
+            printf("\tIt's snowing outside and Engine is too hot\n");
+        }
+        if(result[brakeFluid] == '1' || result[size] == '1'){
+            if(result[brakeFluid] == '1'){
+                printf("\tBrake Fluid is too low\n");
+            }
+            if(result[size] == '1'){
+                printf("\tBrake pad are worn out");
+            }
+
+        }
+    }
+
+}

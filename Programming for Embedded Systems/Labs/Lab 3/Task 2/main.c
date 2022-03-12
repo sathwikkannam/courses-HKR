@@ -23,7 +23,7 @@ double getInput(){
 double factorial(int number){
     double sum =  1;
 
-    if(number != 0){
+    if(number != 0 || number != 1){
         for (int i = number; i > 0; i--) {
             sum*= (double)i;
         }
@@ -37,11 +37,7 @@ double power(double base, int exponent){
     double sum = 1;
 
     for (int i = exponent; i > 0 ; i--) {
-        if(base < 0){
-            sum = 1/(sum*base);
-        }else{
-            sum = sum*base;
-        }
+        sum = (base < 0)? (1/(sum*base)) : (sum*base);
     }
     return sum;
 
@@ -56,7 +52,7 @@ double fabs(double value){
 void approximate(double input){
     double sum = 0;
     int range = 0;
-    double absoluteConstant = 0.0000001;
+    double MINIMUM_TERM_VALUE = 0.0000001;
 
     printf("\n\t%s\t%s\n", "terms", "value");
     for (int i = 0; i <= range; i++) {
@@ -67,7 +63,7 @@ void approximate(double input){
         if(i >= 1){
             printf("\t%d\t%.7f\n", i, sum);
         }
-        if(fabs(power(input, range)/factorial(range)) < absoluteConstant){
+        if(fabs(power(input, range)/factorial(range)) < MINIMUM_TERM_VALUE){
             break;
         }else{
             sum = 0;
