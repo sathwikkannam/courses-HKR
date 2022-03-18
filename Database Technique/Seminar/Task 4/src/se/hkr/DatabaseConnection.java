@@ -1,6 +1,7 @@
 package se.hkr;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class DatabaseConnection {
     private final Connection connection;
@@ -11,8 +12,9 @@ public class DatabaseConnection {
         connection = DriverManager.getConnection("jdbc:mysql://"+address+":"+port+"/" + schema, username, password);
     }
 
-    public void executeQuery(String columns, String from, int limit){
+    public ResultSet executeQuery(String columns, String from, int limit){
         String sql;
+        ResultSet result = null;
 
         if(limit > 0){
             sql = "SELECT " + columns + " FROM " + from + " LIMIT " + limit;
@@ -22,51 +24,115 @@ public class DatabaseConnection {
 
         try{
             PreparedStatement stm =  connection.prepareStatement(sql);
-            ResultSet result = stm.executeQuery();
-
-            for (String e : columns.split(",")){
-                System.out.printf("\t%-12s\t|", e);
-            }
-            System.out.println("\n");
-
-            while(result.next()){
-                for (String colum : columns.split(",")){
-                    System.out.printf("\t%-12s\t|",result.getString(colum.replaceAll(" ", "")));
-                }
-                System.out.println("\n");
-            }
-
-            printRowCount(stm);
-
+            result = stm.executeQuery();
+            System.out.println(getRowCount(stm) + " row(s) affected.");
         }catch(SQLException e){
             printSQLException(e);
         }
 
+        return result;
     }
 
-//    Write two different methods in DatabaseConnection class. One for retrieving data from
-//    database and the other for updating (or deleting) data in the database (you can decide
-//    about what the methods shall do).
 
+    public int executeUpdate(String typeOfUpdate, Scanner input){
+        String sql = null;
+        PreparedStatement stm = null;
 
-    public void executeUpdate(){
-        try{
-            PreparedStatement stm = this.connection.prepareStatement("e");
-        }catch(SQLException e){
-            e.printStackTrace();
+        switch (typeOfUpdate) {
+            case "UPDATE", "update" -> sql = update(input);
+            case "DELETE", "delete" -> sql = delete(input);
+            case "INSERT", "insert" -> sql = insert(input);
         }
+
+        try{
+            stm = this.connection.prepareStatement(sql);
+            stm.executeQuery();
+        }catch(SQLException e){
+            printSQLException(e);
+        }
+        assert stm != null;
+
+        return getRowCount(stm);
+
     }
 
 
-    public void printRowCount(PreparedStatement stm) throws SQLException{
-        System.out.println("Rows affected of last statement: " + stm.getUpdateCount() + " rows.");
+    public String insert(Scanner input){
+        System.out.println("Enter table: ");
+        String table = input.nextLine();
+        System.out.println("Enter attributes (seperated by ','): ");
+        String attributes = input.nextLine();
+        System.out.println("Values (seperated by ','): ");
+        String values = input.nextLine();
+
+        return "INSERT INTO " + table + "(" + attributes + ") VALUES (" + values + ")";
     }
 
-    public void printSQLException(SQLException ex) {
-        System.out.println("SQLException: " + ex.getMessage());
-        System.out.println("SQLState: " + ex.getSQLState());
-        System.out.println("VendorError: " + ex.getErrorCode());
+    public String delete(Scanner input){
+        System.out.println("Enter table: ");
+        String table = input.nextLine();
+        System.out.println("Enter column: ");
+        String attribute = input.nextLine();
+        System.out.println("Enter its value: ");
+        String attributeValue = input.nextLine();
+
+        return "DELETE FROM " + table + " WHERE " + attribute + " = " + attributeValue;
     }
 
+    public String update(Scanner input){
+        System.out.print("Enter table: ");
+        String table = input.nextLine();
+        System.out.print("Enter attributes (seperated by ','): ");
+        String attributes = input.nextLine();
+        System.out.print("Enter its value (seperated by ','): ");
+        String attributesValue = input.nextLine();
+        System.out.print("Condition attribute: ");
+        String condition = input.nextLine();
+        System.out.print("Condition's value? ");
+        String conditionValue = input.nextLine();
+
+        StringBuilder sql = new StringBuilder("UPDATE " + table + "SET ");
+
+        if(attributes.contains(",") && attributesValue.contains(",")){
+            String[] splitAttributes = attributesValue.split(",");
+            String[] splitValues = attributesValue.split(",");
+
+            for (int i = 0; i < splitAttributes.length; i++) {
+                sql.append(splitAttributes[i]).append(" = ").append(splitValues[i]);
+                if(i != splitAttributes.length - 1){
+                    sql.append(", ");
+                }else{
+                    sql.append(" ");
+                }
+            }
+        }else{
+            sql.append(attributes).append(" = ").append(attributesValue);
+        }
+
+        sql.append(" WHERE ").append(condition).append(" = ").append(conditionValue);
+
+
+        return sql.toString();
+
+    }
+
+
+    public int getRowCount(PreparedStatement stm){
+        int rows = 0;
+        try{
+            rows = stm.getUpdateCount();
+        }catch(SQLException e){
+            printSQLException(e);
+        }
+
+        return rows;
+
+    }
+
+    public void printSQLException(SQLException exception){
+        System.out.println("SQLException: " + exception.getMessage());
+        System.out.println("SQLState: " + exception.getSQLState());
+        System.out.println("Error Code: " + exception.getErrorCode());
+    }
 
 }

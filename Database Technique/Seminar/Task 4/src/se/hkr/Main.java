@@ -14,18 +14,16 @@ public class Main {
             do {
                 System.out.print("1. Retrieve\n2. Update\nChoice: ");
                 int selection = input.nextInt();
+                input.nextLine();
 
                 if(selection == 1){
-                    input.nextLine();
                     app.doSelect(input, connection);
 
-                }else{
-
+                }else if (selection == 2){
+                    app.doUpdate(input, connection);
                 }
             } while (!input.nextLine().equals("EXIT") || !input.nextLine().equals("exit"));
         }
-
-
     }
 
 
@@ -64,15 +62,18 @@ public class Main {
         connection.executeQuery(columns, from, limit);
     }
 
+
     public void doUpdate(Scanner input, DatabaseConnection connection){
-        System.out.println("1. Update\n2. Insert\n3.Delete");
-        int updateSelection = input.nextInt();
+        String updateType = null;
+        System.out.print("1. Insert\n2. Update\n3. Delete\nChoice: ");
 
-        switch(updateSelection){
-            case 1:
-            case 2:
-            case 3:
-
+        switch (input.nextInt()) {
+            case 1 -> updateType = "INSERT";
+            case 2 -> updateType = "UPDATE";
+            case 3 -> updateType = "DELETE";
+        }
+        if(updateType != null){
+            connection.executeUpdate(updateType, input);
         }
     }
 }
