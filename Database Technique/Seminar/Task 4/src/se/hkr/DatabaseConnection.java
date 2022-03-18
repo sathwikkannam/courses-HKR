@@ -50,7 +50,6 @@ public class DatabaseConnection {
         }catch(SQLException e){
             printSQLException(e);
         }
-        assert stm != null;
 
         return getRowCount(stm);
 
@@ -58,22 +57,22 @@ public class DatabaseConnection {
 
 
     public String insert(Scanner input){
-        System.out.println("Enter table: ");
+        System.out.print("Enter table: ");
         String table = input.nextLine();
-        System.out.println("Enter attributes (seperated by ','): ");
+        System.out.print("Enter attributes (seperated by ','): ");
         String attributes = input.nextLine();
-        System.out.println("Values (seperated by ','): ");
+        System.out.print("Values (seperated by ','): ");
         String values = input.nextLine();
 
         return "INSERT INTO " + table + "(" + attributes + ") VALUES (" + values + ")";
     }
 
     public String delete(Scanner input){
-        System.out.println("Enter table: ");
+        System.out.print("Enter table: ");
         String table = input.nextLine();
-        System.out.println("Enter column: ");
+        System.out.print("Enter attribute: ");
         String attribute = input.nextLine();
-        System.out.println("Enter its value: ");
+        System.out.print("Enter its value: ");
         String attributeValue = input.nextLine();
 
         return "DELETE FROM " + table + " WHERE " + attribute + " = " + attributeValue;
@@ -91,10 +90,10 @@ public class DatabaseConnection {
         System.out.print("Condition's value? ");
         String conditionValue = input.nextLine();
 
-        StringBuilder sql = new StringBuilder("UPDATE " + table + "SET ");
+        StringBuilder sql = new StringBuilder("UPDATE " + table + " SET ");
 
         if(attributes.contains(",") && attributesValue.contains(",")){
-            String[] splitAttributes = attributesValue.split(",");
+            String[] splitAttributes = attributes.split(",");
             String[] splitValues = attributesValue.split(",");
 
             for (int i = 0; i < splitAttributes.length; i++) {

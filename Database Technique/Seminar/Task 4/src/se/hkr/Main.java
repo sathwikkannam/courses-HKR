@@ -53,7 +53,7 @@ public class Main {
 
 
     public void doSelect(Scanner input, DatabaseConnection connection){
-        System.out.print("Enter coloums (seperated by ','): ");
+        System.out.print("Enter columns (seperated by ','): ");
         String columns = input.nextLine();
         System.out.print("FROM: ");
         String from = input.nextLine();

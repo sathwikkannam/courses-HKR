@@ -30,7 +30,7 @@ CREATE TABLE `applicant` (
   `Email_Address` varchar(45) NOT NULL,
   `Password` varchar(45) NOT NULL,
   PRIMARY KEY (`Applicant_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `applicant` (
 
 LOCK TABLES `applicant` WRITE;
 /*!40000 ALTER TABLE `applicant` DISABLE KEYS */;
-INSERT INTO `applicant` VALUES (1,'Kevin','Fin',73212,'kevin.fin@mail.com','password@123'),(2,'dummy1','dummy_lastname1',8262811,'dummy1@mail.com','strongpassword1'),(3,'dummy2','dummy_lastname2',8262812,'dummy1@mail.com','strongpassword2'),(4,'dummy3','dummy_lastname3',8262813,'dummy1@mail.com','strongpassword3'),(5,'dummy4','dummy_lastname4',8262814,'dummy1@mail.com','strongpassword4'),(6,'Kevin','Fin',73212,'kevin.fin@mail.com','password@123');
+INSERT INTO `applicant` VALUES (1,'Kevin','Fin',73212,'Kevin.fin@gmail.com','password@123'),(2,'dummy1','dummy_lastname1',8262811,'dummy1@mail.com','strongpassword1'),(3,'dummy2','dummy_lastname2',8262812,'dummy1@mail.com','strongpassword2'),(4,'dummy3','dummy_lastname3',8262813,'dummy1@mail.com','strongpassword3'),(5,'dummy4','dummy_lastname4',8262814,'dummy1@mail.com','strongpassword4'),(6,'Kevin','Fin',73212,'Kevin.fin@gmail.com','password@123'),(9,'dummy2','dummy_lastname2',8262812,'dummy1@mail.com','strongpassword2'),(10,'dummy3','dummy_lastname3',8262813,'dummy1@mail.com','strongpassword3'),(11,'dummy4','dummy_lastname4',8262814,'dummy1@mail.com','strongpassword4'),(12,'Kevin','Fin',73212,'Kevin.fin@gmail.com','password@123');
 /*!40000 ALTER TABLE `applicant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `application` (
   CONSTRAINT `applicants_id` FOREIGN KEY (`Applicant_ID`) REFERENCES `applicant` (`Applicant_ID`),
   CONSTRAINT `course_id` FOREIGN KEY (`Course_ID`) REFERENCES `course` (`Course_ID`),
   CONSTRAINT `university_id` FOREIGN KEY (`University_ID`) REFERENCES `university` (`University_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +74,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
+INSERT INTO `application` VALUES (1,1,1,1,'05-01-2022','Test','F1'),(2,2,2,2,'05-01-2022','PhysicsApplication','F1'),(3,3,3,3,'06-01-2022','PsychologyApplication','F2'),(4,3,3,3,'01-02-2020','TestApplication','F3'),(5,4,4,4,'02-06-1999','Application','F2');
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,14 +91,14 @@ CREATE TABLE `course` (
   `Credits` int NOT NULL,
   `Duration` int NOT NULL,
   `Tuition` float NOT NULL,
-  `Type` enum(' Bachelor','Master') NOT NULL,
+  `Course_Type` enum('Bachelor','Master') NOT NULL,
   `Start_Date` varchar(45) NOT NULL,
   `Teaching_Speed` int NOT NULL,
   `Name` varchar(45) NOT NULL,
   PRIMARY KEY (`Course_ID`),
   KEY `university_id_idx` (`University_ID`),
   CONSTRAINT `universitys_id` FOREIGN KEY (`University_ID`) REFERENCES `university` (`University_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,6 +107,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES (1,1,180,3,500,'Bachelor','22-08-2022',100,'Computer Science'),(2,2,180,3,600,'Bachelor','23-08-2022',100,'Physics'),(3,3,180,3,700,'Bachelor','24-08-2022',50,'Psychology'),(4,4,180,3,800,'Master','25-08-2022',50,'Economics'),(5,5,180,3,900,'Master','26-08-2022',100,'Software');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,14 +120,14 @@ DROP TABLE IF EXISTS `payment`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment` (
   `Payment_ID` int NOT NULL AUTO_INCREMENT,
-  `Applicantion_ID` int NOT NULL,
+  `Application_ID` int NOT NULL,
   `Amount` double NOT NULL,
   `Card_number` int NOT NULL,
-  `Type` enum('Card','Bank Transfer') NOT NULL,
+  `Payment_Type` enum('Card','Bank Transfer') NOT NULL,
   PRIMARY KEY (`Payment_ID`),
-  KEY `applicant_id_idx` (`Applicantion_ID`),
-  CONSTRAINT `applicant_id` FOREIGN KEY (`Applicantion_ID`) REFERENCES `applicant` (`Applicant_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  KEY `applicant_id_idx` (`Application_ID`),
+  CONSTRAINT `applicant_id` FOREIGN KEY (`Application_ID`) REFERENCES `applicant` (`Applicant_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,17 +136,18 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` VALUES (1,1,500,1234568901,'Card'),(2,2,9999,987654321,'Bank Transfer'),(3,3,600,3181237,'Card'),(4,4,51200,137828739,'Bank Transfer'),(5,5,125400,168901,'Card');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `prior_education`
+-- Table structure for table `prioreducation`
 --
 
-DROP TABLE IF EXISTS `prior_education`;
+DROP TABLE IF EXISTS `prioreducation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `prior_education` (
+CREATE TABLE `prioreducation` (
   `Prior_Education_ID` int NOT NULL AUTO_INCREMENT,
   `School_Name` varchar(45) NOT NULL,
   `City` varchar(45) NOT NULL,
@@ -155,17 +158,17 @@ CREATE TABLE `prior_education` (
   PRIMARY KEY (`Prior_Education_ID`),
   KEY `applicant_id_idx` (`Applicant_ID`),
   CONSTRAINT `applicante_id` FOREIGN KEY (`Applicant_ID`) REFERENCES `applicant` (`Applicant_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `prior_education`
+-- Dumping data for table `prioreducation`
 --
 
-LOCK TABLES `prior_education` WRITE;
-/*!40000 ALTER TABLE `prior_education` DISABLE KEYS */;
-INSERT INTO `prior_education` VALUES (2,'HKR','Krinistand','Sweden','IB','A',2),(4,'Vaxjo School','Vaxjo','Sweden','IB','C',4),(5,'Stockholm School','Stockholm','Sweden','IB','D',5),(6,'Osby School','Osby','Sweden','IB','100',6),(7,'Almhult School','Almhult','Sweden','Swedish program','B',3),(8,'Good school','Stirling','Scotland','IB','AAA',9);
-/*!40000 ALTER TABLE `prior_education` ENABLE KEYS */;
+LOCK TABLES `prioreducation` WRITE;
+/*!40000 ALTER TABLE `prioreducation` DISABLE KEYS */;
+INSERT INTO `prioreducation` VALUES (1,'HKR','Krinistand','Sweden','IB','A',2),(2,'Vaxjo School','Vaxjo','Sweden','IB','C',4),(3,'Stockholm School','Stockholm','Sweden','IB','D',5),(4,'Osby School','Osby','Sweden','IB','100',6),(5,'Almhult School','Almhult','Sweden','Swedish Program','B',3),(7,'HKR','Krinistand','Sweden','IB','A',2),(8,'Vaxjo School','Vaxjo','Sweden','IB','C',4),(9,'Stockholm School','Stockholm','Sweden','IB','D',5),(10,'Osby School','Osby','Sweden','IB','100',6),(11,'Almhult School','Almhult','Sweden','Swedish Program','B',3),(12,'Good school','Stirling','Scotland','IB','AAA',9);
+/*!40000 ALTER TABLE `prioreducation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -176,12 +179,12 @@ DROP TABLE IF EXISTS `university`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `university` (
-  `University_ID` int NOT NULL,
+  `University_ID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
   `City` varchar(45) NOT NULL,
   `Country` varchar(45) NOT NULL,
   PRIMARY KEY (`University_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,6 +193,7 @@ CREATE TABLE `university` (
 
 LOCK TABLES `university` WRITE;
 /*!40000 ALTER TABLE `university` DISABLE KEYS */;
+INSERT INTO `university` VALUES (1,'HKR','Krinistand','Sweden'),(2,'Stirling','Stirling','Scotland'),(3,'UK School','UK city','UK'),(4,'Warwick','Warwick','UK'),(5,'LNU','Vaxjo','Sweden');
 /*!40000 ALTER TABLE `university` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -202,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-15 15:24:06
+-- Dump completed on 2022-03-18 16:35:43
