@@ -1,10 +1,5 @@
 #include <stdio.h>
-
-unsigned int getInput();
-void setBinary(unsigned int stat, char result[]);
-void printBinary(char * result);
-void checkConditions(const char result[]);
-
+#include "Task3.h"
 
 int main() {
     unsigned int n = getInput();
@@ -37,6 +32,7 @@ void setBinary(unsigned int stat, char result[]){
 
 }
 
+
 void printBinary(char result[]){
     printf("\nBit positions as 8-bit: ");
     for (int i = 0; i < sizeof(result); i++) {
@@ -48,6 +44,7 @@ void printBinary(char result[]){
     }
 }
 
+
 void checkConditions(const char result[]){
 
     int size = sizeof(result)-1;
@@ -58,13 +55,13 @@ void checkConditions(const char result[]){
     int engineTemp = size-2;
     int brakeFluid = size-1;
 
-    for (int i = (size/2)-1; i <= 0; i++) {
-        if(result[i] == '0'){
+    for (int i = 0; i < size; i++) {
+        if(result[i] != '1'){
             count++;
         }
     }
 
-    if(count == size/2){
+    if(count == size){
         printf("\nEverything in the car is working normally");
 
     }else{

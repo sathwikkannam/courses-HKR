@@ -1,8 +1,6 @@
 #include <stdio.h>
+#include "Task1.h"
 
-int getSize();
-void printTable(int size);
-void printHeader(int size);
 
 int main() {
     int size = getSize();

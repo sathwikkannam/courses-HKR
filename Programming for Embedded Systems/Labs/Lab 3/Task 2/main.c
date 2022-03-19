@@ -1,10 +1,6 @@
 #include <stdio.h>
+#include "Task2.h"
 
-double factorial(int number);
-double power(double base, int exponent);
-double getInput();
-void approximate(double input);
-double fabs(double value);
 
 int main() {
     double input = getInput();
