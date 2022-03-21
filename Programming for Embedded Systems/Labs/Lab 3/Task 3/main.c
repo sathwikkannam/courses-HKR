@@ -2,10 +2,10 @@
 #include "Task3.h"
 
 int main() {
-    unsigned int n = getInput();
+    unsigned __int16 stat = getInput();
     char result[16];
 
-    setBinary(n, result);
+    setBinary(stat, result);
     printBinary(result);
     checkConditions(result);
 
