@@ -56,8 +56,7 @@ void doQuestions(bool isSub, bool isAdd, bool isTest){
         secondNums[i] = numbers[1];
         signs[i] = (char) numbers[2];
         sums[i] = numbers[3];
-
-        printf("Sum: %d\n", sums[i]);
+        
         printf("\n\t%d.\t%d %c %d = \n", i+1, firstNums[i], signs[i], secondNums[i]);
 
         while(true){
@@ -98,11 +97,9 @@ void generateNumbers(bool isSub, bool isAdd, int numbers[4]){
         }
         if(secondNum > firstNum){
             //swap numbers
-            if(secondNum > firstNum){
-                int temp = firstNum;
-                firstNum = secondNum;
-                secondNum = temp;
-            }
+            int temp = firstNum;
+            firstNum = secondNum;
+            secondNum = temp;
         }
     }else if(isAdd){
         signValue = 1;
