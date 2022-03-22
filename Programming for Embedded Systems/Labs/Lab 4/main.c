@@ -37,7 +37,7 @@ void doQuestions(bool isSub, bool isAdd, bool isTest){
     int totalQuestions = (isTest)? numberOfTestQuestions : numberOfPracticeQuestions;
     int i = 0; //represents how many questions have passed or how many correct answers;
     int answer;
-    int numbers[4];
+    int generatedNumbers[4];
     int firstNums[totalQuestions];
     int secondNums[totalQuestions];
     int sums[totalQuestions];
@@ -51,12 +51,12 @@ void doQuestions(bool isSub, bool isAdd, bool isTest){
     }
 
     while(i != totalQuestions){
-        generateNumbers(isSub, isAdd, numbers);
-        firstNums[i] = numbers[0];
-        secondNums[i] = numbers[1];
-        signs[i] = (char) numbers[2];
-        sums[i] = numbers[3];
-        
+        generateNumbers(isSub, isAdd, generatedNumbers);
+        firstNums[i] = generatedNumbers[0];
+        secondNums[i] = generatedNumbers[1];
+        signs[i] = (char) generatedNumbers[2];
+        sums[i] = generatedNumbers[3];
+
         printf("\n\t%d.\t%d %c %d = \n", i+1, firstNums[i], signs[i], secondNums[i]);
 
         while(true){
@@ -115,21 +115,22 @@ void generateNumbers(bool isSub, bool isAdd, int numbers[4]){
 
 void printResponse(bool isGood, char goodResponses[6][24], char badResponses[4][24]){
     if(isGood){
-        printf("%s\n", goodResponses[getRandomNumber(sizeof(goodResponses))]);
+        printf("%s\n", (goodResponses + getRandomNumber(6)));
     }else{
-        printf("%s\n", badResponses[getRandomNumber(sizeof(badResponses))]);
+        printf("%s\n", (badResponses + getRandomNumber(4)));
     }
 }
 
 
-void printTestResults(int first[], int second[], int correct[], int input[], char signs[]){
+void printTestResults(int* first, int* second, int* correct, int* input, char* signs){
     int correctAnswers = 0;
     for (int i = 0; i < numberOfTestQuestions; i++) {
         if(correct[i] == input[i]){
             correctAnswers++;
         }
     }
-    printHeader((correctAnswers/numberOfTestQuestions)*100);
+
+    printHeader((correctAnswers*100)/(int)numberOfTestQuestions);
     for (int i = 0; i < numberOfTestQuestions; i++) {
         printf("%d\t%d %c %d\t\t%d\t\t%d\n", i+1, first[i], signs[i], second[i], correct[i], input[i]);
     }
@@ -153,7 +154,7 @@ void loadResponses(char goodResponses[6][24], char badResponses[4][24]){
 
     strcpy(badResponses[0], "No. Please try again.");
     strcpy(badResponses[1], "Wrong. Try once again.");
-    strcpy(badResponses[2], "Don’t give up!");
+    strcpy(badResponses[2], "Don't give up!");
     strcpy(badResponses[3], "No. Keep trying.");
 }
 
