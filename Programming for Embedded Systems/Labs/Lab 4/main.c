@@ -46,7 +46,9 @@ void doQuestions(bool isSub, bool isAdd, bool isTest){
     char goodResponses[6][24];
     char badResponses[4][24];
 
-    loadResponses(goodResponses, badResponses);
+    if(!isTest){
+        loadResponses(goodResponses, badResponses);
+    }
 
     while(i != totalQuestions){
         generateNumbers(isSub, isAdd, numbers);
@@ -55,41 +57,42 @@ void doQuestions(bool isSub, bool isAdd, bool isTest){
         signs[i] = (char) numbers[2];
         sums[i] = numbers[3];
 
+        printf("Sum: %d\n", sums[i]);
         printf("\n\t%d.\t%d %c %d = \n", i+1, firstNums[i], signs[i], secondNums[i]);
 
-        if(isTest){
-            answer = promptForAnswer();
-            inputs[i] = answer;
-            i++;
-        }else{
-            while(answer!= sums[i]){
-                answer = promptForAnswer();
-                if(answer == sums[i]){
-                    inputs[i] = answer;
-                    i++;
-                }else{
-                    printResponse(false, goodResponses, badResponses);
+        while(true){
+            printf("Enter your answer: ");
+            scanf("%d", &answer);
+            printf("\n");
+
+            if((isTest) || (answer == sums[i])){
+                inputs[i] = answer;
+                i++;
+                if(!isTest){
+                    printResponse(true, goodResponses, badResponses);
                 }
+                break;
+            }else if(answer != sums[i]){
+                printResponse(false, goodResponses, badResponses);
             }
-            printResponse(true, goodResponses, badResponses);
         }
 
     }
 
     if(isTest){
-        printTestResults(firstNums, secondNums, sums, inputs, signs, i/totalQuestions);
+        printTestResults(firstNums, secondNums, sums, inputs, signs);
     }
 }
 
 
 void generateNumbers(bool isSub, bool isAdd, int numbers[4]){
-    int signValue = getRandomSignValue();
-    int firstNum = getRandomNum();
-    int secondNum = getRandomNum();
+    int signValue = getRandomNumber(2);
+    int firstNum = getRandomNumber(100);
+    int secondNum = getRandomNumber(100);
 
     if((isSub && !isAdd) || isAdd && isSub){
         if(isAdd){
-            signValue = getRandomSignValue();
+            signValue = getRandomNumber(2);
         }else{
             signValue = 0;
         }
@@ -114,19 +117,24 @@ void generateNumbers(bool isSub, bool isAdd, int numbers[4]){
 
 
 void printResponse(bool isGood, char goodResponses[6][24], char badResponses[4][24]){
-    unsigned int randomIndex = (isGood)? rand() %6-1 : rand() %4-1;
-
     if(isGood){
-        printf("%s\n", goodResponses[randomIndex]);
+        printf("%s\n", goodResponses[getRandomNumber(sizeof(goodResponses))]);
     }else{
-        printf("%s\n", badResponses[randomIndex]);
+        printf("%s\n", badResponses[getRandomNumber(sizeof(badResponses))]);
     }
 }
 
-void printTestResults(int first[], int second[], int correct[], int input[], char signs[], int percent){
-    printHeader(percent);
+
+void printTestResults(int first[], int second[], int correct[], int input[], char signs[]){
+    int correctAnswers = 0;
     for (int i = 0; i < numberOfTestQuestions; i++) {
-        printf("%d\t%d %c %d%12d\t\t%d\n", i+1, first[i], signs[i], second[i], correct[i], input[i]);
+        if(correct[i] == input[i]){
+            correctAnswers++;
+        }
+    }
+    printHeader((correctAnswers/numberOfTestQuestions)*100);
+    for (int i = 0; i < numberOfTestQuestions; i++) {
+        printf("%d\t%d %c %d\t\t%d\t\t%d\n", i+1, first[i], signs[i], second[i], correct[i], input[i]);
     }
     printf("\n");
 }
@@ -135,26 +143,6 @@ void printTestResults(int first[], int second[], int correct[], int input[], cha
 void printHeader(int percent){
     printf("Your test result is %d (percentage)\nDetailed questions and answers:\n\n", percent);
     printf("%s\t%s\t%s\t%s\n", "Nr", "Question", "Correct Answer", "Your answer");
-}
-
-
-
-int promptForAnswer(){
-    int answer;
-    printf("Enter your answer: ");
-    scanf("%d", &answer);
-    printf("\n");
-    return answer;
-}
-
-
-int getRandomNum(){
-    return rand() %100;
-}
-
-
-int getRandomSignValue(){
-    return rand() %2;
 }
 
 
@@ -170,4 +158,9 @@ void loadResponses(char goodResponses[6][24], char badResponses[4][24]){
     strcpy(badResponses[1], "Wrong. Try once again.");
     strcpy(badResponses[2], "Don’t give up!");
     strcpy(badResponses[3], "No. Keep trying.");
+}
+
+
+int getRandomNumber(int size){
+    return rand() %size;
 }
