@@ -14,7 +14,6 @@ public class Main {
         Employee tester = new Tester(2, "Anna", "R&D", 80000, tools);
         Employee developer = new Developer(3, "Henrik", "R&D", 96000, "Machine Learning Algorithm");
 
-        manager.
         employees.add(manager);
         employees.add(tester);
         employees.add(developer);
