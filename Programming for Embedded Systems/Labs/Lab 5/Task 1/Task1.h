@@ -5,4 +5,6 @@
 #ifndef TASK_1_TASK1_H
 #define TASK_1_TASK1_H
 
+#define FILE_NAME "healthrecord.dat"
+
 #endif //TASK_1_TASK1_H
