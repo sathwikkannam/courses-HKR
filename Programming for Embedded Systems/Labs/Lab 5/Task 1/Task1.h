@@ -6,5 +6,8 @@
 #define TASK_1_TASK1_H
 
 #define FILE_NAME "healthrecord.dat"
+#define numberOfPatients 6
+
+
 
 #endif //TASK_1_TASK1_H
