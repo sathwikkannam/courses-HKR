@@ -43,13 +43,12 @@ typedef struct HealthRecord{
 
 int main() {
     HealthRecord healthRecords[numberOfPatients];
-    int size = sizeof(healthRecords)/sizeof(healthRecords[0]);
-
-    //getPatientProfile
+    int size;
+    //getPatientProfile();
+    size = sizeof(healthRecords)/sizeof(healthRecords[0]);
     //savePatientProfile
     //readPatientProfile
     //Sort their BMI
-    //savePatientProfile with sorted.
     //showPatientProfile one at a time.
 
     return 0;
@@ -60,7 +59,8 @@ double calculateBMI(const double * height, const double * weight){
     return *weight/((*height/100) * (*height/100));
 }
 
-void getPatientProfile(char * healthRecords){
+
+void getPatientProfile(HealthRecord * healthRecords){
     //make patient from data given from keyboard
     int i = 0;
     HealthRecord * healthRecord;
@@ -75,43 +75,59 @@ void getPatientProfile(char * healthRecords){
 
 }
 
+
+void showPatientProfile(HealthRecord * healthRecords, const int * size){
+    char enter;
+    for (int i = 0; i < *size; i++) {
+        if(i >= 1){
+            scanf("%c", &enter);
+        }
+        if(i == 0 || enter == '\n'){
+            printf("Name: %s %s BMI: %f\n", (healthRecords + i)->patient.firstName,
+                   (healthRecords + i)->patient.lastName,
+                   (healthRecords + i)->patient.BMI);
+        }
+
+    }
+
+}
+
+
 void savePatientProfile(HealthRecord * healthRecords, const int * size){
     //write to file.
-    FILE * pOutput = fopen(FILE_NAME, "w");
+    FILE * pOutput = fopen(FILE_NAME, "wb");
 
     if(pOutput != NULL){
         for (int i = 0; i < *size; i++) {
-            fwrite(&healthRecords + i, sizeof(HealthRecord), 1,  pOutput);
-            fprintf(pOutput, "\n");
+            fwrite(healthRecords + i, sizeof(HealthRecord), 1,  pOutput);
         }
+    }else{
+        printf("Error creating the '%s' file", FILE_NAME);
+        return;
     }
 
     fclose(pOutput);
 }
 
 
-void showPatientProfile(HealthRecord * healthRecords, const int * size){
-    for (int i = 0; i < *size; i++) {
-        printf("Name: %s %s\nDOB: %s\nGender: %s\nHeight: %f\nWeight: %f\nBMI: %f\n");
-
-    }
-
-}
-
-HealthRecord * readPatientProfile(){
+void readPatientProfile(HealthRecord * healthRecords){
     //read from file
-    int i;
-    HealthRecord * healthRecord;
-    HealthRecord * fileHealthRecords;
-    FILE * pInput = fopen(FILE_NAME, "r");
+    int i = 0;
+    HealthRecord healthRecord;
+    FILE * pInput = fopen(FILE_NAME, "rb");
 
-    while(pInput != NULL && fread(&healthRecord, sizeof(HealthRecord), 1, pInput)){
-        *(fileHealthRecords + i) = *healthRecord;
-        i++;
+    if(pInput != NULL){
+        while(fread(&healthRecord, sizeof(HealthRecord), 1, pInput) == 1){
+            *(healthRecords + i) = healthRecord;
+            i++;
+        }
+    }else{
+        printf("Error opening the '%s' file", FILE_NAME);
+        return;
     }
+
     fclose(pInput);
 
-    return fileHealthRecords;
 }
 
 
@@ -127,7 +143,6 @@ void sortBMI(HealthRecord * healthRecords, const int * size){
             }
         }
     }
-
 
 }
 
