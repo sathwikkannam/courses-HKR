@@ -10,7 +10,7 @@
 
 typedef struct HealthRecord HealthRecord;
 
-double calculateBMI(const double * height, const double * weight);
+float calculateBMI(HealthRecord * healthRecord);
 void getPatientProfile(HealthRecord * healthRecords);
 void showPatientProfile(HealthRecord * healthRecords, const int * size);
 void savePatientProfile(HealthRecord * healthRecords, const int * size);

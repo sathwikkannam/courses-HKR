@@ -14,9 +14,9 @@ typedef union Patient {
     char dateOfBirth[9];
     char gender[15];
     int age;
-    double height;
-    double weight;
-    double BMI;
+    float height;
+    float weight;
+    float BMI;
     char school[20];
     Address address;
 
@@ -45,19 +45,21 @@ typedef struct HealthRecord{
 int main() {
     HealthRecord healthRecords[numberOfPatients];
     int size;
-    //getPatientProfile();
+
+    getPatientProfile(healthRecords);
     size = sizeof(healthRecords)/sizeof(healthRecords[0]);
-    //savePatientProfile
-    //readPatientProfile
-    //Sort their BMI
-    //showPatientProfile one at a time.
+    savePatientProfile(healthRecords, &size);
+    readPatientProfile(healthRecords);
+    sortBMI(healthRecords, &size);
+    showPatientProfile(healthRecords, &size);
 
     return 0;
 }
 
 
-double calculateBMI(const double * height, const double * weight){
-    return *weight/((*height)*(*height))/100;
+float calculateBMI(HealthRecord * healthRecord){
+    float height = healthRecord->patient.height/100;
+    return healthRecord->patient.weight/(height * height);
 }
 
 
@@ -119,13 +121,13 @@ void getPatientProfile(HealthRecord * healthRecords){
 
     while (i != numberOfPatients) {
         printf("\nFirst Name, Last Name, DOB, Gender, Age, Height, Weight: ");
-        scanf("%s %s %s %s %d %ld %ld",
+        scanf("%s %s %s %s %d %f %f",
               &healthRecord.patient.firstName, &healthRecord.patient.lastName,
               &healthRecord.patient.dateOfBirth, &healthRecord.patient.gender,
               &healthRecord.patient.age, &healthRecord.patient.height,
               &healthRecord.patient.weight);
 
-        healthRecord.patient.BMI = calculateBMI(&(healthRecord.patient.height), &(healthRecord.patient.weight));
+        healthRecord.patient.BMI = calculateBMI(&healthRecord);
 
         if (healthRecord.patient.age < 16) {
             printf("\nSchool: ");
@@ -165,9 +167,10 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
             printf("\n\tName: %s %s", (healthRecords + i)->patient.firstName, (healthRecords + i)->patient.lastName);
             printf("\n\tDOB: %s", (healthRecords + i)->patient.dateOfBirth);
             printf("\n\tGender: %s", (healthRecords + i)->patient.gender);
-            printf("\n\tHeight (cm): %ld", (healthRecords + i)->patient.height);
-            printf("\n\tWeight (kg): %ld", (healthRecords + i)->patient.weight);
-            printf("\n\tBMI: %ld", (healthRecords + i)->patient.BMI);
+            printf("\n\tHeight (cm): %f", (healthRecords + i)->patient.height);
+            printf("\n\tWeight (kg): %f", (healthRecords + i)->patient.weight);
+            printf("\n\tBMI: %f", (healthRecords + i)->patient.BMI);
+            printf("\n\tSchool: %s", (healthRecords + i)->patient.school);
             printf("\n\tCity: %s", (healthRecords + i)->patient.address.city);
             printf("\n\tStreet Name: %s", (healthRecords + i)->patient.address.streetName);
             printf("\n\tPostcode: %d", (healthRecords + i)->patient.address.postCode);
@@ -176,6 +179,8 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
             printf("\n\tMalaria: %d", (healthRecords + i)->vaccinationHistory.malaria);
             printf("\n\tBird Flue: %d", (healthRecords + i)->vaccinationHistory.birdFlue);
             printf("\n\tPolio: %d", (healthRecords + i)->vaccinationHistory.polio);
+            printf("\n\tPotassium Level: %d", (healthRecords + i)->levels.potassiumLevel);
+            printf("\n\tSodium Level: %d", (healthRecords + i)->levels.sodiumLevel);
         }
 
     }
