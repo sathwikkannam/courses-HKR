@@ -3,27 +3,26 @@
 #include <string.h>
 #include "Task1.h"
 
-typedef union Address {
+typedef struct Address {
     char city[20];
     char streetName[20];
     unsigned int postCode;
 }Address;
 
-typedef union Patient {
+typedef struct Patient {
     char firstName[20];
     char lastName[20];
-    char dateOfBirth[9];
-    char gender[15];
-    int age;
+    char dateOfBirth[11];
+    char gender[7];
     float height;
     float weight;
+    unsigned int age;
     float BMI;
     char school[20];
     Address address;
-
 } Patient;
 
-typedef union VaccinationHistory{
+typedef struct VaccinationHistory{
     bool yellowFever;
     bool hepatitis;
     bool malaria;
@@ -31,7 +30,7 @@ typedef union VaccinationHistory{
     bool polio;
 }VaccinationHistory;
 
-typedef union Levels{
+typedef struct Levels{
     unsigned int sodiumLevel;
     unsigned int potassiumLevel;
 }Levels;
@@ -40,7 +39,6 @@ struct HealthRecord{
     Patient patient;
     VaccinationHistory vaccinationHistory;
     Levels levels;
-
 };
 
 int main() {
@@ -121,13 +119,10 @@ void getPatientProfile(HealthRecord * healthRecords){
     HealthRecord healthRecord;
 
     for (int j = 0; j < numberOfPatients; j++) {
-        printf("\nFirst Name, Last Name, Gender, Age, Height, Weight: ");
-        scanf("%s %s %s %d %f %f",
-              &healthRecord.patient.firstName, &healthRecord.patient.lastName, &healthRecord.patient.gender,
-              &healthRecord.patient.age, &healthRecord.patient.height, &healthRecord.patient.weight);
-
-        printf("\nDate of Birth: ");
-        scanf("%s", &healthRecord.patient.dateOfBirth);
+        printf("\nFirst Name, Last Name, DOB, Gender, Age, Height, Weight: ");
+        scanf("%s %s %s %s %d %f %f",
+              &healthRecord.patient.firstName, &healthRecord.patient.lastName, &healthRecord.patient.dateOfBirth,
+              &healthRecord.patient.gender, &healthRecord.patient.age, &healthRecord.patient.height, &healthRecord.patient.weight);
 
         calculateBMI(&healthRecord);
 
@@ -181,7 +176,7 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
             printf("\n\tMalaria: %d", (healthRecords + i)->vaccinationHistory.malaria);
             printf("\n\tBird Flue: %d", (healthRecords + i)->vaccinationHistory.birdFlue);
             printf("\n\tPolio: %d", (healthRecords + i)->vaccinationHistory.polio);
-            printf("\nPotassium Level: %d", (healthRecords + i)->levels.potassiumLevel);
+            printf("\n\tPotassium Level: %d", (healthRecords + i)->levels.potassiumLevel);
             printf("\n\tSodium Level: %d", (healthRecords + i)->levels.sodiumLevel);
         }
     }
