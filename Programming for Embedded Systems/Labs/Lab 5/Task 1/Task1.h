@@ -10,11 +10,11 @@
 
 typedef struct HealthRecord HealthRecord;
 
-float calculateBMI(HealthRecord * healthRecord);
+void calculateBMI(HealthRecord * healthRecord);
 void getPatientProfile(HealthRecord * healthRecords);
 void showPatientProfile(HealthRecord * healthRecords, const int * size);
-void savePatientProfile(HealthRecord * healthRecords, const int * size);
-void readPatientProfile(HealthRecord * healthRecords);
+void savePatientProfile(HealthRecord * healthRecords, const int * size, FILE * pOutput);
+void readPatientProfile(HealthRecord * healthRecords, FILE * pInput);
 void sortBMI(HealthRecord * healthRecords, const int * size);
 
 
