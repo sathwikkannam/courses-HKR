@@ -1,9 +1,9 @@
 //
-// Created by SAKA0191 on 2022-03-25.
+// Created by SAKA0191 on 2022-04-05.
 //
 
-#ifndef TASK_1_TASK1_H
-#define TASK_1_TASK1_H
+#ifndef LAB_5_LAB5_H
+#define LAB_5_LAB5_H
 
 #define FILE_NAME "healthrecord.dat"
 #define numberOfPatients 6
@@ -19,5 +19,4 @@ void readPatientProfile(HealthRecord * healthRecords, FILE * pInput);
 void sortBMI(HealthRecord * healthRecords, const int * size);
 char * isVaccine(bool vaccine);
 
-
-#endif //TASK_1_TASK1_H
+#endif //LAB_5_LAB5_H

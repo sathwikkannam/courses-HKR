@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "Task1.h"
+#include "Lab5.h"
 
 typedef struct Address {
     char city[20];
@@ -186,4 +186,3 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
 char * isVaccine(bool vaccine){
     return (vaccine == 1)? "yes":"no";
 }
-
