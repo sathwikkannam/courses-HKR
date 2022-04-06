@@ -15,5 +15,6 @@ void printTestResults(int* first, int* second, int* correct, int* input, char* s
 void printHeader(int percent);
 void loadResponses(char goodResponses[6][24], char badResponses[4][24]);
 int getRandomNumber(int size);
+void selectCategory(void);
 
 #endif //LAB_4_LAB4_H

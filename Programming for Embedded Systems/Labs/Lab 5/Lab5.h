@@ -6,8 +6,8 @@
 #define LAB_5_LAB5_H
 
 #define FILE_NAME "healthrecord.dat"
-#define numberOfPatients 6
-#define childAge 16
+#define NUMBER_OF_PATIENTS 6
+#define CHILD_AGE 16
 
 typedef struct HealthRecord HealthRecord;
 
@@ -18,5 +18,6 @@ void savePatientProfile(HealthRecord * healthRecords, const int * size, FILE * p
 void readPatientProfile(HealthRecord * healthRecords, FILE * pInput);
 void sortBMI(HealthRecord * healthRecords, const int * size);
 char * isVaccine(const bool * vaccine);
+char * toGender(const bool * gender);
 
 #endif //LAB_5_LAB5_H

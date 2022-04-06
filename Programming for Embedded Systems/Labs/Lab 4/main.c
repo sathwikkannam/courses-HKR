@@ -2,36 +2,53 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 #include "Lab4.h"
 
 
 int main() {
-    int practiceChoice;
-    int choice;
+    char name[14];
 
-    printf("1. Practices\n2. Test\n3. Exit\nEnter your choice:");
-    scanf("%d", &choice);
+    srand(time(NULL));
+    printf("Enter your name: ");
+    scanf("%s", &name);
+    printf("\nWelcome %s!\n\n", name);
 
+    selectCategory();
 
-    if(choice == 1){
-        printf("\n1. Additions\n2. Subtractions\n3. Additions and Subtraction\nEnter your choice:");
-        scanf("%d", &practiceChoice);
-
-        if(practiceChoice == 1){
-            doQuestions(false, true, false);
-        }else if(practiceChoice == 2){
-            doQuestions(true, false, false);
-        }else if(practiceChoice == 3){
-            doQuestions(true, true, false);
-        }
-        main();
-    }else if(choice == 2){
-        doQuestions(true, true, true);
-        main();
-    }
     return 0;
 }
 
+
+void selectCategory(void){
+    int choice;
+    int practiceChoice;
+    bool isTest = false;
+
+    printf("You can choose:\n\n1. Practices\n2. Test\n3. Exit\nEnter your choice:");
+    scanf("%d", &choice);
+
+    if(choice == 1 || choice == 2){
+        printf("\n1. Additions\n2. Subtractions\n3. Additions and Subtraction\nEnter your choice:");
+        scanf("%d", &practiceChoice);
+
+        if(choice == 2){
+            isTest = true;
+        }
+
+        if(practiceChoice == 1){
+            doQuestions(false, true, isTest);
+        }else if(practiceChoice == 2){
+            doQuestions(true, false, isTest);
+        }else if(practiceChoice == 3){
+            doQuestions(true, true, isTest);
+        }
+        selectCategory();
+    }else{
+        return;
+    }
+
+}
 
 void doQuestions(bool isSub, bool isAdd, bool isTest){
     int totalQuestions = (isTest)? numberOfTestQuestions : numberOfPracticeQuestions;

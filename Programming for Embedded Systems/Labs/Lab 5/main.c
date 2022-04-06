@@ -14,7 +14,7 @@ typedef struct Patient {
     char firstName[20];
     char lastName[20];
     char dateOfBirth[11];
-    char gender[7];
+    bool gender;
     float height;
     float weight;
     unsigned short age : 7;
@@ -43,7 +43,7 @@ struct HealthRecord{
 };
 
 int main() {
-    HealthRecord healthRecords[numberOfPatients];
+    HealthRecord healthRecords[NUMBER_OF_PATIENTS];
     FILE * file = NULL;
     int size;
 
@@ -72,7 +72,7 @@ void savePatientProfile(HealthRecord * healthRecords, const int * size, FILE * p
             fwrite(healthRecords + i, sizeof(HealthRecord), 1,  pOutput);
         }
     }else{
-        printf("Error creating the '%s' file", FILE_NAME);
+        printf("\nError creating the '%s' file", FILE_NAME);
     }
 
     fclose(pOutput);
@@ -90,7 +90,7 @@ void readPatientProfile(HealthRecord * healthRecords, FILE * pInput){
             i++;
         }
     }else{
-        printf("Error opening the '%s' file", FILE_NAME);
+        printf("\nError opening the '%s' file", FILE_NAME);
     }
 
     fclose(pInput);
@@ -115,21 +115,23 @@ void sortBMI(HealthRecord * healthRecords, const int * size){
 void getPatientProfile(HealthRecord * healthRecords){
     HealthRecord healthRecord;
     unsigned int temp = 0;
+    char stringTemp[7];
 
-    for (int j = 0; j < numberOfPatients; j++) {
+    for (int j = 0; j < NUMBER_OF_PATIENTS; j++) {
         printf("\nFirst Name, Last Name, DOB, Gender, Age, Height, Weight: ");
         scanf("%s %s %s %s %u %f %f",
               &healthRecord.patient.firstName, &healthRecord.patient.lastName, &healthRecord.patient.dateOfBirth,
-              &healthRecord.patient.gender, &temp, &healthRecord.patient.height, &healthRecord.patient.weight);
+              &stringTemp, &temp, &healthRecord.patient.height, &healthRecord.patient.weight);
 
+        healthRecord.patient.gender = (strcmp(stringTemp, "Male") == 0 || strcmp(stringTemp, "male") == 0)? 1:0;
         healthRecord.patient.age = temp;
         calculateBMI(&healthRecord);
 
-        if (healthRecord.patient.age < (unsigned int) childAge) {
+        if (healthRecord.patient.age < (unsigned int) CHILD_AGE) {
             printf("\nSchool: ");
             scanf("%s", &healthRecord.patient.school);
         }else{
-            strcpy(healthRecord.patient.school, "null");
+            strcpy(healthRecord.patient.school, "Null");
         }
 
         printf("\nCity, StreetName, StreetNumber, Postcode: ");
@@ -138,10 +140,21 @@ void getPatientProfile(HealthRecord * healthRecords){
 
         healthRecord.patient.address.streetNumber = temp;
 
-        printf("\nYellow Fever, Hepatitis, Malaria, BirdFlue, Polio: ");
-        scanf("%d %d %d %d %d", &healthRecord.vaccinationHistory.yellowFever, &healthRecord.vaccinationHistory.hepatitis,
-              &healthRecord.vaccinationHistory.malaria, &healthRecord.vaccinationHistory.birdFlue,
-              &healthRecord.vaccinationHistory.polio);
+        printf("\nMalaria: ");
+        scanf("%s", &stringTemp);
+        healthRecord.vaccinationHistory.malaria = (strcmp(stringTemp, "Yes") == 0)? 1:0;
+        printf("\nPolio: ");
+        scanf("%s", &stringTemp);
+        healthRecord.vaccinationHistory.polio = (strcmp(stringTemp, "Yes") == 0)? 1:0;
+        printf("\nYellow Fever: ");
+        scanf("%s", &stringTemp);
+        healthRecord.vaccinationHistory.yellowFever = (strcmp(stringTemp, "Yes") == 0)? 1:0;
+        printf("\nHepatitis: ");
+        scanf("%s", &stringTemp);
+        healthRecord.vaccinationHistory.hepatitis = (strcmp(stringTemp, "Yes") == 0)? 1:0;
+        printf("\nBird Flue: ");
+        scanf("%s", &stringTemp);
+        healthRecord.vaccinationHistory.birdFlue = (strcmp(stringTemp, "Yes") == 0)? 1:0;
 
         printf("\nPotassium Level (normal range 2.5 - 3.5), Sodium Level (normal range 135 - 145): ");
         scanf("%f %u", &healthRecord.levels.potassiumLevel, &temp);
@@ -153,15 +166,17 @@ void getPatientProfile(HealthRecord * healthRecords){
 
 
 void showPatientProfile(HealthRecord * healthRecords, const int * size){
+    getchar();
     int enter;
     for (int i = 0; i < *size; i++) {
         if(i >= 1){
-            enter = getchar();
+            printf("\nNext record?");
+            scanf("%c", &enter);
         } if(enter == (int) '\n' || i == 0){
             printf("-------------------------------------");
             printf("\n\tName: %s %s", (healthRecords + i)->patient.firstName, (healthRecords + i)->patient.lastName);
             printf("\n\tDOB: %s", (healthRecords + i)->patient.dateOfBirth);
-            printf("\n\tGender: %s", (healthRecords + i)->patient.gender);
+            printf("\n\tGender: %s", toGender(&(healthRecords + i)->patient.gender));
             printf("\n\tAge: %u", (healthRecords + i)->patient.age);
             printf("\n\tSchool: %s", (healthRecords + i)->patient.school);
             printf("\n\tHeight (cm): %f", (healthRecords + i)->patient.height);
@@ -177,12 +192,18 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
             printf("\n\tBird Flue: %s", isVaccine(&(healthRecords + i)->vaccinationHistory.birdFlue));
             printf("\n\tPolio: %s", isVaccine(&(healthRecords + i)->vaccinationHistory.polio));
             printf("\n\tPotassium Level: %0.2f", (healthRecords + i)->levels.potassiumLevel);
-            printf("\n\tSodium Level: %u", (healthRecords + i)->levels.sodiumLevel);
+            printf("\n\tSodium Level: %u\n", (healthRecords + i)->levels.sodiumLevel);
         }
 
     }
 }
 
+
 char * isVaccine(const bool * vaccine){
-    return (*vaccine == 1)? "yes":"no";
+    return (*vaccine == 1)? "Yes":"No";
+}
+
+
+char * toGender(const bool * gender){
+    return (*gender == 1)? "Male":"Female";
 }
