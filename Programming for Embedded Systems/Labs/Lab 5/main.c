@@ -171,11 +171,11 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
             printf("\n\tStreet Name: %s", (healthRecords + i)->patient.address.streetName);
             printf("\n\tStreet Number: %u", (healthRecords + i)->patient.address.streetNumber);
             printf("\n\tPostcode: %u", (healthRecords + i)->patient.address.postCode);
-            printf("\n\tYellow Fever: %s", isVaccine((healthRecords + i)->vaccinationHistory.yellowFever));
-            printf("\n\tHepatitis: %s", isVaccine((healthRecords + i)->vaccinationHistory.hepatitis));
-            printf("\n\tMalaria: %s", isVaccine((healthRecords + i)->vaccinationHistory.malaria));
-            printf("\n\tBird Flue: %s", isVaccine((healthRecords + i)->vaccinationHistory.birdFlue));
-            printf("\n\tPolio: %s", isVaccine((healthRecords + i)->vaccinationHistory.polio));
+            printf("\n\tYellow Fever: %s", isVaccine(&(healthRecords + i)->vaccinationHistory.yellowFever));
+            printf("\n\tHepatitis: %s", isVaccine(&(healthRecords + i)->vaccinationHistory.hepatitis));
+            printf("\n\tMalaria: %s", isVaccine(&(healthRecords + i)->vaccinationHistory.malaria));
+            printf("\n\tBird Flue: %s", isVaccine(&(healthRecords + i)->vaccinationHistory.birdFlue));
+            printf("\n\tPolio: %s", isVaccine(&(healthRecords + i)->vaccinationHistory.polio));
             printf("\n\tPotassium Level: %0.2f", (healthRecords + i)->levels.potassiumLevel);
             printf("\n\tSodium Level: %u", (healthRecords + i)->levels.sodiumLevel);
         }
@@ -183,6 +183,6 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
     }
 }
 
-char * isVaccine(bool vaccine){
-    return (vaccine == 1)? "yes":"no";
+char * isVaccine(const bool * vaccine){
+    return (*vaccine == 1)? "yes":"no";
 }

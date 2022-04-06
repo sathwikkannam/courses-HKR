@@ -17,6 +17,6 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size);
 void savePatientProfile(HealthRecord * healthRecords, const int * size, FILE * pOutput);
 void readPatientProfile(HealthRecord * healthRecords, FILE * pInput);
 void sortBMI(HealthRecord * healthRecords, const int * size);
-char * isVaccine(bool vaccine);
+char * isVaccine(const bool * vaccine);
 
 #endif //LAB_5_LAB5_H
