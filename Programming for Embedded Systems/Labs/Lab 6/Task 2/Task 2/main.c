@@ -11,12 +11,12 @@
 int main(void)
 {
 
-	DDRB = 0x001;
-	TCCR1B |= (1<<WGM12);
-	TIMSK1 |= (1<<OCIE1A);
-	sei();
-	OCR1A = 0xBDC; 
-	TCCR1B = (1<<CS02);
+	DDRB ^= (1<<0); // set pin 0 as output.
+	TCCR1B |= (1<<WGM12); //set CTC mode
+	TIMSK1 |= (1<<OCIE1A); //enable interrupt for CTC mode
+	sei(); //enable global interrupts
+	OCR1A = 0xBDC; //set TOP value
+	TCCR1B = (1<<CS02); //set prescaler of 256.
 	
 	while(1)
 	{
