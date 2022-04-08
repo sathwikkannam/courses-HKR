@@ -7,10 +7,9 @@
 
 #include <avr/io.h>
 
-
+void toDelay(void);
 int main(void)
 {	
-	void toDelay(void);
 	DDRB = 0x01;
     while (1) 
     {
@@ -22,12 +21,12 @@ int main(void)
 }
 
 void toDelay(void){
-	TCNT1 = 0x85EE;
-	TCCR1A = 0x00;
-	TCCR1B = 0x04;
-	while((TIFR1&(1<<TOV1)) == 0);
-	TCCR1B = 0;
-	TIFR1 = (1<<TOV1);
+	TCNT1 = 0xBDC; //set initial value of TCNT1
+	TCCR1A = 0x00; //Set normal mode in TCCR1A
+	TCCR1B = (1<<CS02); //Set prescaler to 256.
+	while((TIFR1&(1<<TOV1)) == 0); //Wait for overflow flag.
+	TCCR1B = 0x00; //Reset TCCR1B
+	TIFR1 = (1<<TOV1); //Reset overflow flag.
 
 
 }
