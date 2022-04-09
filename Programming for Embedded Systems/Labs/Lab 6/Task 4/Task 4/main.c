@@ -18,9 +18,9 @@ int main(void)
 	DDRB ^= (1<<0); //set PINB 0 as output.
 	DDRD ^= (1<<3); //set PIND 2 as input;
 	sei(); //enable global interrupt by setting I bit in SREG.
-	EICRA|= (1<<ISC01) | (1<<ISC00);
-	EIMSK|=(1<<INT0); //set external interrupt for PIND 2
-	_delay_ms(100); //delay 100
+	EICRA|= (1<<ISC01) | (1<<ISC00); // rising edge of INT0.
+	EIMSK|=(1<<INT0); //set external interrupt for PIND 2.
+	_delay_ms(100); //delay 100.
 	
     while (1) 
     {
