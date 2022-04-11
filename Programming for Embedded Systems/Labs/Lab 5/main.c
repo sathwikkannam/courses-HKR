@@ -10,16 +10,21 @@ typedef struct Address {
     unsigned int postCode;
 }Address;
 
+typedef struct Date {
+    unsigned int date : 5;
+    unsigned int month : 4;
+    unsigned int year;
+}Date;
+
 typedef struct Patient {
     char firstName[20];
     char lastName[20];
-    char dateOfBirth[11];
     bool gender;
     float height;
     float weight;
-    unsigned short age : 7;
     float BMI;
     char school[21];
+    Date dateOfBirth;
     Address address;
 } Patient;
 
@@ -118,16 +123,25 @@ void getPatientProfile(HealthRecord * healthRecords){
     char stringTemp[7];
 
     for (int j = 0; j < NUMBER_OF_PATIENTS; j++) {
-        printf("\nFirst Name, Last Name, DOB, Gender, Age, Height, Weight: ");
-        scanf("%s %s %s %s %u %f %f",
-              &healthRecord.patient.firstName, &healthRecord.patient.lastName, &healthRecord.patient.dateOfBirth,
-              &stringTemp, &temp, &healthRecord.patient.height, &healthRecord.patient.weight);
+        printf("\nFirst Name, Last Name, Gender, Height, Weight: ");
+        scanf("%s %s %s %f %f",
+              &healthRecord.patient.firstName, &healthRecord.patient.lastName,
+              &stringTemp, &healthRecord.patient.height, &healthRecord.patient.weight);
+
+        printf("\nDate: ");
+        scanf("%u", &temp);
+        healthRecord.patient.dateOfBirth.date = temp;
+        printf("\nMonth: ");
+        scanf("%u", &temp);
+        healthRecord.patient.dateOfBirth.month = temp;
+        printf("\nYear: ");
+        scanf("%u", &temp);
+        healthRecord.patient.dateOfBirth.year = temp;
 
         healthRecord.patient.gender = (strcmp(stringTemp, "Male") == 0 || strcmp(stringTemp, "male") == 0)? 1:0;
-        healthRecord.patient.age = temp;
         calculateBMI(&healthRecord);
 
-        if (healthRecord.patient.age < (unsigned int) CHILD_AGE) {
+        if (healthRecord.patient.dateOfBirth.year > 2022 - CHILD_AGE) {
             printf("\nSchool: ");
             scanf("%s", &healthRecord.patient.school);
         }else{
@@ -175,9 +189,9 @@ void showPatientProfile(HealthRecord * healthRecords, const int * size){
         } if(enter == (int) '\n' || i == 0){
             printf("-------------------------------------");
             printf("\n\tName: %s %s", (healthRecords + i)->patient.firstName, (healthRecords + i)->patient.lastName);
-            printf("\n\tDOB: %s", (healthRecords + i)->patient.dateOfBirth);
+            printf("\n\tDOB: %u-%u-%u", (healthRecords + i)->patient.dateOfBirth.date, (healthRecords + i)->patient.dateOfBirth.month,
+                    (healthRecords + i)->patient.dateOfBirth.year);
             printf("\n\tGender: %s", toGender(&(healthRecords + i)->patient.gender));
-            printf("\n\tAge: %u", (healthRecords + i)->patient.age);
             printf("\n\tSchool: %s", (healthRecords + i)->patient.school);
             printf("\n\tHeight (cm): %f", (healthRecords + i)->patient.height);
             printf("\n\tWeight (kg): %f", (healthRecords + i)->patient.weight);
