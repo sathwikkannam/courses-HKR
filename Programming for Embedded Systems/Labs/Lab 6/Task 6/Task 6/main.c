@@ -7,18 +7,23 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <stdbool.h>
 
+#define fourSeconds 62500;
+#define twoSeconds 31250;
 
-// 1= red
-// 2 = red and yellow
-// 3 = blue
-// 4 = yellow 
-
-// for 4 = 62500
-// for 2 = 31250;
+// 1= red for 4
+// 2 = red and yellow for 2
+// 3 = blue for 6
+// 4 = yellow for 2
 
 volatile int i = 1;
-volatile int forSixSeconds = 0;
+volatile int f = 1;
+
+void yellow(void);
+void redAndYellow(void);
+void red(void);
+void blue();
 
 int main(void)
 {
@@ -29,7 +34,6 @@ int main(void)
 	TCCR1B |= (1<<WGM12);
 	TIMSK1 = (1<<OCIE1A);
 	sei();
-	OCR1A = 62500; //4 seconds
 	TCCR1B = (1<<CS02) | (1<<CS00);	
 		
     while (1) 
@@ -39,29 +43,54 @@ int main(void)
 
 ISR(TIMER1_COMPA_vect){
 	PORTB = 0b00000000;
+	TCNT1 = 0;
 	
-	//each if statement's OCR1A refers to the next LED with their respective delay. 
 	if(i == 1){
-		PORTB ^= (1<<2);
-		OCR1A = 62500; // 2 seconds
-		i++;
-	}else if(i == 2){
-		PORTB = 0b00000101;
-		OCR1A = 31250;
-		i++;
+		red();
+	}else if(i == 2){		
+		redAndYellow();
 	}else if(i == 3){
-		PORTB ^= (1<<1);
-		OCR1A = 31250; // 2 seconds
-		i++;
-		forSixSeconds = 0;
+		blue();
 	}else if(i == 4){
-		PORTB ^= (1<<0);
-		OCR1A = 62500;
-		i = 1;
+		yellow();
 	}
 	
 	
 }
 
+void red(){
+	OCR1A = 62500;
+	PORTB ^= (1<<2);
+	i++;	
+
+}
 
 
+void redAndYellow(){
+	PORTB ^= (1<<2) | (1<<0);	
+	OCR1A = 31250;
+	i++;	
+}
+
+
+void yellow(void){
+	PORTB ^= (1<<0);
+	OCR1A = 31250;;
+	i = 1;	
+	f = 1;
+}
+
+
+void blue(){	
+	if (f == 1 || f == 2 || f == 3){
+		PORTB ^= (1<<1);
+		OCR1A = 31250;
+		
+		if(f != 3){
+			f++;	
+		}else{
+			f = 3;
+			i++;
+		}
+	}
+}
