@@ -5,20 +5,20 @@
  * Author : SAKA0191
  */ 
 
+#define F_CPU 16000000UL //16MHz
+
 #include <avr/io.h>
 #include <avr/delay.h>
 #include <stdbool.h>
 
-#define F_CPU 16000000UL
-
 bool isPressed(void);
-bool isLED = false;
+volatile bool isLED = false;
 
 int main(void)
 {
-    /* Replace with your application code */
 	
-	DDRB = 0b00000010; //set pin 1 as output and pin 0 as input
+	DDRB=0xFFu; // set PORTB as output.
+	DDRB &= ~(1<<0); //unset pin 0 to input.
 	
     while (1) 
     {
@@ -30,7 +30,7 @@ int main(void)
 			PORTB = 0x00; //0V to PORTB.
 			isLED = false; //set led is turned off.
 		}
-		_delay_ms(150); //delay 150ms.
+		_delay_ms(25); //delay 35ms to reduce flickering.
 
     }
 	
@@ -38,17 +38,15 @@ int main(void)
 }
 
 bool isPressed(void){
-	bool returnVal = false;
+	bool pressed = false;
 	
-	if ((PINB & (1<<0))){ //button pressed?
-		_delay_ms(25); //delay 25
-		
-		if ((PINB & (1<<0))){ //check again.
-			returnVal = true; //its pressed.
-		}
+	while (!(PINB & (1<<0))){ //button pressed?
+		pressed = true;
+		break;
 	}
 	
-	return returnVal;
+	_delay_ms(35);
+	
+	return pressed;
 	
 }
-
