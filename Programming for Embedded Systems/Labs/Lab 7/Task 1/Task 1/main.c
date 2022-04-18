@@ -23,7 +23,7 @@ int main(void)
 	
     while (1) 
     {
-		while(1(UCSR0A & (1<<UDRE0))); //wait until UDR0 is empty
+		while(!(UCSR0A & (1<<UDRE0))); //wait until UDR0 is empty
 		UDR0 = number; //set UDR0 with the number.
 
 		if(recieveData() == 1){
