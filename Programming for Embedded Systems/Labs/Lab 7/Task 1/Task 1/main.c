@@ -39,10 +39,10 @@ int main(void)
 }
 
 void configUSART0(){
-	UCSR0C = (0<<UPM00) | (3<<UCSZ00) | (0<<USBS0); //UPM00 to set no parity. UCSZ00 to set 8-bit frame. 1 stop bit.
-	UBRR0L = 0x67 //eight least significant bits of 103.
-	UBRR0H = 0x00; // 4 significant bits of 103.
-	UCSR0B = (1<<TXEN0); //enable transmit
+	UCSR0C |= (0<<UPM00) | (3<<UCSZ00) | (0<<USBS0); //UPM00 to set no parity. UCSZ00 to set 8-bit frame. 1 stop bit.
+	UBRR0L |= 0x67 //eight least significant bits of 103.
+	UBRR0H |= 0x00; // 4 significant bits of 103.
+	UCSR0B |= (1<<TXEN0); //enable transmit
 	
 }
 
