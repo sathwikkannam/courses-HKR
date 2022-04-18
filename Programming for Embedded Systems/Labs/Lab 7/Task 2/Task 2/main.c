@@ -35,7 +35,8 @@ void configUSART0(){
 	UCSR0B = (1<<TXEN0) | (1<<RXEN0); //enable receive and transmit/
 	UCSR0B = (1<<RXCIE0); //enable on receive complete interrupt. 
 	sei(); // enable global interrupts
-	UBRR0L = 103 //set 9600 baud rate.
+	UBRR0L = 0x67 //eight least significant bits of 103.
+	UBRR0H = 0x00; // 4 significant bits of 103.
 	
 }
 
