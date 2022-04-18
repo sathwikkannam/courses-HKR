@@ -31,7 +31,7 @@ int main(void)
 }
 
 void configUSART0(){
-	UCSR0C = (0<<UPM00) | (3<<UCSZ00) | (0<<USBS0); //UPM00 to set no parity. UCSZ00 to set 8-bit frame.
+	UCSR0C = (0<<UPM00) | (3<<UCSZ00) | (0<<USBS0); //UPM00 to set no parity. UCSZ00 to set 8-bit frame. 1 stop bit.
 	UCSR0B = (1<<TXEN0) | (1<<RXEN0); //enable receive and transmit/
 	UCSR0B = (1<<RXCIE0); //enable on receive complete interrupt. 
 	sei(); // enable global interrupts
