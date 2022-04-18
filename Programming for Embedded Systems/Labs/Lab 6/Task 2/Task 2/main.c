@@ -15,7 +15,7 @@ int main(void)
 	TCCR1B |= (1<<WGM12); //set CTC mode.
 	TIMSK1 |= (1<<OCIE1A); //enable interrupt for CTC mode.
 	sei(); //enable global interrupts.
-	OCR1A = 62500; //set TOP value of 3036.
+	OCR1A = 62500; //set TOP value of 62500.
 	TCCR1B = (1<<CS02); //set prescaler of 256.
 	
 	while(1)
