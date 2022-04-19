@@ -21,7 +21,7 @@ void configUSART0(void);
 int main(void)
 {
 	configUSART0();
-	DDRB |= (1 << PINB0);
+	DDRB |= (1 << PINB0); //set pin 0 in DDRB to output.
 	
     while (1) 
     {
@@ -42,7 +42,7 @@ void configUSART0(void){
 
 
 ISR(USART_RX_vect){
-	unsigned char data = UDR0;
+	unsigned char data = UDR0; //received data by the controller.
 	
 	if(data == '1'){
 		PORTB |= (1<<PINB0);

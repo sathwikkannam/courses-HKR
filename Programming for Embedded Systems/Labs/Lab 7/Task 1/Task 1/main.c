@@ -21,7 +21,7 @@ unsigned char recieveData(void);
 int main(void)
 {
 	unsigned char number;
-	DDRB = 0x01;
+	DDRB = 0x01; //set pin 0 in DDRB to output.
 	configUSART0();
 	
     while (1) 
@@ -39,8 +39,8 @@ int main(void)
 }
 
 void configUSART0(void){
-	UBRR0H = MYUBRR >> 8; //eight least significant bits of 103.
-	UBRR0L = MYUBRR; // 4 significant bits of 103.
+	UBRR0H = MYUBRR >> 8; //eight least significant bits of BAUD.
+	UBRR0L = MYUBRR; // 4 significant bits of BAUD.
 	UCSR0B = (1<<RXEN0); //enable transmit
 	UCSR0C = (3<<UCSZ00); //UCSZ00 to set 8-bit frame. 1 stop bit. No parity.
 	
@@ -49,6 +49,6 @@ void configUSART0(void){
 unsigned char recieveData(){
 	while (!(UCSR0A & (1<<RXC0))); //wait for the data to be received. 
 	
-	return UDR0;	
+	return UDR0; //return the data received by the controller.	
 }
 

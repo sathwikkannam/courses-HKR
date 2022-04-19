@@ -55,5 +55,5 @@ void configTimer1(void){
 void transmit(void){
 	while(!(UCSR0A & (1<<UDRE0))); //wait until UDR0 is empty
 	UDR0 = (secondCount % 2 == 0)? '0' : '1';
-	secondCount ++;
+	++secondCount;
 }
