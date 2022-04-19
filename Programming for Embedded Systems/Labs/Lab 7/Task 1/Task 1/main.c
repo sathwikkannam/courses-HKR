@@ -5,7 +5,9 @@
  * Author : SAKA0191
  */ 
 
+#ifndef F_CPU
 #define F_CPU 16000000UL
+#endif
 #define BAUD 9600
 #define MYUBRR F_CPU/16/BAUD-1
 
@@ -14,41 +16,39 @@
 #include <util/setbaud.h>
 
 void configUSART0(void);
-unsigned int recieveData(void);
-volatile unsigned char number;
+unsigned char recieveData(void);
 
 int main(void)
 {
+	unsigned char number;
 	DDRB = 0x01;
 	configUSART0();
-	number = 1;
 	
     while (1) 
     {
-		while(!(UCSR0A & (1<<UDRE0))); //wait until UDR0 is empty
-		UDR0 = number; //set UDR0 with the number.
-
-		if(recieveData() == 1){
-			PORTB ^= (1<<0);
-		}else{
-			PORTB &= ~(1<<0);
+        number = recieveData();
+		
+        if (number == '1'){
+			PORTB |= (1 << PINB0);
+		}else if (number == '0'){
+			PORTB &= ~(1 << PINB0);
 		}
 		_delay_ms(50); 
 		
     }
 }
 
-void configUSART0(){
-	UCSR0C |= (0<<UPM00) | (3<<UCSZ00) | (0<<USBS0); //UPM00 to set no parity. UCSZ00 to set 8-bit frame. 1 stop bit.
-	UBRR0L |= 0x67 //eight least significant bits of 103.
-	UBRR0H |= 0x00; // 4 significant bits of 103.
-	UCSR0B |= (1<<TXEN0); //enable transmit
+void configUSART0(void){
+	UBRR0H = MYUBRR >> 8; //eight least significant bits of 103.
+	UBRR0L = MYUBRR; // 4 significant bits of 103.
+	UCSR0B = (1<<RXEN0); //enable transmit
+	UCSR0C = (3<<UCSZ00); //UCSZ00 to set 8-bit frame. 1 stop bit. No parity.
 	
 }
 
-unsigned int recieveData(){
+unsigned char recieveData(){
 	while (!(UCSR0A & (1<<RXC0))); //wait for the data to be received. 
-				
+	
 	return UDR0;	
 }
 

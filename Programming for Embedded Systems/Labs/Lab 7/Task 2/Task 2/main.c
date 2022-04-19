@@ -5,7 +5,11 @@
  * Author : SAKA0191
  */ 
 
+#ifndef F_CPU
 #define F_CPU 16000000UL
+#endif
+#define BAUD 9600
+#define MYUBRR F_CPU/16/BAUD-1
 
 #include <avr/io.h>
 #include <avr/delay.h>
@@ -13,15 +17,11 @@
 #include <avr/interrupt.h>
 
 void configUSART0(void);
-volatile unsigned char number;
-
 
 int main(void)
 {
 	configUSART0();
-	while(!(UCSR0A & (1<<UDRE0))); //wait until UDR0 is empty
-	UDR0 = number; //set UDR0 with the number.
-	_delay_ms(50);
+	DDRB |= (1 << PINB0);
 	
     while (1) 
     {
@@ -30,22 +30,24 @@ int main(void)
 	
 }
 
-void configUSART0(){
-	UCSR0C |= (0<<UPM00) | (3<<UCSZ00) | (0<<USBS0); //UPM00 to set no parity. UCSZ00 to set 8-bit frame. 1 stop bit.
-	UCSR0B |= (1<<TXEN0) | (1<<RXEN0); //enable receive and transmit/
-	UCSR0B |= (1<<RXCIE0); //enable on receive complete interrupt. 
+void configUSART0(void){
+	UBRR0H = MYUBRR >> 8; //eight least significant bits of BAUD.
+	UBRR0L = MYUBRR; // 4 significant bits of BAUD.
+	UCSR0B |= (1<<RXEN0); //enable receive.
 	sei(); // enable global interrupts
-	UBRR0L |= 0x67 //eight least significant bits of 103.
-	UBRR0H |= 0x00; // 4 significant bits of 103.
+	UCSR0B |= (1<<RXCIE0); //enable on receive complete interrupt.
+	UCSR0C |= (3<<UCSZ00); //UCSZ00 to set 8-bit frame. 1 stop bit by default. No parity by default. 
 	
 }
 
 
 ISR(USART_RX_vect){
-	if(UDR0 == 1){
-		PORTB ^= (1<<0);
-	}else{
-		PORTB &= ~(1<<0);
+	unsigned char data = UDR0;
+	
+	if(data == '1'){
+		PORTB |= (1<<PINB0);
+	}else if (data == '0'){
+		PORTB &= ~(1<<PINB0);
 	}
 }
 
