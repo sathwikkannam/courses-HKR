@@ -25,7 +25,6 @@ int main(void)
 	configTimer1();
 	configUSART0();
 	
-	
     while (1) 
     {
 		
