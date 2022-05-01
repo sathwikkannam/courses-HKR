@@ -23,13 +23,13 @@ int main(void)
 	
 	
 	//ADC CONFIGURATION.
-	ADMUX = (1<<REFS0) | (1<<MUX1); //Set VREF of AVCC. ADC2 = MUX1
-	ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0); //Enable ADC. Enable ADC interrupt. 128 Prescaler.
+	ADMUX = (1<<REFS0) | (1<<MUX1); //Set VREF to AVCC (+5V). Enable MUX1 to listen to ADC2.
+	ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0); //Enable ADC. Enable ADC conversion complete interrupt. 128 Prescaler.
 	DIDR0 = (1<<ADC2D); //Disable digital input buffer for ADC2 pin.
 	conversion_init();
 	
 	sei(); // Enable global interrupts.
-	TCCR0B |= (1<<CS00); //Set Prescaler of 1 (No Prescaler) and Start Timer.
+	TCCR0B |= (1<<CS00); //Set Prescaler of 1, and Start Timer.
 		
     while (1) 
     {
@@ -43,7 +43,7 @@ void conversion_init(){
 
 
 ISR(TIMER0_OVF_vect){
-	OCR0A = dutyCycle;
+	OCR0A = dutyCycle; //Set OCR0A value to the ADC value.
 }
 
 
