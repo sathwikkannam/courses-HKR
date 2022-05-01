@@ -7,7 +7,7 @@
 #### Calculus and Algebra - 7.5 credits
 #### Programming for Embedded Systems - 15 credits
 
-#Year 2
+# Year 2
 #### Computer Engineering - 7.5 credits
 #### Operating Systems - 7.5 credits
 #### Algorithms and Data Structures - 7.5 credits
