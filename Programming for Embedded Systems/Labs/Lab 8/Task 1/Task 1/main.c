@@ -8,17 +8,18 @@
 #define F_CPU 16000000UL
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
-#define dutyCycle 80
+volatile unsigned int dutyCycle = 80; //duty cycle of 80%, 50%, 40%, and 20%.
 
 int main(void)
 {
-	DDRD |= (1<<PORTD5); //Set pin 5 in DDRD as output (OC0B pin).
-	TCCR0A |= (1<<COM0B1) | (1<<WGM00) | (1<<WGM01); //Set Non-Inverting mode with COM0B1 and Fast PWM with WGM00 and WGM01 bits. (Mode 3)
-	OCR0A = (dutyCycle/100)*255; //Set TOP value of fraction of maximum value.
-	TCCR0B |= (1<<CS00); //Set Prescaler of 1 (No Prescaler).
+	DDRB |= (1<<PORTB3); //Set pin 3 in DDRB as output (OC2A pin).
+	TCCR2A |= (1<<COM2A1) | (1<<WGM21) | (1<<WGM20); //Set Non-Inverting mode with COM2A1 and Fast PWM with WGM21 and WGM20 bits. (Mode 3)
+	OCR2A = (dutyCycle*255)/100; //Set TOP value to a fraction of maximum value.
+	TCCR2B |= (1<<CS20); //Set no Prescaler.
 	
-	
+
     while (1) 
     {
     }
