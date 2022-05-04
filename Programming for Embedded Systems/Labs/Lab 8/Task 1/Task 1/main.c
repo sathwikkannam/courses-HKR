@@ -8,7 +8,6 @@
 #define F_CPU 16000000UL
 
 #include <avr/io.h>
-#include <avr/interrupt.h>
 
 volatile unsigned int dutyCycle = 80; //duty cycle of 80%, 50%, 40%, and 20%.
 
