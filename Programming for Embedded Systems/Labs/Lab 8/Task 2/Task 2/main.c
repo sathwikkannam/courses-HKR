@@ -9,7 +9,7 @@
 #include <avr/interrupt.h>
 
 void conversion_init();
-void map_to_8bits(unsigned int adc);
+void map_to_8bits(uint16_t adc);
 
 volatile unsigned int dutyCycle;
 
@@ -42,7 +42,7 @@ void conversion_init(){
 }
 
 
-void map_to_8bits(unsigned int adc){
+void map_to_8bits(uint16_t adc){
 	dutyCycle = adc/4; //Convert adc to 8-bit and set it to dutyCycle.
 	
 	
