@@ -11,8 +11,7 @@
 
 void adc_init(void);
 void conversion_init(void);
-unsigned int toVoltage(unsigned int adc);
-void displayNumber(unsigned int number);
+uint16_t toVoltage(uint16_t adc)
 
 
 #endif /* TASK3_H_ */

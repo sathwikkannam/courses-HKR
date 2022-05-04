@@ -53,7 +53,8 @@ void toCharArray(uint16_t number){
 
 
 ISR(ADC_vect){
-	lcd_puts(toCharArray(toVoltage(ADC)));
+	toCharArray(toCharArray(toVoltage(ADC)))
+	lcd_puts(displayValue);
 	conversion_init(); //Restart conversion.
 }
 
