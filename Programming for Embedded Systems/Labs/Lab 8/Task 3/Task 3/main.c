@@ -6,16 +6,11 @@
  */ 
 
 
-#define  F_CPU 16000000UL
-
+#include <stdio.h>
+#include <stdlib.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include "lcd.h"
 #include "Task3.h"
-
-volatile unsigned int adc;
-volatile char displayValue[16];
-
 
 int main(void)
 {
@@ -26,6 +21,7 @@ int main(void)
 	
     while (1) 
     {
+		
     }
 }
 
@@ -42,20 +38,26 @@ void conversion_init(){
 }
 
 
-uint16_t toVoltage(uint16_t adc){
+unsigned int toVoltage(unsigned int adc){
 	return (adc * 5)/1024; //5V is the reference Voltage.
 }
 
 
-void toCharArray(uint16_t number){
+unsigned char * toCharArray(unsigned int number){
+	char * numberArray = calloc(log10(number) + 1, sizeof(char));
 	
+	for (int i = log10(number); i >= 0; --i, number /= 10){
+		numberArray[i] = (number % 10) + '0';
+	}
+	
+	return numberArray;
 }
 
 
 ISR(ADC_vect){
-	toCharArray(toCharArray(toVoltage(ADC)))
-	lcd_puts(displayValue);
+	lcd_puts(toCharArray(toVoltage(ADC)));
 	conversion_init(); //Restart conversion.
 }
+
 
 
