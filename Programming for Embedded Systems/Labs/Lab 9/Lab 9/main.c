@@ -23,13 +23,7 @@
 		LED           |  PINB2 | DDRB
 */
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-#include "lcd.h"
-#include "lcd.c"
-#include "adc.h"
-#include "adc.c"
+#include "main.h"
 
 volatile unsigned int mode = 0;
 
