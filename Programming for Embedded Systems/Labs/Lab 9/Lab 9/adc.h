@@ -9,10 +9,13 @@
 #ifndef ADC_H_
 #define ADC_H_
 
+
+#define ADC2_MUX MUX1
+#define ADC1_MUX MUX0
+
+
 void adc_init(unsigned int mode);
 void conversion_init();
-
-
 
 
 

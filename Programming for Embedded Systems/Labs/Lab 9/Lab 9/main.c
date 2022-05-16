@@ -5,56 +5,45 @@
  * Author : SAKA0191
  */ 
 
- /* 
-		MUX REGISTER LAYOUT:
-		—————————————————————————————
-		| MUX3 | MUX2 | MUX1 | MUX0 |
-		—————————————————————————————
-	
-		MODE          |  PIN   | MUX 3 -> 0 
-		——————————————|————————|———————————
-		VOLT METER    |  ADC2  | 0010
-		SOIL HUMIDITY |  ADC1  | 0001
-		LIGHT METER   |  ADC0  | 0000		
-		
-		INSTRUMENT    |  PIN   | Direction register
-		——————————————|————————|———————————————————
-		BUTTON        |	 PIND2 | DDRD
-		LED           |  PINB2 | DDRB
-*/
 
 #include "main.h"
 
-volatile unsigned int mode = 0;
-
 int main(void)
 {
-	DDRB |= (1<<PINB2);
+	DDR_init();
+	button_init(); //Initialize button.
+	lcd_init(); //Initialize LCD.
+	sei(); //Enable global interrupts (Set I bit in SREG).
 	
     while (1) 
     {
-		button_init();
-		sei(); //Enable global interrupts (Set I bit in SREG).
-		adc_init(mode);
-		conversion_init();
-		
-		if(mode > 3){
-			mode = 0;
-		}
+				
     }
 }
 
 
-void button_init(){
-	DDRD ^= (1<<3); //set PIND 2 as output;
-	EICRA|= (1<<ISC01) | (1<<ISC00); // rising edge of INT0.
-	EIMSK|=(1<<INT0); //set external interrupt for PIND 2.
-	_delay_ms(25); //delay 25.
+void DDR_init(){
+	BUTTON_DIRECTION |= (1<<BUTTON_PIN); //Set Button as Output.
+	RED_LED_DIRECTION | = (1<<RED_LED_PIN); //Set Red LED as Output.
+	BLUE_LED_DIRECTION |= (1<<BLUE_LED_PIN); //Set Blue LED as Output.
 }
 
 
-unsigned int toVoltage(unsigned int adc){
-	return (adc * 5)/1024; //5V is the reference Voltage.
+void button_init(){
+	EICRA |= (1<<ISC01) | (1<<ISC00); //Rising edge of INT0.
+	EIMSK |=(1<<BUTTON_INTERRUPT); //Set external interrupt for PIND 2.
+	_delay_ms(25); //Delay 25 milliseconds.
+}
+
+
+void activate_LED(bool error){
+	if(error){
+		RED_LED_PORT ^= (1<<RED_LED_PIN); //Toggle Red LED.
+		BLUE_LED_PORT &= ~(1<<BLUE_LED_PIN); //Unset Blue LED.
+		}else{
+		RED_LED_PORT &= ~(1<<RED_LED_PIN); //Unset Red LED.
+		BLUE_LED_PORT ^= (1<<BLUE_LED_PIN); //Toggle Blue lED.
+	}
 }
 
 
@@ -69,15 +58,36 @@ unsigned char * toCharArray(unsigned int number){
 }
 
 
-
-
-ISR(ADC_vect){
-	//lcd puts.
-	conversion_init(); //Restart conversion.
+ISR(INT0_vect){
+	mode = (mode > 2)? 0 : mode++; //Increment or reset mode.
+	adc_init(mode); //Initialize ADC conversion.
+	conversion_init();	//Start Conversion 
 }
 
 
-ISR(INT0_vect){
-	 mode++;
+ISR(ADC_vect){
+	
+	//Print mode/instrument name in the first row.
+	lcd_putcmd(LCD_SET_FRIST_LINE);
+	if(mode == 0){
+		lcd_puts("Voltmeter");
+	}else if(mode == 1){
+		lcd_puts("Soilmeter");
+	}else if(mode == 2){
+		lcd_puts("Lightmeter");
+	}
+	
+	if(ADC > 255 | (mode == 0 && ADC == 0))){
+		isError = true;
+	}else{
+		isError = false;
+	}
+	
+	//Print quantity in the second row.
+	lcd_putcmd(LCD_SET_SECOND_LINE); //Switch to second line
+	lcd_puts(toCharArray(ADC/(4*5))); //Display to second line. Convert 8-bit ADC to percentage, where 5V is reference voltage.
+	
+	activate_LED(isError);
+
 }
 
