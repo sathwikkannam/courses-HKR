@@ -26,8 +26,8 @@
 		INSTRUMENT    |  PIN   | Direction register
 		——————————————|————————|———————————————————
 		BUTTON        |	 PIND2 | DDRD
-		BLUE LED      |  PIND7 | DDRD
-		RED LED       |  PIND6 | DDRD
+		RED LED       |  PIND7 | DDRD
+		BLUE LED      |  PIND6 | DDRD
 		
 		
 Connection Diagram:
@@ -60,33 +60,30 @@ Connection Diagram:
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <stdlib.h>
 #include <stdbool.h>
-#include "adc.h"
-#include "adc.c"
 #include "lcd.h"
-#include "lcd.c"
-
-volatile unsigned short mode = 0;
-volatile bool isError = false;
 
 #define BUTTON_DIRECTION DDRD
-#define BUTTON_PIN PIND2
+#define BUTTON_PIN PIND3
 #define BUTTON_PORT PORTD
 #define BUTTON_INTERRUPT INT0
 
 #define BLUE_LED_DIRECTION DDRD
 #define BLUE_LED_PORT PORTD
-#define BLUE_LED_PIN PIND7
+#define BLUE_LED_PIN PIND6
 
 #define RED_LED_DIRECTION DDRD
 #define RED_LED_PORT PORTD
-#define RED_LED_PIN PIND6
+#define RED_LED_PIN PIND7
+
+#define MAX_ADC_VALUE 1024
 
 
-void button_init();
-unsigned char * toCharArray(unsigned int number);
+void button_init(void);
+unsigned char * toCharArray(unsigned number);
 void activate_LED(bool error);
-void DDR_init();
+void DDR_init(void);
 
 
 #endif /* MAIN_H_ */

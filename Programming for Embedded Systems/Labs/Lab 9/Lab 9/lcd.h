@@ -80,10 +80,8 @@ Connection Diagram:
 #define LCD_FUNCTION_RESET 0x30     // reset the LCD
 #define LCD_FUNCTION_SET_4BIT 0x28  // 4-bit data, 2-line display, 5 x 7 font
 #define LCD_SET_CURSOR 0x80         // set cursor position
-
-//Hex values for both rows.
-#define LCD_SET_SECOND_LINE 0x90
-#define LCD_SET_FRIST_LINE 0x80
+#define SECOND_ROW_POSITION_1 0xC1
+#define FIRST_ROW_POSITION_1 0x80
 
 /***** Function prototypes ************************************************/
 void lcd_write(uint8_t);

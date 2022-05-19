@@ -13,9 +13,13 @@
 #define ADC2_MUX MUX1
 #define ADC1_MUX MUX0
 
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+#include <stdbool.h>
 
 void adc_init(unsigned int mode);
-void conversion_init();
+void conversion_init(void);
 
 
 
