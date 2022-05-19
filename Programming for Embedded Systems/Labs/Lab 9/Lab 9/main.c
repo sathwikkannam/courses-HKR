@@ -27,7 +27,7 @@ int main(void)
 
 
 void DDR_init(void){
-	DDRD ^= (1<<3); //Set Button as Output.
+	BUTTON_DIRECTION ^= (1<<PIND3); //Set Button as Output.
 	RED_LED_DIRECTION |= (1<<RED_LED_PIN); //Set Red LED as Output.
 	BLUE_LED_DIRECTION |= (1<<BLUE_LED_PIN); //Set Blue LED as Output.
 
@@ -36,7 +36,7 @@ void DDR_init(void){
 
 void button_init(void){
 	EICRA |= (1<<ISC01) | (1<<ISC00); //Rising edge for INT0 Pin.
-	EIMSK |=(1<<INT0); //Set external interrupt for PIND 2.
+	EIMSK |=(1<<BUTTON_INTERRUPT); //Set external interrupt for PIND 2.
 	_delay_ms(50); //Delay 25 milliseconds.
 	
 }
