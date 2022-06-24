@@ -14,9 +14,9 @@
 #include <util/delay.h>
 #include <stdbool.h>
 
+
 void adc_init(unsigned int mode);
 void conversion_init(void);
-
 
 
 #endif /* ADC_H_ */

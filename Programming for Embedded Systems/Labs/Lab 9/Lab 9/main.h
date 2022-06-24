@@ -34,7 +34,7 @@ Connection Diagram:
                  -----------                   ----------
                 |ATmega328p |                 |   LCD    |
                 |           |                 |          |
-                |         5V|---------------->|A         |	
+                |         VC|---------------->|A         |	
                 |        GND|---------------->|K         |									
                 |        PB5|---------------->|D7        |
                 |        PB4|---------------->|D6        |
@@ -63,6 +63,7 @@ Connection Diagram:
 #include <stdlib.h>
 #include <stdbool.h>
 #include "lcd.h"
+#include "adc.h"
 
 #define BUTTON_DIRECTION DDRD
 #define BUTTON_PIN PIND3
@@ -81,7 +82,6 @@ Connection Diagram:
 
 
 void button_init(void);
-unsigned char * toCharArray(unsigned number);
 void activate_LED(bool error);
 void DDR_init(void);
 

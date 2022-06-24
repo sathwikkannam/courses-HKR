@@ -10,14 +10,15 @@
 
 volatile unsigned int mode = 0;
 volatile bool isError = false;
+volatile uint8_t adc_string[4];
 
 int main(void)
 {
 
-	DDR_init();
-	button_init();
+	DDR_init(); //Initialize LED and Button registers.
+	button_init(); //Initialize Button.
 	lcd_init(); //Initialize LCD.
-	sei();
+	sei(); //Enable global interrupts.
 	
     while (1) 
     {
@@ -53,33 +54,23 @@ void activate_LED(bool error){
 }
 
 
-unsigned char * toCharArray(unsigned int number){
-	char * numberArray = calloc(log10(number) + 1, sizeof(char));
-	
-	for (int i = log10(number); i >= 0; --i, number /= 10){
-		numberArray[i] = (number % 10) + '0';
-	}
-	
-	return numberArray;
-}
-
 ISR(INT0_vect){
 	++mode;
 	
 	if(mode > 3){
-		mode = 1;
+		mode = 1; //Reset mode to volt meter.
 	}
+	
 	adc_init(mode); //Initialize ADC conversion.
-	conversion_init();
-	lcd_clear_row(2);	
+	conversion_init(); //Start conversion
 }
 
 
-ISR(ADC_vect){
+ISR(ADC_vect){	
 	//Determine if it is considered as Error.
 	isError = (ADC == MAX_ADC_VALUE)? true : false;
 	
-	lcd_putcmd(FIRST_ROW_POSITION_1);
+	lcd_putcmd(FIRST_ROW_POSITION_1); //Point cursor to first row.
 	if(mode == 1){
 		lcd_puts("Voltage          ");
 	}else if(mode == 2){
@@ -88,12 +79,13 @@ ISR(ADC_vect){
 		lcd_puts("Light            ");
 	}
 	
-			
-	lcd_putcmd(SECOND_ROW_POSITION_1); //Switch to second line
-	lcd_puts(toCharArray(ADC)); //Display to second line.
-	
+	sprintf(adc_string, "%d", ADC); //Store buffer into a char array.
 		
-	_delay_ms(1000);
+	lcd_putcmd(SECOND_ROW_POSITION_1); //Switch to second line
+	lcd_puts(adc_string); //Display to second line.
+	
+	_delay_ms(1000); //Delay 1000ms
+	
 	conversion_init(); //Restart conversion.
 
 }
