@@ -6,8 +6,6 @@ public class TestProcessBuilder {
     public static void createProcess(String command) throws java.io.IOException {
 
         List<String> input = Arrays.asList(command.split(" "));
-
-        MyRunnable myRunnable =  new MyRunnable(command);
         ProcessBuilder processBuilder = new ProcessBuilder(input);
         BufferedReader bufferReader = null;
         try {
