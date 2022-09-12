@@ -19,7 +19,6 @@ public class Main {
                 scanner.close();
                 System.exit(0);
             }
-
             Thread thread = new Thread(new MyRunnable(commandLine));
             thread.start();
         }
