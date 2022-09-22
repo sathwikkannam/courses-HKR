@@ -20,7 +20,7 @@ public class Main {
                 System.exit(0);
             }
 
-            if(commandLine.equalsIgnoreCase("showerrlog")){
+            if((commandLine.equals("showerrlog"))){
                 TestProcessBuilder.getErrors().forEach(System.out::println);
             }
 
