@@ -1,8 +1,10 @@
 package Task_1;
+
 import java.io.*;
 import java.util.*;
 
 public class TestProcessBuilder {
+    private static final ArrayList<String> errors = new ArrayList<>();
 
     public static void createProcess(String command) throws java.io.IOException {
 
@@ -22,8 +24,11 @@ public class TestProcessBuilder {
             }
             bufferReader.close();
         } catch (java.io.IOException ioe) {
-            System.err.println("Error");
-            System.err.println(ioe);
+            if(!command.equals("showerrlog")){
+                System.err.println("Error");
+                System.err.println(ioe);
+                errors.add(command);
+            }
         } finally {
             if (bufferReader != null) {
                 bufferReader.close();
@@ -32,6 +37,7 @@ public class TestProcessBuilder {
     }
 
 
-
-   
+    public static ArrayList<String> getErrors() {
+        return errors;
+    }
 }
