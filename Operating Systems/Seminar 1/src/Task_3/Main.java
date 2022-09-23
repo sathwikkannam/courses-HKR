@@ -1,7 +1,10 @@
+package Task_3;
+
 public class Main {
     public static float seconds;
+
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("Main Thread. waiting for stopwatch thread...");
+        System.out.println("MainmainThread. waiting for stopwatch thread...");
         Thread stopwatch =  new Thread(() -> {
             for (seconds = 0; seconds <= 60; seconds+=1/100.0f){
                 try {
