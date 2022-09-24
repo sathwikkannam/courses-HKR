@@ -1,4 +1,4 @@
-package Task_1_2_readerwriter;
+package Task_1_readerwriter;
 
 public class ReaderWriter {
 

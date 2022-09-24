@@ -1,4 +1,4 @@
-package Task_1_2_readerwriter;
+package Task_1_readerwriter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
