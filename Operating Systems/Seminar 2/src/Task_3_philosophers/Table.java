@@ -1,9 +1,8 @@
 package Task_3_philosophers;
 
 public class Table {
-
-	private int nbrOfChopsticks;
-	private boolean chopstick[]; // true if chopstick[i] is available
+	private final int nbrOfChopsticks;
+	private final boolean[] chopstick; // true if chopstick[i] is available
 
 	public Table(int nbrOfSticks) {
 		nbrOfChopsticks = nbrOfSticks;
@@ -13,25 +12,49 @@ public class Table {
 		}
 	}
 
-	public void getLeftChopstick(int n) {
+	public synchronized void getLeftChopstick(int n) {
+		while(!chopstick[n]) { //Wait if chopstick[n] = leftChopStick is false/unavailable.
+			threadWait();
+
+		}
 		chopstick[n] = false;
 	}
 
-	public void getRightChopstick(int n) {
+	public synchronized void getRightChopstick(int n) {
 		int pos = n + 1;
-		if (pos == nbrOfChopsticks)
+		if (pos == nbrOfChopsticks){
 			pos = 0;
+		}
+
+		while(!chopstick[pos]){//Wait if chopstick[pos] = rightChopStick is false/unavailable.
+			threadWait();
+		}
+
 		chopstick[pos] = false;
 	}
 
-	public void releaseLeftChopstick(int n) {
+	public synchronized void releaseLeftChopstick(int n) {
 		chopstick[n] = true;
+		notifyAll();
 	}
 
-	public void releaseRightChopstick(int n) {
+	public synchronized void releaseRightChopstick(int n) {
 		int pos = n + 1;
-		if (pos == nbrOfChopsticks)
+		if (pos == nbrOfChopsticks){
 			pos = 0;
+
+		}
 		chopstick[pos] = true;
+		notifyAll();
+	}
+
+
+	public synchronized void threadWait(){
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			threadWait();
+		}
 	}
 }
