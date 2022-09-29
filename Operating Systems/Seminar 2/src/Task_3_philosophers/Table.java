@@ -3,39 +3,44 @@ package Task_3_philosophers;
 public class Table {
 	private final int nbrOfChopsticks;
 	private final boolean[] chopstick; // true if chopstick[i] is available
+	private Thread currentPhilosopherThread; // Task 3B.
 
 	public Table(int nbrOfSticks) {
-		nbrOfChopsticks = nbrOfSticks;
-		chopstick = new boolean[nbrOfChopsticks];
-		for (int i = 0; i < nbrOfChopsticks; i++) {
-			chopstick[i] = true;
+		this.nbrOfChopsticks = nbrOfSticks;
+		this.chopstick = new boolean[nbrOfChopsticks];
+		for (int i = 0; i < this.nbrOfChopsticks; i++) {
+			this.chopstick[i] = true;
 		}
 	}
 
 	public synchronized void getLeftChopstick(int n) {
-		while(!chopstick[n]) { //Wait if chopstick[n] = leftChopStick is false/unavailable.
-			threadWait();
+		//Wait if chopstick[n] = leftChopStick is false/unavailable and if it is new thread when currentPhilosopherThread == null
+		while(!this.chopstick[n] && this.currentPhilosopherThread == null) {
+			this.threadWait();
 
 		}
-		chopstick[n] = false;
+		this.chopstick[n] = false;
+		this.currentPhilosopherThread = Thread.currentThread(); // Store the thread that picked up the left chopstick.
 	}
 
 	public synchronized void getRightChopstick(int n) {
 		int pos = n + 1;
-		if (pos == nbrOfChopsticks){
+		if (pos == this.nbrOfChopsticks){
 			pos = 0;
 		}
 
-		while(!chopstick[pos]){//Wait if chopstick[pos] = rightChopStick is false/unavailable.
-			threadWait();
+		//Wait if chopstick[pos] = rightChopStick is false/unavailable and if the thread that picked up the left is not the same as current thread.
+		while(!this.chopstick[pos] && this.currentPhilosopherThread != Thread.currentThread()){
+			this.threadWait();
 		}
 
-		chopstick[pos] = false;
+		this.chopstick[pos] = false;
 	}
 
 	public synchronized void releaseLeftChopstick(int n) {
-		chopstick[n] = true;
+		this.chopstick[n] = true;
 		notifyAll();
+		this.currentPhilosopherThread = null; // Reset currentPhilosopherThread.
 	}
 
 	public synchronized void releaseRightChopstick(int n) {
@@ -44,8 +49,9 @@ public class Table {
 			pos = 0;
 
 		}
-		chopstick[pos] = true;
+		this.chopstick[pos] = true;
 		notifyAll();
+		this.currentPhilosopherThread = null;
 	}
 
 

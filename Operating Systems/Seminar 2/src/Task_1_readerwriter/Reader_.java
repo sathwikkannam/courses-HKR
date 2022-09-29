@@ -1,11 +1,10 @@
 package Task_1_readerwriter;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Reader_ implements Runnable {
-	private final int myId;
-	private final Data myData;
+	private int myId;
+	private Data myData;
 
 	public Reader_(int id, Data data) {
 		myId = id;

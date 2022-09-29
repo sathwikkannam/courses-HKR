@@ -10,52 +10,52 @@ package Task_1_readerwriter;
 
 
 public class RWLock {
-    private boolean isReading;
+    private int readers;
     private boolean isWriting;
-
 
     public RWLock(){
         this.isWriting = false;
-        this.isReading = false;
+        this.readers = 0;
+
     }
 
 
     //Only one thread can access any of the functions at a time.
     public synchronized void acquireRead() {
-        while(isWriting){
-            awaitThread(); //Wait for writer thread.
+        while(this.isWriting){
+            this.awaitThread(); //Wait for writer thread.
         }
-
-        isReading = true;
+        this.readers++;
 
     }
 
     public synchronized void acquireWrite(){
-        while(isWriting || isReading){
-            awaitThread(); //Wait for writer thread or reader thread.
+        while(this.readers > 0 || this.isWriting){ //Blocking the writers since readers have higher priority.
+            this.awaitThread(); //Wait for writer thread or reader thread.
         }
+        this.isWriting = true;
 
-        isWriting = true;
     }
 
     public synchronized void releaseRead(){
+        this.readers--;
+        if(this.readers <= 0){ // We can have multiple readers.
+            notifyAll();
+        }
+
+    }
+
+    public synchronized void releaseWrite() { //Notify all threads.
+        this.isWriting = false;
         notifyAll();
-        isReading = false;
 
     }
-
-    public synchronized void releaseWrite() {
-        notifyAll(); //Notify all threads.
-        isWriting = false;
-    }
-
 
     private synchronized void awaitThread(){
         try {
             wait();
         }catch (InterruptedException e){
             e.printStackTrace();
-            awaitThread();
         }
 
     }

@@ -1,5 +1,4 @@
 package Task_1_readerwriter;
-
 public class ReaderWriter {
 
 	public static void main(String[] args) {

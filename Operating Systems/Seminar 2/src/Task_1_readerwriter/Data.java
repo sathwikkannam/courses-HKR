@@ -2,7 +2,10 @@ package Task_1_readerwriter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import Task_2_readerwriter.RWLock; // <- Task 2
+
+//import Task_1_readerwriter.RWLock;  // <-Task 1
+import Task_2A_readerwriter.RWLock; // <- Task 2A
+//import Task_2B_readerwriter.RWLock; // <- Task 2B
 
 public class Data {
     private static final int INITIAL_VALUE = 100;
@@ -14,7 +17,7 @@ public class Data {
     }
 
     public void read(int id){
-       readerAndWriterLock.acquireRead();
+        readerAndWriterLock.acquireRead();
         int val = myValue;
         
         System.out.println("Reader:" + id + " got the value: " + val);
