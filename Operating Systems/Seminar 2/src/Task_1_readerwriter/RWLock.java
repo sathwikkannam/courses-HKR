@@ -30,7 +30,7 @@ public class RWLock {
     }
 
     public synchronized void acquireWrite(){
-        while(this.readers > 0 || this.isWriting){ //Blocking the writers since readers have higher priority.
+        while(this.readers > 0 || this.isWriting){ //Blocking the writers since readers have higher priority. Not really starvation but waiting state for writers.
             this.awaitThread(); //Wait for writer thread or reader thread.
         }
         this.isWriting = true;

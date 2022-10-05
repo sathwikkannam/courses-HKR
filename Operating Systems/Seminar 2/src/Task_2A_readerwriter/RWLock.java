@@ -7,17 +7,17 @@ package Task_2A_readerwriter;
 
 public class RWLock {
     private int readers;
-    private boolean  isWritingWaiting;
+    private boolean isWriterWaiting;
 
 
     public RWLock(){
         this.readers = 0;
-        this.isWritingWaiting = false;
+        this.isWriterWaiting = false;
 
     }
 
     public synchronized void acquireRead() {
-        while(this.isWritingWaiting){
+        while(this.isWriterWaiting){
             this.awaitThread();
         }
         this.readers++;
@@ -26,11 +26,11 @@ public class RWLock {
 
 
     public synchronized void acquireWrite(){
-        while(this.isWritingWaiting || this.readers > 0){
+        while(this.isWriterWaiting || this.readers > 0){
             this.awaitThread();
 
         }
-        this.isWritingWaiting = true;
+        this.isWriterWaiting = true;
 
     }
 
@@ -41,7 +41,7 @@ public class RWLock {
     }
 
     public synchronized void releaseWrite() {
-        this.isWritingWaiting = false;
+        this.isWriterWaiting = false;
         notifyAll();
 
     }

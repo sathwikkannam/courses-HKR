@@ -17,8 +17,8 @@ public class Table {
 		//Wait if chopstick[n] = leftChopStick is false/unavailable and if it is new thread when currentPhilosopherThread == null
 		while(!this.chopstick[n] && this.currentPhilosopherThread == null) {
 			this.threadWait();
-
 		}
+
 		this.chopstick[n] = false;
 		this.currentPhilosopherThread = Thread.currentThread(); // Store the thread that picked up the left chopstick.
 	}
@@ -39,8 +39,9 @@ public class Table {
 
 	public synchronized void releaseLeftChopstick(int n) {
 		this.chopstick[n] = true;
-		notifyAll();
 		this.currentPhilosopherThread = null; // Reset currentPhilosopherThread.
+		notifyAll();
+
 	}
 
 	public synchronized void releaseRightChopstick(int n) {
@@ -50,8 +51,8 @@ public class Table {
 
 		}
 		this.chopstick[pos] = true;
-		notifyAll();
 		this.currentPhilosopherThread = null;
+		notifyAll();
 	}
 
 
