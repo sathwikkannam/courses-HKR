@@ -1,33 +1,36 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 
 public class MemoryManager {
 
-	private int myNumberOfPages;
-	private int myPageSize; // In bytes
-	private int myNumberOfFrames;
-	private int[] myPageTable; // -1 if page is not in physical memory
-	private byte[] myRAM; // physical memory RAM
-	private RandomAccessFile myPageFile;
-	private int myNextFreeFramePosition = 0;
-	private int myNumberOfpageFaults = 0;
+	private final int numberOfPages;
+	private final int pageSize; // In bytes
+	private final int numberOfFrames;
+	private int[] pageTable; // -1 if page is not in physical memory
+	private final byte[] RAM; // physical memory RAM
+	private RandomAccessFile pageFile; //BACKING_STORE_FILE
+	private int nextFrameNumber = 0;
+	private int numberOfPageFaults = 0;
 	private int myPageReplacementAlgorithm = 0;
+	private final int invalidBit = -1;
+	private boolean framesFull = false;
 
 	public MemoryManager(int numberOfPages, int pageSize, int numberOfFrames, String pageFile,
 			int pageReplacementAlgorithm) {
 
-		myNumberOfPages = numberOfPages;
-		myPageSize = pageSize;
-		myNumberOfFrames = numberOfFrames;
+		this.numberOfPages = numberOfPages;
+		this.pageSize = pageSize;
+		this.numberOfFrames = numberOfFrames;
 		myPageReplacementAlgorithm = pageReplacementAlgorithm;
 
 		initPageTable();
-		myRAM = new byte[myNumberOfFrames * myPageSize];
+		RAM = new byte[this.numberOfFrames * this.pageSize];
 
 		try {
 
-			myPageFile = new RandomAccessFile(pageFile, "r");
+			this.pageFile = new RandomAccessFile(pageFile, "r");
 
 		} catch (FileNotFoundException ex) {
 			System.out.println("Can't open page file: " + ex.getMessage());
@@ -35,9 +38,9 @@ public class MemoryManager {
 	}
 
 	private void initPageTable() {
-		myPageTable = new int[myNumberOfPages];
-		for (int n = 0; n < myNumberOfPages; n++) {
-			myPageTable[n] = -1;
+		pageTable = new int[numberOfPages];
+		for (int n = 0; n < numberOfPages; n++) {
+			pageTable[n] = -1;
 		}
 	}
 
@@ -45,13 +48,13 @@ public class MemoryManager {
 		int pageNumber = getPageNumber(logicalAddress);
 		int offset = getPageOffset(logicalAddress);
 
-		if (myPageTable[pageNumber] == -1) {
+		if (pageTable[pageNumber] == -1) {
 			pageFault(pageNumber);
 		}
 
-		int frame = myPageTable[pageNumber];
-		int physicalAddress = frame * myPageSize + offset;
-		byte data = myRAM[physicalAddress];
+		int frame = pageTable[pageNumber];
+		int physicalAddress = frame * pageSize + offset;
+		byte data = RAM[physicalAddress];
 
 		System.out.print("Virtual address: " + logicalAddress);
 		System.out.print(" Physical address: " + physicalAddress);
@@ -61,66 +64,83 @@ public class MemoryManager {
 
 	private int getPageNumber(int logicalAddress) {
 		// Implement by student in task one
-		int logicalAddressSpace = myNumberOfPages * myPageSize; //pageSize == frameSize.
-		int pageNumberBoundary = (int) ((Math.log(logicalAddressSpace) / Math.log(2)) - (Math.log(myPageSize) / Math.log(2))); // Upper bits of logicalAddress.
+		int logicalAddressSpace = numberOfPages * pageSize; //pageSize == frameSize.
+		int pageNumberBoundary = (int) ((Math.log(logicalAddressSpace) / Math.log(2)) - (Math.log(pageSize) / Math.log(2))); // Upper bits of logicalAddress.
 		return logicalAddress >> pageNumberBoundary; // Return n (pageNumberBoundary) upper bits of logicalAddress.
 
 	}
 
 	private int getPageOffset(int logicalAddress) {
 		// Implement by student in task one
-		int offsetBoundary = (int) ((Math.log(myPageSize) / Math.log(2))); // Lower bits of logicalAddress.
-		return (logicalAddress  << -offsetBoundary >>> -offsetBoundary);
+		int offsetBoundary = (int) ((Math.log(pageSize) / Math.log(2))); // Lower bits of logicalAddress.
+		return (logicalAddress  << -offsetBoundary >>> -offsetBoundary); // Return n (offsetBoundary) lower bits of logicalAddress.
 	}
 
 	private void pageFault(int pageNumber) {
 		if (myPageReplacementAlgorithm == Seminar3.NO_PAGE_REPLACEMENT)
 			handlePageFault(pageNumber);
 
-		if (myPageReplacementAlgorithm == Seminar3.FIFO_PAGE_REPLACEMENT)
-			handlePageFaultFIFO(pageNumber);
+		if (myPageReplacementAlgorithm == Seminar3.FIFO_PAGE_REPLACEMENT) {
+			try {
+				handlePageFaultFIFO(pageNumber);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
-		if (myPageReplacementAlgorithm == Seminar3.LRU_PAGE_REPLACEMENT)
-			handlePageFaultLRU(pageNumber);
+		if (myPageReplacementAlgorithm == Seminar3.LRU_PAGE_REPLACEMENT){
+			try {
+				handlePageFaultLRU(pageNumber);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		readFromPageFileToMemory(pageNumber);
 	}
 
 	private void readFromPageFileToMemory(int pageNumber) {
 		try {
-			int frame = myPageTable[pageNumber];
-			myPageFile.seek(pageNumber * myPageSize);
-			for (int b = 0; b < myPageSize; b++)
-				myRAM[frame * myPageSize + b] = myPageFile.readByte();
+			int frame = pageTable[pageNumber];
+			pageFile.seek((long) pageNumber * pageSize);
+			for (int b = 0; b < pageSize; b++)
+				RAM[frame * pageSize + b] = pageFile.readByte();
 		} catch (IOException ex) {
-
+				ex.printStackTrace();
 		}
 	}
 
 	public int getNumberOfPageFaults() {
-		return myNumberOfpageFaults;
+		return numberOfPageFaults;
 	}
 
 	private void handlePageFault(int pageNumber) {
-		// Implement by student in task one
-		// This is the simple case where we assume same size of physical and logical
-		// memory
-		// nextFreeFramePosition is used to point to next free frame position
-		myPageTable[pageNumber] = myNextFreeFramePosition;
-		myNextFreeFramePosition++;
-		myNumberOfpageFaults++;
+		pageTable[pageNumber] = nextFrameNumber;
+		nextFrameNumber++;
+		numberOfPageFaults++;
 
 	}
 
-	private void handlePageFaultFIFO(int pageNumber) {
-		// Implement by student in task two
-		// this solution allows different size of physical and logical memory
-		// page replacement using FIFO
-		// Note depending on your solution, you might need to change parts of the
-		// supplied code, this is allowed.
+	private void handlePageFaultFIFO(int pageNumber) throws IOException {
+		for(int i = 0; i < pageTable.length; i++) {
+			if(pageTable[i] == nextFrameNumber) {
+				pageTable[i] = invalidBit;
+			}
+		}
+
+		pageFile.seek((long) pageNumber * pageSize);
+		for (int offset = 0; offset < numberOfFrames; offset++) {
+			if(!pagePresent(pageNumber)){
+				numberOfPageFaults++;
+				addToRAM(nextFrameNumber * pageSize + offset, pageFile.readByte());
+				updatePageTable(nextFrameNumber, pageNumber);
+				incrementFrameNumber(); // Points to next frame, if frame == numberOfFrames, then resets. Hence, replaces first frame.
+			}
+		}
+
 	}
 
-	private void handlePageFaultLRU(int pageNumber) {
+	private void handlePageFaultLRU(int pageNumber) throws IOException {
 		// Implement by student in task three
 		// this solution allows different size of physical and logical memory
 		// page replacement using LRU
@@ -128,4 +148,28 @@ public class MemoryManager {
 		// supplied code, this is allowed.
 	}
 
+
+	private boolean pagePresent(int page){
+		return pageTable[page] != invalidBit;
+	}
+
+
+	private void updatePageTable(int frameNumber, int pageNumber){
+		pageTable[pageNumber] = frameNumber;
+
+	}
+
+	private void incrementFrameNumber(){
+		nextFrameNumber++;
+
+		if(nextFrameNumber == numberOfFrames){
+			nextFrameNumber = 0;
+			framesFull = true;
+		}
+	}
+
+
+	private void addToRAM(int physicalAddress, byte data){
+		RAM[physicalAddress] = data;
+	}
 }
