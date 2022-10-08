@@ -15,7 +15,6 @@ public class MemoryManager {
 	private int numberOfPageFaults = 0;
 	private int myPageReplacementAlgorithm = 0;
 	private final int invalidBit = -1;
-	private boolean framesFull = false;
 
 	public MemoryManager(int numberOfPages, int pageSize, int numberOfFrames, String pageFile,
 			int pageReplacementAlgorithm) {
@@ -164,7 +163,6 @@ public class MemoryManager {
 
 		if(nextFrameNumber == numberOfFrames){
 			nextFrameNumber = 0;
-			framesFull = true;
 		}
 	}
 
