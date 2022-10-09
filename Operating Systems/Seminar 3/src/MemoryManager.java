@@ -16,6 +16,7 @@ public class MemoryManager {
 	private final int invalidBit = -1;
 	private final int pageNumberBoundary;
 	private final int offsetBoundary;
+	private final int[] frameOccurrences;
 
 	public MemoryManager(int numberOfPages, int pageSize, int numberOfFrames, String pageFile,
 			int pageReplacementAlgorithm) {
@@ -28,6 +29,7 @@ public class MemoryManager {
 		int offset = (int) ((Math.log(pageSize) / Math.log(2)));
 		this.pageNumberBoundary = (int) ((Math.log(logicalAddressSpace) / Math.log(2)) - offset); // Upper bits of logicalAddress.
 		this.offsetBoundary = offset; // Lower bits of logicalAddress.
+		this.frameOccurrences = new int[numberOfFrames]; // Holds the age of each frame. frameOccurrences[frameNumber] = age;
 
 		initPageTable();
 		RAM = new byte[this.numberOfFrames * this.pageSize];
@@ -59,6 +61,10 @@ public class MemoryManager {
 		int frame = pageTable[pageNumber];
 		int physicalAddress = frame * pageSize + offset;
 		byte data = RAM[physicalAddress];
+
+		for (int i = 0; i < numberOfFrames; i++) {
+			frameOccurrences[i]++;
+		}
 
 		System.out.print("Virtual address: " + logicalAddress);
 		System.out.print(" Physical address: " + physicalAddress);
@@ -114,7 +120,7 @@ public class MemoryManager {
 	}
 
 	private void handlePageFaultFIFO(int pageNumber){
-		/*`
+		/*
 			If there is a page in the page table with the nextFrameNumber (points to free frame) means
 			that we have reached maximum frames and nextFrameNumber overflowed. Therefore, we replace that page with that
 			frame number with the new page because it was the first entry in the page table.
@@ -128,7 +134,7 @@ public class MemoryManager {
 				break;
 			}
 		}
-		pageTable[pageToRemove] = invalidBit; // Set it to -1 (invalidBit).
+		unsetPage(pageToRemove);// Set it to -1 (invalidBit).
 		numberOfPageFaults++; // Increment pageFaults as we have -1 in the page table.
 		updatePageTable(nextFrameNumber, pageNumber); // Set the current pageNumber to nextFrameNumber position.
 		incrementFrameNumber(); // Increment frameNumber.
@@ -136,8 +142,21 @@ public class MemoryManager {
 	}
 
 	private void handlePageFaultLRU(int pageNumber){
+		int pageToRemove = 0;
 
+		nextFrameNumber = LRUFrame(frameOccurrences);
 
+		for (int i = 0; i < pageTable.length; i++) {
+			if(pageTable[i] == nextFrameNumber){
+				pageToRemove = i;
+				break;
+			}
+		}
+
+		unsetPage(pageToRemove);
+		numberOfPageFaults++;
+		updatePageTable(nextFrameNumber, pageNumber);
+		frameOccurrences[nextFrameNumber] = 0;
 	}
 
 
@@ -154,4 +173,22 @@ public class MemoryManager {
 		}
 	}
 
+	private void unsetPage(int pageNumber){
+		pageTable[pageNumber] = invalidBit;
+	}
+
+	private int LRUFrame(int[] frames){
+		int temp = 0;
+		int frame = 0;
+
+		for (int i = 0; i < frames.length; i++) {
+			if(frames[i] > temp){
+				temp = frames[i];
+				frame =  i;
+			}
+		}
+
+		return frame;
+	}
+	
 }
