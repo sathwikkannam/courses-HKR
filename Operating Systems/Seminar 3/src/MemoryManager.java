@@ -54,6 +54,10 @@ public class MemoryManager {
 		int pageNumber = getPageNumber(logicalAddress);
 		int offset = getPageOffset(logicalAddress);
 
+		for (int i = 0; i < frameOccurrences.length; i++) {
+			frameOccurrences[i]++; // Each time we add page to a frame, we increment the lifetime of each frame.
+		}
+
 		if (pageTable[pageNumber] == -1) {
 			pageFault(pageNumber);
 		}
@@ -61,10 +65,8 @@ public class MemoryManager {
 		int frame = pageTable[pageNumber];
 		int physicalAddress = frame * pageSize + offset;
 		byte data = RAM[physicalAddress];
+		frameOccurrences[pageTable[pageNumber]] = 0; // Once we add page to a frame, we reset that frame's lifetime.
 
-		for (int i = 0; i < numberOfFrames; i++) {
-			frameOccurrences[i]++;
-		}
 
 		System.out.print("Virtual address: " + logicalAddress);
 		System.out.print(" Physical address: " + physicalAddress);
@@ -137,26 +139,24 @@ public class MemoryManager {
 		unsetPage(pageToRemove);// Set it to -1 (invalidBit).
 		numberOfPageFaults++; // Increment pageFaults as we have -1 in the page table.
 		updatePageTable(nextFrameNumber, pageNumber); // Set the current pageNumber to nextFrameNumber position.
-		incrementFrameNumber(); // Increment frameNumber.
+		incrementFrameNumber(); // Increment frameNumber and prevent overflow.
 
 	}
 
 	private void handlePageFaultLRU(int pageNumber){
-		int pageToRemove = 0;
-
-		nextFrameNumber = LRUFrame(frameOccurrences);
+		int frame = LRUFrame(frameOccurrences); // Frame with the highest lifetime.
+		int pageToRemove  = 0;
 
 		for (int i = 0; i < pageTable.length; i++) {
-			if(pageTable[i] == nextFrameNumber){
+			if(pageTable[i] == frame){ // Find the page with the highest lifetime in a frame.
 				pageToRemove = i;
-				break;
 			}
 		}
 
-		unsetPage(pageToRemove);
-		numberOfPageFaults++;
-		updatePageTable(nextFrameNumber, pageNumber);
-		frameOccurrences[nextFrameNumber] = 0;
+		unsetPage(pageToRemove); // Remove the page.
+		numberOfPageFaults++; // Increment pageFaults as we have -1	in pageTable.
+		updatePageTable(frame, pageNumber); // Replace page.
+
 	}
 
 
@@ -177,7 +177,7 @@ public class MemoryManager {
 		pageTable[pageNumber] = invalidBit;
 	}
 
-	private int LRUFrame(int[] frames){
+	private int LRUFrame(int[] frames){ // Returns an index containing the highest value within the array.
 		int temp = 0;
 		int frame = 0;
 
@@ -190,5 +190,5 @@ public class MemoryManager {
 
 		return frame;
 	}
-	
+
 }
