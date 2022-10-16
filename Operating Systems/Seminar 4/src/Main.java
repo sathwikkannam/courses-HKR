@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         String commandLine;
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n\n***** Welcome to the Java Command Shell *****");
@@ -31,30 +32,61 @@ public class Main {
 
     }
 
-    public static void execute(String command) throws IOException {
+    public static void execute(String command) {
         List<String> input = Arrays.asList(command.split(" "));
-        BufferedReader reader;
-        Process process;
-        String line;
+        BufferedReader reader = null;
+        Process process = null;
+        InputStream inputStream = null;
 
+        try{
+            if(input.get(0).equals("filedump") || input.get(0).equals("copyfile")){
+                getProcessBuilder(Arrays.asList(("chmod +x " + input.get(0) + ".sh").split(" "))).start();
+                input.set(0, "./" + input.get(0)+".sh");
 
-        if(input.get(0).equals("filedump") || input.get(0).equals("copyfile")){
-            createProcess(Arrays.asList(("chmod +x " + input.get(0) + ".sh").split(" "))).start();
-            input.set(0, "./" + input.get(0)+".sh");
+            }
+            process =  getProcessBuilder(input).start();
+            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            inputStream = process.getErrorStream();
+            printStream(reader);
 
-        }
-        process =  createProcess(input).start();
-        reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-        while((line = reader.readLine()) != null){
-            System.out.println(line);
+        }catch(IOException e){
+            printStream(new BufferedReader(new InputStreamReader(inputStream)));
+        }finally {
+            if(reader != null){
+                closeBufferedReader(reader);
+            }
+            process.destroy();
         }
 
 
     }
 
-    public static synchronized ProcessBuilder createProcess(List<String> input){
+    public static synchronized ProcessBuilder getProcessBuilder(List<String> input){
         return new ProcessBuilder(input);
+    }
+
+
+    public static synchronized void closeBufferedReader(BufferedReader bufferedReader){
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static synchronized void printStream(BufferedReader bufferedReader) {
+        String line;
+
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeBufferedReader(bufferedReader);
+        }
     }
 
 }
