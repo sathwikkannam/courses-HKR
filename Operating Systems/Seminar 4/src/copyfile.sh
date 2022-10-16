@@ -9,8 +9,11 @@ if [ -f "$srcFile" ] || [ -f "$desFile" ];
   then
     while read -r line;
       do
-        echo -e "$line"
+        echo "$line" >> "$desFile"
       done <"$srcFile"
   else
-    echo "One of the files doesn't exist"
+    if ! [ -f "$desFile" ]
+      then
+        echo >> "$desFile"
+    fi
 fi

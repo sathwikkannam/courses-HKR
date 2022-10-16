@@ -37,21 +37,19 @@ public class Main {
         Process process;
         String line;
 
-        if(input.get(0).equals("filedump")){
-            input.set(0, "./filedump.sh");
-            createProcess(Arrays.asList("chmod +x filedump.sh".split(" "))).start();
 
-        }else if(input.get(0).equals("copyfile")){
-            input.set(0, "./copyfile.sh");
-            createProcess(Arrays.asList("chmod +x copyfile.sh".split(" "))).start();
+        if(input.get(0).equals("filedump") || input.get(0).equals("copyfile")){
+            createProcess(Arrays.asList(("chmod +x " + input.get(0) + ".sh").split(" "))).start();
+            input.set(0, "./" + input.get(0)+".sh");
+
         }
-
         process =  createProcess(input).start();
         reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
         while((line = reader.readLine()) != null){
             System.out.println(line);
         }
+
 
     }
 
