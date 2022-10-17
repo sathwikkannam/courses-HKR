@@ -36,26 +36,23 @@ public class Main {
         List<String> input = Arrays.asList(command.split(" "));
         BufferedReader reader = null;
         Process process = null;
-        InputStream inputStream = null;
 
         try{
-            if(input.get(0).equals("filedump") || input.get(0).equals("copyfile")){
+            if(input.get(0).equals("filedump") || input.get(0).equals("copyfile") || input.get(0).equals("crtf")){
                 getProcessBuilder(Arrays.asList(("chmod +x " + input.get(0) + ".sh").split(" "))).start();
                 input.set(0, "./" + input.get(0)+".sh");
 
             }
             process =  getProcessBuilder(input).start();
             reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            inputStream = process.getErrorStream();
             printStream(reader);
-
         }catch(IOException e){
-            printStream(new BufferedReader(new InputStreamReader(inputStream)));
+            e.printStackTrace();
         }finally {
             if(reader != null){
                 closeBufferedReader(reader);
+                process.destroy();
             }
-            process.destroy();
         }
 
 
