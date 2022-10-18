@@ -2,14 +2,15 @@
 
 # Custom command
 
+for arg in "$@"
+  do
+    if ! [ -f "$arg" ]
+      then
+        echo >> "$arg"
+        echo "$arg file created."
+    else
+        echo "$arg already exists"
+    fi
 
-while(($# > 0))
-    do
-      if ! [ -f "$1" ];
-        then
-          echo >> "$1"
-          shift
-        else
-          echo  "$1 already exists."
-      fi
-    done
+  done
+

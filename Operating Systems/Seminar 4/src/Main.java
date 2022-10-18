@@ -1,13 +1,14 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
-
+    private static final ArrayList<String> myCommands =  new ArrayList<>(Arrays.asList("filedump", "copyfile", "crtf"));
     public static void main(String[] args){
         String commandLine;
         Scanner scanner = new Scanner(System.in);
@@ -38,11 +39,11 @@ public class Main {
         Process process = null;
 
         try{
-            if(input.get(0).equals("filedump") || input.get(0).equals("copyfile") || input.get(0).equals("crtf")){
+            if(myCommands.contains(input.get(0))){
                 getProcessBuilder(Arrays.asList(("chmod +x " + input.get(0) + ".sh").split(" "))).start();
                 input.set(0, "./" + input.get(0)+".sh");
-
             }
+
             process =  getProcessBuilder(input).start();
             reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             printStream(reader);
@@ -50,7 +51,7 @@ public class Main {
             e.printStackTrace();
         }finally {
             if(reader != null){
-                closeBufferedReader(reader);
+                closeReader(reader);
                 process.destroy();
             }
         }
@@ -63,9 +64,9 @@ public class Main {
     }
 
 
-    public static synchronized void closeBufferedReader(BufferedReader bufferedReader){
+    public static synchronized void closeReader(Reader reader){
         try {
-            bufferedReader.close();
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,7 +83,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            closeBufferedReader(bufferedReader);
+            closeReader(bufferedReader);
         }
     }
 
