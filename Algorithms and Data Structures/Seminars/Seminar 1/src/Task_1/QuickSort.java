@@ -53,7 +53,7 @@ class QuickSort {
     }
 
 
-    public static int getPivotIndex(String method, int[] numbers, int lower, int upper){
+    public int getPivotIndex(String method, int[] numbers, int lower, int upper){
         switch (method){
             case "Median"->{
                 int first = numbers[lower];
@@ -83,7 +83,7 @@ class QuickSort {
     }
 
 
-    public static void quickSortIterative(int[] numbers){
+    public void quickSortIterative(int[] numbers){
 
 
     }
