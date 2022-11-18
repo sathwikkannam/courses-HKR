@@ -9,57 +9,50 @@ import java.util.Scanner;
 public class Main {
     public static ArrayList<Long> time = new ArrayList<>();
 
-    public static void main(String[] args) throws InterruptedException {
-        while(true){
-            String method;
-            int inputs;
-            System.out.print("Method: ");
-            Scanner e = new Scanner(System.in);
-            method = e.next();
-            System.out.print("Inputs: " );
-            inputs = e.nextInt();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String method;
+        int inputs;
+        int option;
 
-
-            Thread f = new Thread(() ->{
-                for (int i = 0; i < 5; i++) {
-                    QuickSort quickSort = new QuickSort(method);
-                    long start = System.currentTimeMillis();
-                    quickSort.quickSortRecursive(getNumbers(inputs), 0, inputs - 1);
-                    long end = System.currentTimeMillis();
-                    time.add(end - start);
+        while(true) {
+            System.out.print("1. Quick sort recursive\n2. Quick sort iterative\n3. Insertion sort\n4. Exit\n");
+            option = scanner.nextInt();
+            switch (option) {
+                case 1, 2 -> {
+                    System.out.print("Method: ");
+                    method = scanner.next();
+                }
+                default -> {
+                    return;
                 }
 
-            });
+            }
 
-            f.start();
-            f.join();
-            System.out.println("All times: ");
+            System.out.print("Inputs: ");
+            inputs = scanner.nextInt();
+
+
+            for (int i = 0; i < 5; i++) {
+                long start = System.currentTimeMillis();
+                if (option == 3) {
+                    InsertionSort.insertionSort(getNumbers(inputs));
+                } else if (option == 1) {
+                    QuickSort quickSort = new QuickSort(method);
+                    quickSort.quickSortRecursive(getNumbers(inputs), 0, inputs - 1);
+                } else {
+                    QuickSort quickSort = new QuickSort(method);
+                    quickSort.quickSortIterative(getNumbers(inputs));
+                }
+                long end = System.currentTimeMillis();
+                time.add(end - start);
+            }
+
+            System.out.println("Running time for all 5 times");
             printArray(time);
-            System.out.println();
-            System.out.println(getAverageTime(time) + " MS");
-
+            System.out.println("\nMethod: " + method + " Inputs: " + inputs + " took on average: " + getAverageTime(time));
+            time.clear();
         }
-
-
-//        for (int k : interval) {
-//            for (String method : methods) {
-//                for (int j = 0; j < 5; j++) {
-//                    QuickSort quickSort = new QuickSort(method);
-//                    long start = System.currentTimeMillis();
-//                    quickSort.quickSortRecursive(getNumbers(k), 0, k - 1);
-//                    long end = System.currentTimeMillis();
-//                    time.add(end - start);
-//                }
-//
-//                printArray(time);
-//                System.out.println();
-//                System.out.println("Inputs: " + k + " QuickSortRecursive with pivot as " + method + " took: " + getAverageTime(time) + " ms");
-//                time.clear();
-//            }
-//
-//
-//        }
-
     }
 
 
