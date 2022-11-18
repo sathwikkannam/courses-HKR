@@ -10,7 +10,6 @@ public class Main {
     public static ArrayList<Long> time = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
-
         while(true){
             String method;
             int inputs;
@@ -70,7 +69,7 @@ public class Main {
         int i = 0;
 
         try {
-            BufferedReader myReader = new BufferedReader(new FileReader("src/Task_1/Seminar 1 - File with random numbers.txt"));
+            BufferedReader myReader = new BufferedReader(new FileReader("src/Seminar 1 - File with random numbers.txt"));
             while ((line = myReader.readLine()) != null && i < limit) {
                 numbers[i++] = Integer.parseInt(line);
             }
