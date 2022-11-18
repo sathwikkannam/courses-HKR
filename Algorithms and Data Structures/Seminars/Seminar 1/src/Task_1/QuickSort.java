@@ -46,7 +46,7 @@ class QuickSort {
 
             swap(numbers, leftPointer, pivot); // This is when leftPointer and rightPointer crossed, we swap pivot with leftPointer
 
-            quickSortRecursive(numbers, lowerBound, leftPointer - 1); // Sort 0 to leftPointer + 1 or pivot - 1
+            quickSortRecursive(numbers, lowerBound, leftPointer - 1); // Sort 0 to leftPointer - 1 or pivot - 1
             quickSortRecursive(numbers, leftPointer + 1, upperBound); // Sort leftPointer + 1 or pivot + 1 to end of the list
         }
 
