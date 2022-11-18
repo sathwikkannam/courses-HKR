@@ -28,13 +28,12 @@ public class Main {
                 }
 
             }
-
             System.out.print("Inputs: ");
             inputs = scanner.nextInt();
 
 
             for (int i = 0; i < 5; i++) {
-                long start = System.currentTimeMillis();
+                long start = System.nanoTime();
                 if (option == 3) {
                     InsertionSort.insertionSort(getNumbers(inputs));
                 } else if (option == 1) {
@@ -44,7 +43,7 @@ public class Main {
                     QuickSort quickSort = new QuickSort(method);
                     quickSort.quickSortIterative(getNumbers(inputs));
                 }
-                long end = System.currentTimeMillis();
+                long end = System.nanoTime();
                 time.add(end - start);
             }
 
