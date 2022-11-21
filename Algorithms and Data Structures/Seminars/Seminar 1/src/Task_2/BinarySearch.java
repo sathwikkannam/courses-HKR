@@ -14,9 +14,9 @@ public class BinarySearch {
             return true;
 
         }
-        if(numbers[center] < target){ // If target is bigger than center, then it must be after from the center element.
+        if(numbers[center] < target){ // If target is bigger than center, then it must be after the center element.
             return partition(numbers, center + 1, upperBound, target);
-        }else if(numbers[center] > target){ // If the target is smaller than center, then it must be before from the center element.
+        }else if(numbers[center] > target){ // If the target is smaller than center, then it must be before the center element.
             return partition(numbers, lowerBound, center - 1 , target);
         }
 
@@ -25,7 +25,7 @@ public class BinarySearch {
     }
 
 
-    private static boolean binarySearch(int[] numbers, int target){
+    public static boolean search(int[] numbers, int target){
         return partition(numbers, 0, numbers.length-1, target);
     }
 }

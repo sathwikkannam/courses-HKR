@@ -1,24 +1,22 @@
 package InsertionSort;
 
+import Common.Utilities;
+
 public class InsertionSortRecursive {
 
 
-    //https://www.geeksforgeeks.org/recursive-insertion-sort/
     public static void sort(int[] numbers, int upperBound){
-        // If the given range of the array is 1, meaning the size of the array is 1.
-        if (upperBound > 1){
-            sort(numbers, upperBound - 1); // Sort the 0 to n - 1 elements to place the element in the correct position
+        // If the size of the array is 1.
+        if(upperBound <= 1){
+            return;
+        }
 
-            int currentElement = numbers[upperBound - 1]; // The element being compared to its previous elements.
-            int pointer = upperBound - 2;
+        sort(numbers, upperBound - 1);
 
+        int currentElement = numbers[upperBound]; // The element being compared to its previous elements.
 
-            // Shift the elements to the right if the numbers[pointer] is greater than the element.
-            while (pointer >= 0 && numbers[pointer] > currentElement) {
-                numbers[pointer+1] = numbers[pointer];
-                pointer--;
-            }
-            numbers[pointer +1 ] = currentElement; // Place the element after shifting.
+        for (int i = upperBound - 1; i >=0 && numbers[i] > currentElement; i--) {
+            Utilities.swap(numbers, i + 1, i); // Swap the elements rather than shifting.
         }
 
     }

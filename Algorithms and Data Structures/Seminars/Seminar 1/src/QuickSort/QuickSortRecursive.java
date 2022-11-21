@@ -2,9 +2,6 @@ package QuickSort;
 
 import Common.Utilities;
 
-import java.util.Random;
-
-
 public class QuickSortRecursive {
 
 
@@ -28,7 +25,7 @@ public class QuickSortRecursive {
 
 
     //https://www.geeksforgeeks.org/java-program-for-quicksort/
-    public static int partition(int[] numbers, int lowerBound, int upperBound){
+    private static int partition(int[] numbers, int lowerBound, int upperBound){
 
         int leftPointer = lowerBound - 1; // We decrement left pointer to prevent indexOutOfBoundsException
 

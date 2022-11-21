@@ -15,7 +15,7 @@ public class QuickSortIterative {
         }
     }
 
-    public static int partition(int[] numbers, int lowerBound, int upperBound){
+    private static int partition(int[] numbers, int lowerBound, int upperBound){
 
         int leftPointer = lowerBound - 1; // We decrement left pointer to prevent indexOutOfBoundsException
 
@@ -35,7 +35,7 @@ public class QuickSortIterative {
 
 
     //https://www.geeksforgeeks.org/iterative-quick-sort/
-    public static void sort1(int[] numbers, int lowerBound, int upperBound, String method) {
+    public static void sort(int[] numbers, int lowerBound, int upperBound, String method) {
 
         int levelsOfPartitoning = -1;
         Range[] bounds = new Range[upperBound + 1];
