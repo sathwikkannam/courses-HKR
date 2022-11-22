@@ -37,14 +37,14 @@ public class QuickSortIterative {
     //https://www.geeksforgeeks.org/iterative-quick-sort/
     public static void sort(int[] numbers, int lowerBound, int upperBound, String method) {
 
-        int levelsOfPartitoning = -1;
+        int i = -1; // indicates if the "bounds" array is empty.
         Range[] bounds = new Range[upperBound + 1];
 
-        bounds[++levelsOfPartitoning] = new Range(lowerBound, upperBound);
+        bounds[++i] = new Range(lowerBound, upperBound);
 
-        while (levelsOfPartitoning >= 0) {
+        while (i >= 0) {
 
-            Range range = bounds[levelsOfPartitoning--];
+            Range range = bounds[i--];
 
             switch (method) {
                 case "Median" -> Pivot.swapMedianOfThree(numbers, range.leftPointer, range.rightPointer);
@@ -57,12 +57,12 @@ public class QuickSortIterative {
 
             //right subset of the array.
             if (pivot_index + 1 < range.rightPointer) { // The next partition must be smaller than previous partition.
-                bounds[++levelsOfPartitoning] = new Range(pivot_index + 1, range.rightPointer);
+                bounds[++i] = new Range(pivot_index + 1, range.rightPointer);
             }
 
             //left subset of the array.
             if (pivot_index - 1 >= range.leftPointer) {
-                bounds[++levelsOfPartitoning] = new Range(range.leftPointer, pivot_index - 1);
+                bounds[++i] = new Range(range.leftPointer, pivot_index - 1);
             }
 
         }
