@@ -13,9 +13,9 @@ public class InsertionSortRecursive {
 
         sort(numbers, upperBound - 1);
 
-        int currentElement = numbers[upperBound]; // The element being compared to its previous elements.
+        int currentElement = numbers[upperBound - 1]; // The element being compared to its previous elements.
 
-        for (int i = upperBound - 1; i >=0 && numbers[i] > currentElement; i--) {
+        for (int i = upperBound - 2; i >=0 && numbers[i] > currentElement; i--) {
             Utilities.swap(numbers, i + 1, i); // Swap the elements rather than shifting.
         }
 

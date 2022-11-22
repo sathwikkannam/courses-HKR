@@ -5,6 +5,7 @@ import QuickSort.QuickSortIterative;
 import QuickSort.QuickSortRecursive;
 import Task_2.BinarySearch;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -48,11 +49,15 @@ public class Main {
             inputs = scanner.nextInt();
             numbers = Utilities.getNumbers(inputs);
 
+            if(option == 5){
+                Arrays.sort(numbers);
+            }
+
             start = System.currentTimeMillis();
             switch (option){
                 case 1 -> QuickSortRecursive.sort(numbers, 0, inputs - 1, pivot);
                 case 2 -> QuickSortIterative.sort(numbers, 0, inputs - 1, pivot);
-                case 3 -> InsertionSortRecursive.sort(numbers, inputs - 1);
+                case 3 -> InsertionSortRecursive.sort(numbers, inputs);
                 case 4 -> InsertionSortIterative.sort(numbers);
                 case 5 -> targetPresent = BinarySearch.search(numbers, target);
 
