@@ -25,13 +25,13 @@ public class Main {
         boolean targetPresent = false;
 
         while(true){
-            System.out.print("1. Quick sort recursive\n2. Quick sort iterative\n3. Insertion sort recursive\n4. Insertion sort iterative\n5. Binary search\n6. Exit");
+            System.out.print("1. Quick sort recursive\n2. Quick sort iterative\n3. Insertion sort recursive\n4. Insertion sort iterative\n5. Binary search\n6. Exit\nChoice: ");
             option = scanner.nextInt();
 
             switch (option){
 
                 case 1, 2 -> {
-                    System.out.print("Select pivot (Median, First, Random): ");
+                    System.out.print("\nSelect pivot (Median, First, Random): ");
                     pivot = scanner.next();
                 }
                 case 3, 4 -> pivot = null;
@@ -72,7 +72,7 @@ public class Main {
 
             }
 
-            System.out.printf("Running time: %.3f in milliseconds\n--------\n", end - start);
+            System.out.printf("Running time: %.3f in milliseconds\n--------\n\n", end - start);
 
         }
     }
