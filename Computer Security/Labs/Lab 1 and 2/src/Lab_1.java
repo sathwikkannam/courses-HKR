@@ -14,26 +14,24 @@ import java.util.Arrays;
 
 public class Lab_1 {
     private static Cipher decoder;
-    public static byte[] decryptedKey2;
     public static byte[] decryptedCipherText;
+    public static PrivateKey privateKey;
 
     public static void main(String[] args){
-        // Key1 - 128 bytes, IV - 128 bytes, Key2 - 128 bytes, ciphertext - remaining bytes.
+        // CipherKey - 128 bytes, IV - 128 bytes, macKey - 128 bytes, ciphertext - remaining bytes.
         byte[] originalData = getFileData("Ciphertext and Keys/ciphertext.enc");
-        byte[] encryptedKey1 = Arrays.copyOfRange(originalData, 0, 128);
+        byte[] encryptedCipherKey = Arrays.copyOfRange(originalData, 0, 128);
         byte[] encryptedIV = Arrays.copyOfRange(originalData, 128, 256);
-        byte[] encryptedKey2 = Arrays.copyOfRange(originalData, 256, 384);
         byte[] cipherText = Arrays.copyOfRange(originalData, 384, originalData.length);
 
-        PrivateKey privateKey = getPrivateKey("Ciphertext and Keys/lab1Store", "lab1EncKeys", "lab1StorePass".toCharArray(), "lab1KeyPass".toCharArray());
+        privateKey = getPrivateKey("Ciphertext and Keys/lab1Store", "lab1EncKeys", "lab1StorePass".toCharArray(), "lab1KeyPass".toCharArray());
 
-        byte[] decryptedKey1 = decryptRSA(privateKey, encryptedKey1);
+        byte[] decryptedCipherKey = decryptRSA(privateKey, encryptedCipherKey);
         byte[] decryptedIV = decryptRSA(privateKey, encryptedIV);
-        decryptedKey2 = decryptRSA(privateKey, encryptedKey2);
-        decryptedCipherText = decryptCipher(cipherText, "AES/CBC/PKCS5Padding", "AES", decryptedKey1, decryptedIV);
+        decryptedCipherText = decryptCipher(cipherText, "AES/CBC/PKCS5Padding", "AES", decryptedCipherKey, decryptedIV);
 
 
-        System.out.println("Plain text: \n------------------------\n" + new String(decryptedCipherText));
+        System.out.println("Plain text: \n------------------------\n" + new String(decryptedCipherText) + "\n------------------------");
 
     }
 
