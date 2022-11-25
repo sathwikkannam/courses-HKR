@@ -8,10 +8,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -24,16 +21,16 @@ public class Lab_1 {
         // Key1 - 128 bytes, IV - 128 bytes, Key2 - 128 bytes, ciphertext - remaining bytes.
         byte[] originalData = getFileData("Ciphertext and Keys/ciphertext.enc");
         byte[] encryptedKey1 = Arrays.copyOfRange(originalData, 0, 128);
-        byte[] encryptedIV = Arrays.copyOfRange(originalData, 129, 257);
-        byte[] encryptedKey2 = Arrays.copyOfRange(originalData, 258, 386);
-        byte[] cipherText = Arrays.copyOfRange(originalData, 387, originalData.length);
-        byte[] privateKey = getFileData("Ciphertext and Keys/lab1Store");
+        byte[] encryptedIV = Arrays.copyOfRange(originalData, 128, 256);
+        byte[] encryptedKey2 = Arrays.copyOfRange(originalData, 256, 384);
+        byte[] cipherText = Arrays.copyOfRange(originalData, 384, originalData.length);
+        PrivateKey privateKey = getPrivateKey("Ciphertext and Keys/lab1Store", "lab1EncKeys", "lab1StorePass".toCharArray(), "lab1KeyPass".toCharArray());
 
         PublicKey publicKey = getPublicKey("Ciphertext and Keys/lab1Sign.cert");
 
-        byte[] decryptedKey1 = decryptRSA(publicKey, encryptedKey1);
-        byte[] decryptedIV = decryptRSA(publicKey, encryptedIV);
-        byte[] decryptedKey2 = decryptRSA(publicKey, encryptedKey2);
+        byte[] decryptedKey1 = decryptRSA(privateKey, encryptedKey1);
+        byte[] decryptedIV = decryptRSA(privateKey, encryptedIV);
+        byte[] decryptedKey2 = decryptRSA(privateKey, encryptedKey2);
         byte[] decryptCipherText = decryptCipher(cipherText, "AES/CBC/PKCS5Padding", "AES", decryptedKey1, decryptedIV);
 
 
@@ -44,7 +41,7 @@ public class Lab_1 {
     }
 
     // Lab 1 - Task 1
-    public static byte[] decryptRSA(PublicKey publicKey, byte[] encryptedData){
+    public static byte[] decryptRSA(PrivateKey publicKey, byte[] encryptedData){
         try {
             decoder = Cipher.getInstance("RSA");
             decoder.init(Cipher.DECRYPT_MODE, publicKey);
@@ -64,8 +61,7 @@ public class Lab_1 {
             IvParameterSpec ivParam = new IvParameterSpec(IV);
             SecretKeySpec secretKey = new SecretKeySpec(key, cipher);
             decoder.init(Cipher.DECRYPT_MODE, secretKey, ivParam);
-            decoder.update(cipherText);
-            return decoder.doFinal(); // Cipher.update() 16 bytes of blocks at a time for AES.
+            return decoder.doFinal(cipherText);
 
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException |
                  InvalidAlgorithmParameterException e) {
@@ -97,6 +93,19 @@ public class Lab_1 {
 
     }
 
+    //https://docs.oracle.com/javase/7/docs/api/java/security/KeyStore.html
+    public static PrivateKey getPrivateKey(String file, String alias, char[] filePassword, char[] keyPassword){
+        try{
+            KeyStore keyStore = KeyStore.getInstance("JCEKS");
+            keyStore.load(new FileInputStream(file), filePassword);
+            KeyStore.ProtectionParameter protParam = new KeyStore.PasswordProtection(keyPassword);
+            KeyStore.PrivateKeyEntry pkEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(alias,protParam);
+
+            return pkEntry.getPrivateKey();
+        }catch(KeyStoreException | UnrecoverableEntryException | NoSuchAlgorithmException | CertificateException | IOException e){
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }
