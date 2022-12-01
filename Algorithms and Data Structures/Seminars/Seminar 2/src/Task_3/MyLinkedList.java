@@ -48,7 +48,7 @@ public class MyLinkedList<T extends Contact> {
     }
 
 
-    public Contact get(int index) {
+    public T get(int index) {
         int i = 0;
         T node;
 
