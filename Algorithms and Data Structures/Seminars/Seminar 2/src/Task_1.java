@@ -4,7 +4,7 @@ import java.util.Stack;
 public class Task_1 {
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String statement;
         int option;
@@ -20,11 +20,10 @@ public class Task_1 {
         }
 
 
-
     }
 
 
-    private static boolean checkBalanceInC(String statement){
+    private static boolean checkBalanceInC(String statement) {
         Stack<Character> symbols = new Stack<>();
         char character;
 
@@ -55,33 +54,33 @@ public class Task_1 {
     }
 
 
-    private static boolean checkBalanceInCPlusPlus(String statement){
+    private static boolean checkBalanceInCPlusPlus(String statement) {
         Stack<Character> symbols = new Stack<>();
         char character;
 
         for (int i = 0; i < statement.length(); i++) {
             character = statement.charAt(i);
 
-            if(character == '{' || character == '[' || character == '('){
+            if (character == '{' || character == '[' || character == '(') {
                 symbols.push(character);
 
-            }else if(character == '/' && statement.charAt(i + 1) == '/' && i + 1 < statement.length()){
+            } else if (character == '/' && statement.charAt(i + 1) == '/' && i + 1 < statement.length()) {
                 break;
 
-            }else if(character == '/' && statement.charAt(i + 1) == '*' && i + 1 < statement.length()){
+            } else if (character == '/' && statement.charAt(i + 1) == '*' && i + 1 < statement.length()) {
                 statement = deleteComment(i, statement); // If it is a "/*" comment, then we delete the comment until */. Statement is null if "*/" not in statement.
 
-                if(statement == null){
+                if (statement == null) {
                     return false;
                 }
 
-            }else if(symbols.isEmpty()){
+            } else if (symbols.isEmpty()) {
                 return false;
 
-            }else if(getInverse(symbols.peek()) != character){
+            } else if (getInverse(symbols.peek()) != character) {
                 return false;
 
-            }else{
+            } else {
                 symbols.pop();
             }
 
@@ -93,10 +92,10 @@ public class Task_1 {
     }
 
 
-    private static char getInverse(char openingSymbol){
-        if(openingSymbol == '{'){
+    private static char getInverse(char openingSymbol) {
+        if (openingSymbol == '{') {
             return '}';
-        }else if(openingSymbol == '('){
+        } else if (openingSymbol == '(') {
             return ')';
         }
 
@@ -104,12 +103,11 @@ public class Task_1 {
     }
 
 
-
     // This function basically deletes the substring indicated by indexes of /* and */.
-    public static String deleteComment(int i, String statement){
+    public static String deleteComment(int i, String statement) {
         String temp = null;
         for (int j = i; j < statement.length(); j++) {
-            if(statement.charAt(j) == '*' && statement.charAt(j + 1) == '/' && j + 1 < statement.length()){
+            if (statement.charAt(j) == '*' && statement.charAt(j + 1) == '/' && j + 1 < statement.length()) {
                 temp = new StringBuilder(statement).delete(i, j + 2).toString();
                 break;
 

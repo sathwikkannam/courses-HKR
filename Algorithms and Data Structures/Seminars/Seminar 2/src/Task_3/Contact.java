@@ -1,13 +1,13 @@
 package Task_3;
 
-public class Contact{
+public class Contact {
 
 
     private final String name;
     private final String address;
     private Contact next;
 
-    public Contact(String name, String address){
+    public Contact(String name, String address) {
         this.name = name;
         this.address = address;
     }

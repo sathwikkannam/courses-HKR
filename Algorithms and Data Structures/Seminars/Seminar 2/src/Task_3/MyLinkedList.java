@@ -9,32 +9,30 @@ public class MyLinkedList<T extends Contact> {
         3. Get node using index
      */
 
-    public void add(T item){
+    public void add(T item) {
+        if (head == null) {
+            head = item;
 
+            // The new node's next pointer is always null.
+            item.setNext(null);
 
-       if(head == null){
-           head = item;
+        } else {
 
-           // The new node's next pointer is always null.
-           item.setNext(null);
+            T node = head;
 
-       }else{
+            // We travel from head until a node is null
+            while (node.getNext() != null) {
+                node = (T) node.getNext();
+            }
 
-           T node = head;
-
-           // We travel from head until a node is null
-           while(node.getNext() != null){
-               node = (T) node.getNext();
-           }
-
-           // When node is null -> the last node in LinkedList
-           node.setNext(item);
-       }
+            // When node is null -> the last node in LinkedList
+            node.setNext(item);
+        }
 
     }
 
 
-    public void remove(int index){
+    public void remove(int index) {
         T node = head;
         T nextNode; // Stores the node that "node" is pointing to.
 
@@ -50,11 +48,11 @@ public class MyLinkedList<T extends Contact> {
     }
 
 
-    public Contact get(int index){
+    public Contact get(int index) {
         int i = 0;
         T node;
 
-        for (node = head; node.getNext() != null && i != index; node = (T) node.getNext(), i++);
+        for (node = head; node.getNext() != null && i != index; node = (T) node.getNext(), i++) ;
 
         return node;
 
@@ -62,11 +60,11 @@ public class MyLinkedList<T extends Contact> {
 
 
     @Override
-    public String toString(){
+    public String toString() {
         T node;
         StringBuilder nodes = new StringBuilder();
 
-        for (node = head; node.getNext() != null ; node = (T) node.getNext()) {
+        for (node = head; node.getNext() != null; node = (T) node.getNext()) {
             nodes.append(String.format("[Name: %s, Address: %s]\n", node.getName(), node.getAddress()));
         }
 
