@@ -48,14 +48,15 @@ public class Main {
             reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             printStream(reader);
         }catch(IOException e){
-            e.printStackTrace();
+            System.err.println("Invalid command: " + String.join(" ", input));
         }finally {
             if(reader != null){
                 closeReader(reader);
                 process.destroy();
             }
-        }
+            System.out.println();
 
+        }
 
     }
 
@@ -70,6 +71,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 

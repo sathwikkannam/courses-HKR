@@ -128,14 +128,8 @@ public class MemoryManager {
 			frame number with the new page because it was the first entry in the page table.
 		 */
 
-		int pageToRemove = 0; // Contains the pageNumber that needs to be replaced.
+		int pageToRemove = getPageWith(this.nextFrameNumber); // Contains the pageNumber that needs to be replaced.
 
-		for (int i = 0; i < pageTable.length; i++) {
-			if(pageTable[i] == this.nextFrameNumber){
-				pageToRemove = i;
-				break;
-			}
-		}
 		unsetPage(pageToRemove);// Set it to -1 (invalidBit).
 		this.numberOfPageFaults++; // Increment pageFaults as we have -1 in the page table.
 		updatePageTable(nextFrameNumber, pageNumber); // Set the current pageNumber to nextFrameNumber position.
@@ -150,17 +144,11 @@ public class MemoryManager {
 
 			Everytime we add a page to a frame, we increment the "lifetime" of all frames by 1. From this, we can find
 			the Least Recently Used frame by finding out the frame with the highest lifetime. When we replace or add a page,
-			the associated frame's lifetime is reset. 	
+			the associated frame's lifetime is reset.
 		 */
 
 		int frame = getLruFrame(frameOccurrences); // Frame with the highest lifetime.
-		int pageToRemove  = 0;
-
-		for (int i = 0; i < pageTable.length; i++) {
-			if(pageTable[i] == frame){ // Find the page with the highest lifetime in a frame.
-				pageToRemove = i;
-			}
-		}
+		int pageToRemove  = getPageWith(frame);
 
 		unsetPage(pageToRemove); // Remove the page.
 		this.numberOfPageFaults++; // Increment pageFaults as we have -1 in pageTable.
@@ -198,6 +186,15 @@ public class MemoryManager {
 		}
 
 		return frame;
+	}
+
+	private synchronized int getPageWith(int frameNumber){
+		for (int i = 0; i < pageTable.length; i++) {
+			if(pageTable[i] == frameNumber){
+				return i;
+			}
+		}
+		return 0;
 	}
 
 }

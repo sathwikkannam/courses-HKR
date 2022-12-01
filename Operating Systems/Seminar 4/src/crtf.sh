@@ -2,9 +2,9 @@
 
 # Custom command
 
-for arg in "$@"
+for arg in "$@" # Loop through arguments
   do
-    if ! [ -f "$arg" ]
+    if ! [ -f "$arg" ] # If file doesn't exist
       then
         echo >> "$arg"
         echo "$arg file created."
