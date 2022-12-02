@@ -30,19 +30,9 @@ public class QueueWithTwoStacks <T>{
 
     // Enqueue
     public void offer(T item){
-
-        // Move elements from incoming to outgoing to swap the order, so LIFO to FIFO order
-        while(!incoming.isEmpty()){
-            outgoing.push(incoming.pop());
-        }
-
+        invertOrder(incoming, outgoing);
         incoming.push(item);
-
-        while(!outgoing.isEmpty()){
-            incoming.push(outgoing.pop());
-
-        }
-
+        invertOrder(outgoing, incoming);
 
     }
 
@@ -50,6 +40,14 @@ public class QueueWithTwoStacks <T>{
     //Dequeue
     public T poll(){
         return this.incoming.pop();
+    }
+
+
+    private void invertOrder(Stack<T> from, Stack<T> to){
+        while(!from.isEmpty()){
+            to.push(from.pop());
+        }
+
     }
 
 }

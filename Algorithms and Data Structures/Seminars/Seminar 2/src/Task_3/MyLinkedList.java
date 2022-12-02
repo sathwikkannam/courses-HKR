@@ -1,6 +1,8 @@
 package Task_3;
 
-public class MyLinkedList<T extends Contact> {
+import Common.Node;
+
+public class MyLinkedList<T extends Node <T> > {
     private T head;
 
     /*
@@ -18,15 +20,8 @@ public class MyLinkedList<T extends Contact> {
 
         } else {
 
-            T node = head;
 
-            // We travel from head until a node is null
-            while (node.getNext() != null) {
-                node = (T) node.getNext();
-            }
-
-            // When node is null -> the last node in LinkedList
-            node.setNext(item);
+            getLastNode().setNext(item);
         }
 
     }
@@ -36,14 +31,20 @@ public class MyLinkedList<T extends Contact> {
         T node = head;
         T nextNode; // Stores the node that "node" is pointing to.
 
+        if(index == 0){
+            head = head.getNext();
+        }else if(index > size() || index < 0){
+            throw new IndexOutOfBoundsException();
+        } else{
 
-        for (int i = 0; i < index - 1; i++) {
-            node = (T) node.getNext();
+            for (int i = 0; i < index - 1; i++) {
+                node = (T) node.getNext();
+            }
+
+            nextNode = (T) node.getNext();
+            node.setNext(nextNode.getNext());
         }
 
-
-        nextNode = (T) node.getNext();
-        node.setNext(nextNode.getNext());
 
     }
 
@@ -52,27 +53,61 @@ public class MyLinkedList<T extends Contact> {
         int i = 0;
         T node;
 
-        for (node = head; node.getNext() != null && i != index; node = (T) node.getNext(), i++) ;
+        if(index > size() - 1){
+            node = null;
+        }else if(index < 0){
+            throw new IndexOutOfBoundsException();
+        }else{
+            for (node = head; node.getNext() != null && i != index; node = (T) node.getNext(), i++) ;
+        }
 
         return node;
 
     }
 
 
-    @Override
-    public String toString() {
-        T node;
-        StringBuilder nodes = new StringBuilder();
+    public int size(){
+        int i = 0;
+        T node = head;
 
-        for (node = head; node.getNext() != null; node = (T) node.getNext()) {
-            nodes.append(String.format("[Name: %s, Address: %s]\n", node.getName(), node.getAddress()));
+        while (node.getNext() != null) {
+            i++;
+            node = node.getNext();
         }
 
+        return i + 1;
 
-        // Include the last node with null pointer.
-        nodes.append(String.format("[Name: %s, Address: %s]\n", node.getName(), node.getAddress()));
-
-        return nodes.toString();
     }
+
+
+    public T getHead(){
+        return this.head;
+    }
+
+
+    public T getLastNode(){
+        T node = head;
+
+        while (node.getNext() != null) {
+            node = node.getNext();
+        }
+
+        return node;
+
+    }
+
+    @Override
+    public String toString(){
+        T node;
+        StringBuilder sb = new StringBuilder();
+
+        for (node = getHead(); node.getNext() != null; node =  node.getNext()) {
+            sb.append(node);
+        }
+        sb.append(node);
+
+        return sb.toString();
+    }
+
 
 }

@@ -1,6 +1,8 @@
 package Task_3;
 
-public class Contact {
+import Common.Node;
+
+public class Contact extends Node<Contact> {
 
 
     private final String name;
@@ -20,12 +22,19 @@ public class Contact {
         return this.address;
     }
 
+    @Override
     public Contact getNext() {
         return this.next;
     }
 
+    @Override
     public void setNext(Contact next) {
         this.next = next;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[Name: %s, Address: %s]\n", getName(), getAddress());
     }
 
 
