@@ -2,7 +2,6 @@ package Task_4;
 
 import Common.Node;
 import Task_3.MyLinkedList;
-import java.util.LinkedList;
 
 public class JosephusProblemWithLinkedList {
 

@@ -19,8 +19,6 @@ public class MyLinkedList<T extends Node <T> > {
             item.setNext(null);
 
         } else {
-
-
             getLastNode().setNext(item);
         }
 
@@ -38,10 +36,10 @@ public class MyLinkedList<T extends Node <T> > {
         } else{
 
             for (int i = 0; i < index - 1; i++) {
-                node = (T) node.getNext();
+                node = node.getNext();
             }
 
-            nextNode = (T) node.getNext();
+            nextNode = node.getNext();
             node.setNext(nextNode.getNext());
         }
 
@@ -58,7 +56,7 @@ public class MyLinkedList<T extends Node <T> > {
         }else if(index < 0){
             throw new IndexOutOfBoundsException();
         }else{
-            for (node = head; node.getNext() != null && i != index; node = (T) node.getNext(), i++) ;
+            for (node = head; node.getNext() != null && i != index; node = node.getNext(), i++) ;
         }
 
         return node;
