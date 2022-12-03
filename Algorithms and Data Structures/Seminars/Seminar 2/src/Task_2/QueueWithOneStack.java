@@ -3,9 +3,9 @@ package Task_2;
 
 import java.util.Stack;
 
-//    Queue- > enqueue, dequeue, size, and peak
+//https://stackoverflow.com/questions/12470626/how-can-one-implement-a-queue-with-only-a-stack-implementation
 public class QueueWithOneStack <T>{
-    private Stack<T> stack;
+    private final Stack<T> stack;
 
 
     public QueueWithOneStack(){
@@ -13,37 +13,59 @@ public class QueueWithOneStack <T>{
     }
 
 
+    /*
+       Time complexity - O(1)
 
+       @Param item it added to stack.
+     */
+    public void add(T item){
+        stack.add(item);
+    }
+
+
+    /*
+       Time complexity - O(N)
+
+       Pop all elements in the stack until we only have one element (the one at the bottom).
+       Then we add back all popped elements.
+     */
     public T peek(){
-        return null;
+        if(stack.isEmpty()){
+            throw new NullPointerException("Queue is empty");
+        }else if(size() == 1){
+            return stack.peek();
+        }
+
+        T toPeek = stack.peek();
+        T toReturn = peek();
+        add(toPeek);
+        return toReturn;
+
     }
 
 
     public int size(){
-        System.out.println(stack.size());
         return this.stack.size();
     }
 
 
 
-    // Add to queue
-    public void offer(T item){
+    /*
+        Time complexity - O(N)
 
-
-
-    }
-
-
-    //Remove from queue
+        Same as peek()
+     */
     public T poll(){
-        T toPoll;
-
-        while(!stack.isEmpty()){
-
-
-
+        if(stack.isEmpty()){
+            throw new NullPointerException("Queue is empty");
+        }else if(size() == 1){
+            return stack.pop();
         }
-        return null;
+
+        T toPeek = stack.pop();
+        T toReturn = poll();
+        add(toPeek);
+        return toReturn;
 
     }
 

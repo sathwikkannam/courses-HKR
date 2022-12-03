@@ -1,39 +1,75 @@
 package Task_2;
 
+import java.util.ArrayDeque;
 import java.util.Queue;
 
-//    Stack  -> push, pop, size, and peak
+
 public class StackWithTwoQueues <T>{
 
-    Queue<T> queue;
-    Queue<T> queue2;
+    private final Queue<T> output; // Q1
+    private final Queue<T> temp; //Q2
 
     public StackWithTwoQueues(){
-
+        this.output = new ArrayDeque<>();
+        this.temp = new ArrayDeque<>();
 
     }
 
+    /*
+        Time complexity - O(N)
+        Space complexity - O(2N)
 
+        @Param item is added to temp
+        When we swap elements form output to temp, the elements are placed above the @Param item as item should be first to leave.
+        When adding elements, temp is always empty.
+     */
     public void push(T item){
-
+        temp.add(item);
+        invertOrder(output, temp);
+        invertOrder(temp, output);
 
     }
 
 
+    /*
+       Time complexity- O(1)
+
+       The last in item is placed in a position first item to leave the queue.
+     */
     public T pop(){
-
-        return null;
-    }
-
-    public void size(){
-
-
+        if(output.isEmpty()){
+            throw new NullPointerException("Queue is empty");
+        }else{
+            return output.poll();
+        }
 
     }
 
+    public int size(){
+        return this.output.size();
+
+    }
+
+
+    /*
+       Time complexity- O(1)
+
+       Same as pop()
+     */
     public T peek(){
-        return null;
+        if(output.isEmpty()){
+            throw new NullPointerException("Queue is empty");
+        }else{
+            return output.peek();
+        }
 
+    }
+
+
+    private void invertOrder(Queue<T> from, Queue<T> to){
+        while(!from.isEmpty()){
+            to.add(from.poll());
+        }
     }
 
 

@@ -3,43 +3,68 @@ package Task_2;
 import java.util.Stack;
 
 
-//Queue- > enqueue, dequeue, size, and peak
 public class QueueWithTwoStacks <T>{
 
-    private final Stack<T> incoming;
-    private final Stack<T> outgoing;
-
+    private final Stack<T> input;
+    private final Stack<T> output;
 
     public QueueWithTwoStacks(){
-        this.incoming = new Stack<>();
-        this.outgoing = new Stack<>();
+        this.output = new Stack<>();
+        this.input = new Stack<>();
     }
 
 
+    /*
+        Time complexity - O(1)
+        @Param item is added to input.
+     */
+    public void add(T item) {
+        input.add(item);
 
+    }
+
+
+    /*
+       Time complexity:
+            Best case: O(1) when output is not empty;
+            Worst case: O(N) when output is empty, then we need to swap elements from input to output to swap the order of pop.
+
+     */
     public T peek(){
-        return incoming.peek();
+        if (output.isEmpty()) {
+
+            if(input.isEmpty()){
+                throw new NullPointerException("Queue is empty");
+            }
+
+            invertOrder(input, output);
+        }
+        return output.peek();
+
     }
 
 
     public int size(){
-        return this.incoming.size();
+        return this.output.size();
     }
 
 
+    /*
+       Time complexity same as peek()
 
-    // Enqueue
-    public void offer(T item){
-        invertOrder(incoming, outgoing);
-        incoming.push(item);
-        invertOrder(outgoing, incoming);
-
-    }
-
-
-    //Dequeue
+     */
     public T poll(){
-        return this.incoming.pop();
+        if (output.isEmpty()) {
+
+            if(input.isEmpty()){
+                throw new NullPointerException("Queue is empty");
+            }
+
+            invertOrder(input, output);
+        }
+        return output.pop();
+
+
     }
 
 
