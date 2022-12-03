@@ -6,11 +6,10 @@ public class MyLinkedList<T extends Node <T> > {
     private T head;
 
     /*
-        1. Add node
-        2. Remove node
-        3. Get node using index
+        If there are no nodes, then head == item
+        Else we iterate over all nodes until we find a node with null pointer
+        Then we set that node's pointer to item.
      */
-
     public void add(T item) {
         if (head == null) {
             head = item;
@@ -25,6 +24,10 @@ public class MyLinkedList<T extends Node <T> > {
     }
 
 
+    /*
+        If index is 0, the head node's pointer is head and its pointer is null.
+        Else, we set the node's pointer to the node after it, and null if there are no nodes after the index.
+     */
     public void remove(int index) {
         T node = head;
         T nextNode; // Stores the node that "node" is pointing to.
@@ -54,7 +57,7 @@ public class MyLinkedList<T extends Node <T> > {
         if(index > size() - 1){
             node = null;
         }else if(index < 0){
-            throw new IndexOutOfBoundsException();
+            throw new NullPointerException("Negative index");
         }else{
             for (node = head; node.getNext() != null && i != index; node = node.getNext(), i++) ;
         }
@@ -64,6 +67,8 @@ public class MyLinkedList<T extends Node <T> > {
     }
 
 
+
+    // Iterate through all nodes until we reach a node with a null pointer.
     public int size(){
         int i = 0;
         T node = head;
