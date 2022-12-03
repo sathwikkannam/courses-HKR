@@ -6,8 +6,8 @@ import java.util.Queue;
 
 public class StackWithTwoQueues <T>{
 
-    private final Queue<T> output; // Q1
-    private final Queue<T> temp; //Q2
+    private final Queue<T> output;
+    private final Queue<T> temp;
 
     public StackWithTwoQueues(){
         this.output = new ArrayDeque<>();
