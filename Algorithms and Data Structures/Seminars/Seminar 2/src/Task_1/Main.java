@@ -1,8 +1,9 @@
+package Task_1;
+
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Task_1 {
-
+public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
