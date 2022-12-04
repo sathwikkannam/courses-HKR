@@ -13,12 +13,14 @@ public class Main {
         int numberOfPeople;
         int passes;
         int mode;
-        List<Integer> people = new ArrayList<>();
-        MyLinkedList<JosephusProblemWithLinkedList.Person> ownLinkedPeople = new MyLinkedList<>();
-        List<Integer> linkedPeople = new LinkedList<>();
-
+        List<Integer> arrayList, javaLinkedList;
+        MyLinkedList<Person> ownLinkedList;
 
         while(true){
+            arrayList = new ArrayList<>();
+            ownLinkedList = new MyLinkedList<>();
+            javaLinkedList = new LinkedList<>();
+
             System.out.print("Number of people: ");
             numberOfPeople = scanner.nextInt();
             System.out.print("\nNumber of passes: ");
@@ -29,20 +31,20 @@ public class Main {
 
             for (int i = 1; i <= numberOfPeople ; i++) {
                 if(mode == 1 || mode == 2){
-                    people.add(i);
+                    arrayList.add(i);
                 }else if(mode ==3){
-                    ownLinkedPeople.add(new JosephusProblemWithLinkedList.Person(i));
+                    ownLinkedList.add(new Person(i));
                 }else if(mode ==4){
-                    linkedPeople.add(i);
+                    javaLinkedList.add(i);
                 }
             }
 
             float start = System.currentTimeMillis();
             switch (mode){
-                case 1 -> JosephusProblemWithArrayList.solve(people, passes);
-                case 2 -> JosephusProblemWithIterator.solve(people, passes);
-                case 3 -> JosephusProblemWithLinkedList.solve(ownLinkedPeople, passes);
-                case 4 -> JosephusProblemWithIterator.solve(linkedPeople, passes);
+                case 1 -> JosephusProblemWithArrayList.solve(arrayList, passes);
+                case 2 -> JosephusProblemWithIterator.solve(arrayList, passes);
+                case 3 -> JosephusProblemWithLinkedList.solve(ownLinkedList, passes);
+                case 4 -> JosephusProblemWithIterator.solve(javaLinkedList, passes);
                 default -> {
                     return;
                 }
@@ -50,6 +52,7 @@ public class Main {
             float end = System.currentTimeMillis();
             System.out.printf("\nPeople: %d, Passes: %d, Running time in ms: %f\n", numberOfPeople, passes, end - start);
         }
+
 
     }
 

@@ -24,7 +24,7 @@ public class Main {
     }
 
 
-    private static boolean checkBalanceInC(String statement) {
+    private static boolean checkBalanceInCPlusPlus(String statement) {
         Stack<Character> symbols = new Stack<>();
         char character;
 
@@ -55,14 +55,14 @@ public class Main {
     }
 
 
-    private static boolean checkBalanceInCPlusPlus(String statement) {
+    private static boolean checkBalanceInC(String statement) {
         Stack<Character> symbols = new Stack<>();
         char character;
 
         for (int i = 0; i < statement.length(); i++) {
             character = statement.charAt(i);
 
-            if (character == '{' || character == '[' || character == '(') {
+            if (character == '{' || character == '[') {
                 symbols.push(character);
 
             } else if (character == '/' && statement.charAt(i + 1) == '/' && i + 1 < statement.length()) {
