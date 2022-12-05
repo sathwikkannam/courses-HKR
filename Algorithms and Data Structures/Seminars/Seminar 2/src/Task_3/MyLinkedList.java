@@ -2,6 +2,7 @@ package Task_3;
 
 import Common.Node;
 
+
 public class MyLinkedList<T extends Node <T> > {
     private T head;
 
@@ -11,11 +12,11 @@ public class MyLinkedList<T extends Node <T> > {
         Then we set that node's pointer to item.
      */
     public void add(T item) {
+        // The new node's next pointer is always null.
+        item.setNext(null);
+
         if (head == null) {
             head = item;
-
-            // The new node's next pointer is always null.
-            item.setNext(null);
 
         } else {
             getLastNode().setNext(item);
@@ -88,7 +89,7 @@ public class MyLinkedList<T extends Node <T> > {
     }
 
 
-    public T getLastNode(){
+    private T getLastNode(){
         T node = head;
 
         while (node.getNext() != null) {
@@ -111,6 +112,5 @@ public class MyLinkedList<T extends Node <T> > {
 
         return sb.toString();
     }
-
 
 }

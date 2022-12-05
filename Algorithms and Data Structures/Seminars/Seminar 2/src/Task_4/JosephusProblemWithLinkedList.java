@@ -7,7 +7,8 @@ public class JosephusProblemWithLinkedList {
 
     public static void solve(MyLinkedList<Person> people, int passes){
         int i;
-        for (i = passes; people.getHead().getNext() != null; i = (i + passes) % people.size()) {
+
+        for (i = passes; people.size() > 1; i = (i + passes) % people.size()) {
             people.remove(i);
         }
 
