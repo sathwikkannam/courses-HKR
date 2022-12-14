@@ -2,10 +2,7 @@ package Task_4;
 
 import Task_3.MyLinkedList;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args){
@@ -25,7 +22,7 @@ public class Main {
             numberOfPeople = scanner.nextInt();
             System.out.print("\nNumber of passes: ");
             passes = scanner.nextInt();
-            System.out.print("\n1. ArrayList\n2. ArrayList with iterator\n 3. OwnLinkedList\n4. LinkedList with iterator\n5. Exit");
+            System.out.print("\n1. ArrayList\n2. ArrayList with iterator\n 3. OwnLinkedList\n4. Java LinkedList with iterator\n5. Exit");
             mode = scanner.nextInt();
 
 
@@ -38,7 +35,6 @@ public class Main {
                     javaLinkedList.add(i);
                 }
             }
-
             float start = System.currentTimeMillis();
             switch (mode){
                 case 1 -> JosephusProblemWithArrayList.solve(arrayList, passes);
@@ -55,6 +51,5 @@ public class Main {
 
 
     }
-
 
 }

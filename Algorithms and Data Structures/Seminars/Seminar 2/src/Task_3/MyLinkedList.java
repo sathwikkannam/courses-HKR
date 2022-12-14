@@ -8,7 +8,7 @@ public class MyLinkedList<T extends Node <T> > {
 
     /*
         If there are no nodes, then head == item
-        Else we iterate over all nodes until we find a node with null pointer
+        Else we iterate over all nodes until we find a node with null pointer,
         Then we set that node's pointer to item.
      */
     public void add(T item) {
@@ -26,7 +26,7 @@ public class MyLinkedList<T extends Node <T> > {
 
 
     /*
-        If index is 0, the head node's pointer is head and its pointer is null.
+        If the index is 0, the head node's pointer is head and its pointer is null.
         Else, we set the node's pointer to the node after it, and null if there are no nodes after the index.
      */
     public void remove(int index) {

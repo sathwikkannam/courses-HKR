@@ -16,11 +16,10 @@ public class StackWithTwoQueues <T>{
     }
 
     /*
-        Time complexity - O(N)
-        Space complexity - O(2N)
+        Time complexity - O(2N)
 
         @Param item is added to temp
-        When we swap elements form output to temp, the elements are placed above the @Param item as item should be first to leave.
+        When we swap elements form output to temp, the elements are placed above the @Param item as an item should be first to leave.
         When adding elements, temp is always empty.
      */
     public void push(T item){
@@ -34,7 +33,7 @@ public class StackWithTwoQueues <T>{
     /*
        Time complexity- O(1)
 
-       The last in item is placed in a position first item to leave the queue.
+       The last item is placed in a position first item to leave the queue.
      */
     public T pop(){
         if(output.isEmpty()){

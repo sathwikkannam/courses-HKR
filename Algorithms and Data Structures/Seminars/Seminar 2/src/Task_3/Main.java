@@ -30,7 +30,7 @@ public class Main {
                 case 3 -> {
                     System.out.print("\nIndex to get: ");
                     index = scanner.nextInt();
-                    System.out.printf("Name: %s, Address: %s\n", list.get(index).getName(), list.get(index).getAddress());
+                    System.out.println(list.get(index));
                 }
                 case 4 -> System.out.println(list);
                 default -> {

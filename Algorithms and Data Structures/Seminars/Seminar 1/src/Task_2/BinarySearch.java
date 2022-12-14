@@ -5,7 +5,7 @@ public class BinarySearch {
     private static boolean partition(int[] numbers, int lowerBound, int upperBound, int target) {
 
         if(upperBound < 1){ // If the given range has 1 element.
-            return  false;
+            return false;
         }
 
         int center = (upperBound + lowerBound) / 2;

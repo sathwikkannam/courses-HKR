@@ -16,7 +16,7 @@ public class StackWithOneQueue <T> {
     /*
        Time complexity- O(N)
 
-       When  item is added to the queue, the item is inserted.
+       When item is added to the queue, the item is inserted.
        Then we iterate through all elements - 1 to place them above the inserted item.
        Hence, the inserted item (last to enter) becomes the first to leave.
      */
@@ -33,7 +33,7 @@ public class StackWithOneQueue <T> {
     /*
        Time complexity- O(1)
 
-       The last in item is placed in a position first item to leave the queue.
+       The last item is placed in a position first item to leave the queue.
      */
     public T pop(){
         if(queue.isEmpty()){

@@ -5,7 +5,7 @@ public abstract class Node<T>{
 
 
     public T getNext() {
-        return next;
+        return this.next;
     }
 
     public void setNext(T next) {

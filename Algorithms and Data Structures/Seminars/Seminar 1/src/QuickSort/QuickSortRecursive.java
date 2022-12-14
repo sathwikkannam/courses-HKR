@@ -6,11 +6,10 @@ public class QuickSortRecursive {
 
 
     public static void sort(int[] numbers, int lowerBound, int upperBound, String method){
-        if (lowerBound >= upperBound){
+        if (lowerBound >= upperBound){ // Base condition: if upperBound - lowerBound <= 1, meaning a subset with one element.
             return;
 
         }
-
 
         switch(method){
             case "Median" -> Pivot.swapMedianOfThree(numbers, lowerBound, upperBound);
@@ -32,7 +31,7 @@ public class QuickSortRecursive {
         for (int rightPointer = lowerBound; rightPointer < upperBound; rightPointer++) {
             if (numbers[rightPointer] <= numbers[upperBound]) {
 
-                // We swap the elements i and j, so elements before i are smaller and elements between leftPointer and rightPointer are greater.
+                // We swap the elements leftPointer and rightPointer, so elements before i are smaller and elements between leftPointer and rightPointer are greater.
                 // If the element is equal, then it can either be swapped and not.
                 Utilities.swap(numbers, ++leftPointer, rightPointer);
             }

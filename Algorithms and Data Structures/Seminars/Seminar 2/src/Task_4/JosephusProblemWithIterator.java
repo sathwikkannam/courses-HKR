@@ -14,8 +14,11 @@ public class JosephusProblemWithIterator {
                     iterator = people.iterator();
                 }
 
+                // Iterate #passes
                 iterator.next();
             }
+
+            //Remove the person after iterating "passes" times.
             iterator.remove();
         }
 
