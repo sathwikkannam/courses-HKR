@@ -14,15 +14,15 @@ public class Lab_2 {
         boolean isSignature1;
         boolean isSignature2;
         byte[] text = Lab_1.decryptedCipherText;
-        byte[] macKey = Lab_1.decryptRSA(Lab_1.privateKey, Arrays.copyOfRange(Lab_1.getFileData("Ciphertext and Keys/ciphertext.enc"), 256, 384));
-        byte[] signature1 = Lab_1.getFileData("Ciphertext and Keys/ciphertext.enc.sig1");
-        byte[] signature2 = Lab_1.getFileData("Ciphertext and Keys/ciphertext.enc.sig2");
+        byte[] macKey = Utils.decryptRSA(Lab_1.privateKey, Arrays.copyOfRange(Utils.getFileData("Ciphertext and Keys/ciphertext.enc"), 256, 384));
+        byte[] signature1 = Utils.getFileData("Ciphertext and Keys/ciphertext.enc.sig1");
+        byte[] signature2 = Utils.getFileData("Ciphertext and Keys/ciphertext.enc.sig2");
 
         PublicKey publicKey = getPublicKey("Ciphertext and Keys/lab1Sign.cert");
 
-        String mac1 = getMac("Ciphertext and Keys/ciphertext.mac1.txt");
-        String mac2 = getMac("Ciphertext and Keys/ciphertext.mac2.txt");
-        String calculatedMac = toHex(getCalculatedMac(text, macKey, "HmacMD5"));
+        String mac1 = new String(Utils.getFileData("Ciphertext and Keys/ciphertext.mac1.txt"));
+        String mac2 = new String(Utils.getFileData("Ciphertext and Keys/ciphertext.mac2.txt"));
+        String calculatedMac = toHex(getCalculatedMac(text, macKey, "HmacMD5")).toLowerCase();
 
         System.out.printf("\nMAC:\n------------------------\nmac1: %s\nmac2: %s\n\n", mac1, mac2);
         if(calculatedMac.equalsIgnoreCase(mac1)){
@@ -38,14 +38,6 @@ public class Lab_2 {
         System.out.printf("Signatures:\n------------------------\nsignature1: %b\nsignature2: %b\n------------------------", isSignature1, isSignature2);
 
 
-    }
-    // Lab 2 - Task 3
-    public static String getMac(String file){
-        try {
-            return new BufferedReader(new FileReader(file)).readLine(); // The mac files contains only one line.
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     // Lab 2 - Task 4
@@ -78,8 +70,7 @@ public class Lab_2 {
 
 
     public static String toHex(byte[] data){
-        StringBuilder hex = new StringBuilder();
-
+        final StringBuilder hex = new StringBuilder();
         for (byte aByte : data) {
             hex.append(String.format("%02X", aByte));
         }
