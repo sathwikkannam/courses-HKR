@@ -8,15 +8,15 @@ class Hashing:
         self.chaining = Chaining()
         self.linear = LinearProbing()
         self.quadratic = QuadraticProbing()
-        self.mode = mode
+        self.mode = mode.lower()
 
     def insert(self, key):
         index = self.__hash__(key)
-        if self.mode.lower() == "CHAINING".lower():
+        if self.mode == "CHAINING".lower():
             self.chaining.insert(self.hash_table, key, index)
-        elif self.mode.lower() == "LINEAR".lower():
+        elif self.mode == "LINEAR".lower():
             self.linear.insert(self.hash_table, key, index, self.size)
-        elif self.mode.lower() == "QUADRATIC".lower():
+        elif self.mode == "QUADRATIC".lower():
             self.quadratic.insert(self.hash_table, key, index, self.size)
 
     def __hash__(self, key=None):
