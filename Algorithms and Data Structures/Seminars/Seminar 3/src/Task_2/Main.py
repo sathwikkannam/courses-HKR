@@ -1,4 +1,4 @@
-from Hashing import *
+from Hashing import Hashing
 
 
 def main():

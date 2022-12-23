@@ -3,30 +3,30 @@ from itertools import chain
 
 class Hashing:
     def __init__(self, size, mode):
-        self.hash_table = [[] if mode == "CHAINING" else None for _ in range(size)]
-        self.size = size
-        self.chaining = Chaining()
-        self.linear = LinearProbing()
-        self.quadratic = QuadraticProbing()
-        self.mode = mode.lower()
+        self.__hash_table = [[] if mode == "CHAINING" else None for _ in range(size)]
+        self.__size = size
+        self.__chaining = Chaining()
+        self.__linear = LinearProbing()
+        self.__quadratic = QuadraticProbing()
+        self.__mode = mode.upper()
 
-    def insert(self, key):
-        index = self.__hash__(key)
-        if self.mode == "CHAINING".lower():
-            self.chaining.insert(self.hash_table, key, index)
-        elif self.mode == "LINEAR".lower():
-            self.linear.insert(self.hash_table, key, index, self.size)
-        elif self.mode == "QUADRATIC".lower():
-            self.quadratic.insert(self.hash_table, key, index, self.size)
+    def insert(self, value):
+        index = self.__hash__(value)
+        if self.__mode == "CHAINING":
+            self.__chaining.insert(self.__hash_table, value, index)
+        elif self.__mode == "LINEAR":
+            self.__linear.insert(self.__hash_table, value, index, self.__size)
+        elif self.__mode == "QUADRATIC":
+            self.__quadratic.insert(self.__hash_table, value, index, self.__size)
 
     def __hash__(self, key=None):
-        return key % self.size
+        return key % self.__size
 
     def get_mode(self):
-        return self.mode
+        return self.__mode
 
     def __str__(self):
-        return "".join(f"{x} --> {self.hash_table[x].__str__()}\n" for x in range(len(self.hash_table)))
+        return "".join(f"{x} --> {self.__hash_table[x].__str__()}\n" for x in range(len(self.__hash_table)))
 
 
 class Chaining:
