@@ -20,6 +20,7 @@ public class Lab_1 {
         byte[] encryptedIV = Arrays.copyOfRange(originalData, 128, 256);
         byte[] cipherText = Arrays.copyOfRange(originalData, 384, originalData.length);
 
+        //Lab1EncKeys -> the public key.
         privateKey = getPrivateKey("Ciphertext and Keys/lab1Store", "lab1EncKeys", "lab1StorePass".toCharArray(), "lab1KeyPass".toCharArray());
 
         byte[] decryptedCipherKey = Utils.decryptRSA(privateKey, encryptedCipherKey);
