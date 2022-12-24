@@ -2,6 +2,7 @@ from BinaryHeap import *
 import time
 
 
+# Running time test cases for Binary heap.
 def main():
     averages = []
     for i in range(100000, 1000000 + 1, 100000):
@@ -16,12 +17,12 @@ def main():
             end = time.time_ns()
             averages.append(end - start)
 
-        print(f"INPUTS: {i}, Binary Heap, Time in nanoseconds: {round(sum(averages)/len(averages))}")
+        print(f"INPUTS: {i}, Binary Heap, Time in nanoseconds: {round(sum(averages) / len(averages))}")
 
 
 def get_numbers(limit):
     with open("Seminar 1 - File with random numbers.txt", "r") as f:
-        return [int(x) for x in f.readlines()[:limit]]
+        return list(map(int, f.readlines()[:limit]))
 
 
 if __name__ == '__main__':
