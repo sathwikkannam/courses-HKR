@@ -2,22 +2,27 @@ from itertools import chain
 
 
 class Hashing:
+    CHAINING = 1
+    LINEAR_PROBING = 2
+    QUADRATIC_PROBING = 3
+
     def __init__(self, size, mode):
-        self.__hash_table = [[] if mode == "CHAINING" else None for _ in range(size)]
+        self.__hash_table = [[] if mode == self.CHAINING else None for _ in range(size)]
         self.__size = size
         self.__chaining = Chaining()
         self.__linear = LinearProbing()
         self.__quadratic = QuadraticProbing()
-        self.__mode = mode.upper()
+        self.__mode = mode
 
     def insert(self, value):
         index = self.__hash__(value)
-        if self.__mode == "CHAINING":
-            self.__chaining.insert(self.__hash_table, value, index)
-        elif self.__mode == "LINEAR":
-            self.__linear.insert(self.__hash_table, value, index, self.__size)
-        elif self.__mode == "QUADRATIC":
-            self.__quadratic.insert(self.__hash_table, value, index, self.__size)
+        match self.__mode:
+            case self.CHAINING:
+                self.__chaining.insert(self.__hash_table, value, index)
+            case self.LINEAR_PROBING:
+                self.__linear.insert(self.__hash_table, value, index, self.__size)
+            case self.QUADRATIC_PROBING:
+                self.__quadratic.insert(self.__hash_table, value, index, self.__size)
 
     def __hash__(self, key=None):
         return key % self.__size
@@ -61,4 +66,5 @@ class QuadraticProbing:
                 return
 
     def __quad_hash(self, i, value, size):
+
         return (value + pow(i, 2)) % size
