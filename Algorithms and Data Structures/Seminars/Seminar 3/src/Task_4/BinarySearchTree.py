@@ -122,27 +122,26 @@ class BinarySearchTree:
 
         elif node.get_key() < current_node.get_key() and current_node.get_left_node():
             return self.contains(node, current_node.get_left_node())
+
         elif node.get_key() > current_node.get_key() and current_node.get_right_node():
             return self.contains(node, current_node.get_right_node())
 
         return None if mode == 1 else False
 
-    def __str__(self):
+    def __str__(self, current_node=None, internal_call=None):
         """
-        Printing in a sorted order (In order)
-        """
-        if self.__root:
-            self.__print(self.__root)
-
-    def __print(self, node):
-        """
+        Printed in sorted order (In order).
         Recursively prints out the node's left and right nodes until it has no children.
-        :param node: Initially, the node is root, then its children.
+        :param current_node: Initially, the node is root, then its children.
+        :param internal_call: A boolean if the function is being recursively called.
         """
-        if node is not None:
-            self.__print(node.get_left_node())
-            print(node.get_key())
-            self.__print(node.get_right_node())
+        if not current_node and not internal_call:
+            current_node = self.__root
+
+        if current_node:
+            self.__str__(current_node.get_left_node(), True)
+            print(current_node.get_key())
+            self.__str__(current_node.get_right_node(), True)
 
 
 if __name__ == '__main__':
