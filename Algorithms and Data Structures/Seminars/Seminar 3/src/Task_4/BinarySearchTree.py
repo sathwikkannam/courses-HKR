@@ -128,7 +128,7 @@ class BinarySearchTree:
 
         return None if mode == 1 else False
 
-    def __str__(self, current_node=None, internal_call=None):
+    def __str__(self, current_node=None, internal_call=False):
         """
         Printed in sorted order (In order).
         Recursively prints out the node's left and right nodes until it has no children.
