@@ -1,36 +1,77 @@
-class BinarySearchTree:
-    def __init__(self):
-        self.root = None
+from AVL import AVL
+from RedBlackTree import RedBlackTree
+from Task_4.Common.Node import Node
 
-    # @Param current_node -> root node relative to @Param node
-    # @Param node         -> node to be inserted.
-    def insert(self, node, current_node=None):
+
+def find_min_right(node):
+    """
+    Basically, a linkedlist traversal until a node's right_node is null.
+    :param node: A node.
+    :return: Node with a minimum key.
+    """
+    minimum_node = None
+    current_node = node
+
+    while current_node.get_right_node() is None:
+        if current_node.get_right_node() < minimum_node or None:
+            minimum_node = current_node.get_right_node()
+
+        current_node = current_node.get_right_node()
+
+    return minimum_node
+
+
+class BinarySearchTree:
+    AVL = 1  # AVL Tree
+    RBT = 2  # Red Black Tree
+
+    def __init__(self, mode):
+        self.root = None
+        self.mode = mode
+        self.bst_handler = AVL() if mode == self.AVL else RedBlackTree() if mode == self.RBT else None
+
+    def insert(self, node, relative_root=None):
+        """
+        :param node: A node object to be inserted
+        :param relative_root: The root note relative to 'node'
+        :return: None
+        """
         # Root has no parent
         if self.root is None:
             self.root = node
+            self.root.set_color(Node.BLACK)
             return
 
-        if current_node is None:
-            current_node = self.root
+        if relative_root is None:
+            relative_root = self.root
 
-        if node.get_key() == current_node.get_key():
+        if node.get_key() == relative_root.get_key():
             return
 
-        if node.get_key() < current_node.get_key():
-            if current_node.get_left_node():
-                return self.insert(node, current_node.get_left_node())
+        if node.get_key() < relative_root.get_key():
+            if relative_root.get_left_node():
+                return self.insert(node, relative_root.get_left_node())
 
-            current_node.set_left_node(node)
-            current_node.get_left_node().set_parent(current_node)
+            relative_root.set_left_node(node)
+            relative_root.get_left_node().set_parent(relative_root)
 
-        elif node.get_key() > current_node.get_key():
-            if current_node.get_right_node():
-                return self.insert(node, current_node.get_right_node())
+        elif node.get_key() > relative_root.get_key():
+            if relative_root.get_right_node():
+                return self.insert(node, relative_root.get_right_node())
 
-            current_node.set_right_node(node)
-            current_node.get_right_node().set_parent(current_node)
+            relative_root.set_right_node(node)
+            relative_root.get_right_node().set_parent(relative_root)
+
+        node.set_color(Node.RED)
+
+        if self.mode:
+            self.bst_handler.insert_handler(node=node, relative_root=relative_root)
 
     def delete(self, node):
+        """
+        :param node: A node to delete
+        :return: None
+        """
         if node == self.root:
             self.root = None
             return
@@ -52,24 +93,22 @@ class BinarySearchTree:
 
         # Both left and right children
         elif to_delete.get_left_node() and to_delete.get_right_node():
-            minimum = self.__find_min_right(to_delete)
+            minimum = find_min_right(to_delete)
             self.delete(minimum)
             parent.set_left_node(minimum) if parent.get_left_node() == to_delete else parent.set_right_node(minimum)
 
-    def __find_min_right(self, node):
-        temp = None
-        cur = node
+        if self.mode:
+            self.bst_handler.delete_handler(parent)
 
-        while cur.get_right_node() is None:
-            if cur.get_right_node() < temp or None:
-                temp = cur.get_right_node()
-
-            cur = cur.get_right_node()
-
-        return temp
-
-    # @Param mode -> If mode == 1, it returns the node or None. Else, True or False
     def contains(self, node, current_node=None, mode=1):
+        """
+        Traverses in one direction of the tree based on the node's key.
+        :param node: The target node
+        :param current_node: Same as in insert()
+        :param mode: If mode == 1, it returns the node or None.
+                     Else, True or False
+        :return: A node or boolean depending on mode.
+        """
         if self.root is None:
             return False
 
@@ -86,12 +125,29 @@ class BinarySearchTree:
 
         return None if mode == 1 else False
 
-    def __str__(self, current_node=None):
+    def __str__(self):
+        """
+        Printing in a sorted order (In order)
+        """
         if self.root:
             self.__print(self.root)
 
     def __print(self, node):
+        """
+        Recursively prints out the node's left and right nodes until it has no children.
+        :param node: Initially, the node is root, then its children.
+        """
         if node is not None:
             self.__print(node.get_left_node())
             print(node.get_key())
             self.__print(node.get_right_node())
+
+
+if __name__ == '__main__':
+    tree = BinarySearchTree(BinarySearchTree.AVL)
+
+    for i in range(0, 10):
+        nod = Node(i)
+        tree.insert(nod)
+
+    tree.__str__()
