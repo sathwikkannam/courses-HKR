@@ -9,20 +9,21 @@ class Hashing:
     def __init__(self, size, mode):
         self.__hash_table = [[] if mode == self.CHAINING else None for _ in range(size)]
         self.__size = size
-        self.__chaining = Chaining()
-        self.__linear = LinearProbing()
-        self.__quadratic = QuadraticProbing()
         self.__mode = mode
+
+        match mode:
+            case self.CHAINING:
+                self.__collision_handler = Chaining()
+            case self.LINEAR_PROBING:
+                self.__collision_handler = LinearProbing()
+            case self.QUADRATIC_PROBING:
+                self.__collision_handler = QuadraticProbing()
 
     def insert(self, value):
         index = self.__hash__(value)
-        match self.__mode:
-            case self.CHAINING:
-                self.__chaining.insert(self.__hash_table, value, index)
-            case self.LINEAR_PROBING:
-                self.__linear.insert(self.__hash_table, value, index, self.__size)
-            case self.QUADRATIC_PROBING:
-                self.__quadratic.insert(self.__hash_table, value, index, self.__size)
+
+        if self.__mode:
+            self.__collision_handler.insert(self.__hash_table, value, index, self.__size)
 
     def __hash__(self, key=None):
         """
@@ -40,7 +41,7 @@ class Hashing:
 
 
 class Chaining:
-    def insert(self, hash_table, value, index):
+    def insert(self, hash_table, value, index, size=None):
         hash_table[index].append(value)
 
 
