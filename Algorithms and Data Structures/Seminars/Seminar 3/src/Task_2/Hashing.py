@@ -37,7 +37,7 @@ class Hashing:
         return self.__mode
 
     def __str__(self):
-        return "".join(f"{x} --> {self.__hash_table[x].__str__()}\n" for x in range(len(self.__hash_table)))
+        return "".join(f"{i} -> {node.__str__()}\n" for i, node, in enumerate(self.__hash_table))
 
 
 class Chaining:
