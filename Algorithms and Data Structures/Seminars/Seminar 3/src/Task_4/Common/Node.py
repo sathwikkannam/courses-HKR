@@ -7,11 +7,14 @@ class Node:
         self.__left_node = None
         self.__right_node = None
         self.__parent = None
-        self.__height = int(1)  # For AVL tree
+        self.__height = 1  # For AVL tree
         self.__color = color
 
     def set_right_node(self, node):
         self.__right_node = node
+
+    def set_left_node(self, node):
+        self.__left_node = node
 
     def get_left_node(self):
         return self.__left_node

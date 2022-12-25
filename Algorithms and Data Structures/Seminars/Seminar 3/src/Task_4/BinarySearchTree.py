@@ -1,3 +1,5 @@
+import random
+
 from AVL import AVL
 from RedBlackTree import RedBlackTree
 from Task_4.Common.Node import Node
@@ -26,9 +28,9 @@ class BinarySearchTree:
     RBT = 2  # Red Black Tree
 
     def __init__(self, mode):
-        self.root = None
-        self.mode = mode
-        self.bst_handler = AVL() if mode == self.AVL else RedBlackTree() if mode == self.RBT else None
+        self.__root = None
+        self.__mode = mode
+        self.__bst_handler = AVL() if mode == self.AVL else RedBlackTree() if mode == self.RBT else None
 
     def insert(self, node, relative_root=None):
         """
@@ -37,13 +39,13 @@ class BinarySearchTree:
         :return: None
         """
         # Root has no parent
-        if self.root is None:
-            self.root = node
-            self.root.set_color(Node.BLACK)
+        if self.__root is None:
+            self.__root = node
+            self.__root.set_color(Node.BLACK)
             return
 
         if relative_root is None:
-            relative_root = self.root
+            relative_root = self.__root
 
         if node.get_key() == relative_root.get_key():
             return
@@ -64,16 +66,16 @@ class BinarySearchTree:
 
         node.set_color(Node.RED)
 
-        if self.mode:
-            self.bst_handler.insert_handler(node=node, relative_root=relative_root)
+        if self.__mode:
+            self.__bst_handler.insert_handler(node=node, relative_root=relative_root)
 
     def delete(self, node):
         """
         :param node: A node to delete
         :return: None
         """
-        if node == self.root:
-            self.root = None
+        if node == self.__root:
+            self.__root = None
             return
 
         to_delete = self.contains(node, mode=1)
@@ -97,8 +99,8 @@ class BinarySearchTree:
             self.delete(minimum)
             parent.set_left_node(minimum) if parent.get_left_node() == to_delete else parent.set_right_node(minimum)
 
-        if self.mode:
-            self.bst_handler.delete_handler(parent)
+        if self.__mode:
+            self.__bst_handler.delete_handler(parent)
 
     def contains(self, node, current_node=None, mode=1):
         """
@@ -109,11 +111,11 @@ class BinarySearchTree:
                      Else, True or False
         :return: A node or boolean depending on mode.
         """
-        if self.root is None:
+        if self.__root is None:
             return False
 
         if current_node is None:
-            current_node = self.root
+            current_node = self.__root
 
         if node.get_key() == current_node.get_key():
             return current_node if mode == 1 else True
@@ -129,8 +131,8 @@ class BinarySearchTree:
         """
         Printing in a sorted order (In order)
         """
-        if self.root:
-            self.__print(self.root)
+        if self.__root:
+            self.__print(self.__root)
 
     def __print(self, node):
         """
@@ -146,8 +148,6 @@ class BinarySearchTree:
 if __name__ == '__main__':
     tree = BinarySearchTree(BinarySearchTree.AVL)
 
-    for i in range(0, 10):
-        nod = Node(i)
-        tree.insert(nod)
-
+    for _ in range(20):
+        tree.insert(Node(random.randrange(1, 100)))
     tree.__str__()
