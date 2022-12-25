@@ -41,11 +41,11 @@ class Hashing:
 
 
 class Chaining:
-    def insert(self, hash_table, value, index, size=None):
+    def insert(self, hash_table, value, index, size):
         hash_table[index].append(value)
 
 
-class LinearProbing:
+class LinearProbing(Chaining):
     def insert(self, hash_table, value, index, size):
         """
         Iterates from index -> size then 0 -> index
@@ -62,7 +62,7 @@ class LinearProbing:
                 return
 
 
-class QuadraticProbing:
+class QuadraticProbing(Chaining):
     def insert(self, hash_table, value, index, size):
         if hash_table[index] is None:
             hash_table[index] = value
