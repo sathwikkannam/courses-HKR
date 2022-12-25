@@ -25,6 +25,11 @@ class Hashing:
                 self.__quadratic.insert(self.__hash_table, value, index, self.__size)
 
     def __hash__(self, key=None):
+        """
+        Here any hash functions can be placed.
+        :param key: A key
+        :return: A hash value as a function of 'key'
+        """
         return key % self.__size
 
     def get_mode(self):
@@ -41,11 +46,15 @@ class Chaining:
 
 class LinearProbing:
     def insert(self, hash_table, value, index, size):
-        if hash_table[index] is None:
-            hash_table[index] = value
-            return
+        """
+        Iterates from index -> size then 0 -> index
+        :param hash_table:
+        :param value: A value of key
+        :param index: Hash value of the key
+        :param size: Size of hashtable
+        :return: None
+        """
 
-        # Iterates from index -> size then 0 -> index
         for i in chain(range(index, size), range(0, index + 1)):
             if hash_table[i] is None:
                 hash_table[i] = value
@@ -66,5 +75,4 @@ class QuadraticProbing:
                 return
 
     def __quad_hash(self, i, value, size):
-
         return (value + pow(i, 2)) % size
