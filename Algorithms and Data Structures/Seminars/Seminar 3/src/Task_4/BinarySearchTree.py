@@ -1,7 +1,7 @@
 import random
 
-from AVL import AVL
-from RedBlackTree import RedBlackTree
+import AVL
+import RedBlackTree
 from Task_4.Common.Node import Node
 
 
@@ -30,7 +30,7 @@ class BinarySearchTree:
     def __init__(self, mode):
         self.__root = None
         self.__mode = mode
-        self.__bst_handler = AVL() if mode == self.AVL else RedBlackTree() if mode == self.RBT else None
+        self.__bst_handler = AVL if mode == self.AVL else RedBlackTree if mode == self.RBT else None
 
     def insert(self, node, relative_root=None):
         """
