@@ -1,6 +1,6 @@
 class Node:
-    BLACK = 1
-    RED = 2
+    BLACK = "BLACK"
+    RED = "RED"
 
     def __init__(self, key, color=None):
         self.__key = key
@@ -8,7 +8,7 @@ class Node:
         self.__right_node = None
         self.__parent = None
         self.__height = 1  # For AVL tree
-        self.__color = color
+        self.__color = color  # For Red Black Tree
 
     def set_right_node(self, node):
         self.__right_node = node

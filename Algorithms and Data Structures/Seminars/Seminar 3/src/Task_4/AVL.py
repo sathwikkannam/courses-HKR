@@ -1,38 +1,38 @@
-from Task_4.Common import Rotation
+from Task_4.Common.Node import Node
 
 
-def delete_handler(parent):
+def delete_handler(parent: Node):
     if not parent:
         return
 
-    parent.set_height(Rotation.get_tree_height(parent))
-    parent_balance = Rotation.get_balance(parent)
-    left_balance = Rotation.get_balance(parent.get_left_node())
-    right_balance = Rotation.get_balance(parent.get_right_node())
+    parent.set_height(__get_balance(parent, mode=2))
+    parent_balance = __get_balance(parent)
+    left_balance = __get_balance(parent.get_left_node())
+    right_balance = __get_balance(parent.get_right_node())
 
     if parent_balance > 1 and left_balance >= 0:
-        return Rotation.right_rotate(parent)
+        return __right_rotate(parent)
 
     elif parent_balance < - 1 and right_balance <= 0:
-        return Rotation.left_rotate(parent)
+        return __left_rotate(parent)
 
     elif parent_balance > 1 and left_balance < 0:
-        parent.set_left_node(Rotation.left_rotate(parent.get_right_node()))
-        return Rotation.right_rotate(parent)
+        parent.set_left_node(__left_rotate(parent.get_right_node()))
+        return __right_rotate(parent)
 
     elif parent_balance < -1 and right_balance > 0:
-        parent.get_right_node(Rotation.right_rotate(parent.get_right_node()))
-        return Rotation.left_rotate(parent)
+        parent.set_right_node(__right_rotate(parent.get_right_node()))
+        return __left_rotate(parent)
 
 
-def insert_handler(relative_root, node):
+def insert_handler(relative_root: Node, node: Node):
     """
     :param relative_root: Root of 'node'
     :param node: The latest inserted node
     :return: None
     """
-    relative_root.set_height(Rotation.get_tree_height(relative_root))
-    balance = Rotation.get_balance(node)
+    relative_root.set_height(__get_balance(relative_root, mode=2))
+    balance = __get_balance(node)
 
     # Left-left dominant
     #     3                  2
@@ -41,7 +41,7 @@ def insert_handler(relative_root, node):
     #  /
     # 1
     if balance > 1 and node.get_key() < relative_root.get_left_node().get_key():
-        return Rotation.right_rotate(relative_root)
+        return __right_rotate(relative_root)
 
     # Right-right dominant
     #     4                          5
@@ -50,7 +50,7 @@ def insert_handler(relative_root, node):
     #        \
     #         6
     elif balance < - 1 and node.get_key() > relative_root.get_right_node().get_key():
-        return Rotation.left_rotate(relative_root)
+        return __left_rotate(relative_root)
 
     # Left-right dominant
     #     4                   4               4
@@ -59,8 +59,8 @@ def insert_handler(relative_root, node):
     #    \                /
     #     5              3
     elif balance > 1 and node.get_key() > relative_root.get_left_node().get_key():
-        relative_root.set_left_node(Rotation.left_rotate(relative_root.get_left_node()))
-        return Rotation.right_rotate(relative_root)
+        relative_root.set_left_node(__left_rotate(relative_root.get_left_node()))
+        return __right_rotate(relative_root)
 
     # Right-left dominant
     #     3               3                  3
@@ -69,5 +69,46 @@ def insert_handler(relative_root, node):
     #      /                 \
     #    1                    4
     elif balance < - 1 and node.get_key() < relative_root.get_right_node().get_key():
-        relative_root.set_right_node(Rotation.right_rotate(relative_root.get_right_node()))
-        return Rotation.left_rotate(relative_root)
+        relative_root.set_right_node(__right_rotate(relative_root.get_right_node()))
+        return __left_rotate(relative_root)
+
+
+def __left_rotate(parent: Node) -> Node:
+    right = parent.get_right_node()
+    left = right.get_left_node()
+
+    right.set_left_node(parent)
+    parent.set_right_node(left)
+
+    parent.set_height(__get_balance(parent, mode=2))
+    right.set_height(__get_balance(right, mode=2))
+
+    return right
+
+
+def __right_rotate(parent: Node) -> Node:
+    left = parent.get_left_node()
+    right = parent.get_right_node()
+
+    left.set_right_node(parent)
+    parent.set_left_node(right)
+
+    parent.set_height(__get_balance(parent, mode=2))
+    left.set_height(__get_balance(left, mode=2))
+
+    return left
+
+
+def __get_balance(node: Node, mode=1):
+    """
+    :param mode: If 'mode' is 1, it returns the balance factor.
+                 Else tree height
+    :param node: An inserted node from where we check the height.
+    :return: Returns the difference in height.
+            If the difference is != {-1, 0, 1}, then its not balanced (±2)
+    """
+
+    left = node.get_left_node().get_height() if node.get_left_node() else 0
+    right = node.get_right_node().get_height() if node.get_right_node() else 0
+
+    return left - right if mode == 1 else max(left, right) + 1 if mode == 2 else None

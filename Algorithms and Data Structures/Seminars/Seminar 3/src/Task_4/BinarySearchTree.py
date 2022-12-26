@@ -32,7 +32,7 @@ class BinarySearchTree:
         self.__mode = mode
         self.__bst_handler = AVL if mode == self.AVL else RedBlackTree if mode == self.RBT else None
 
-    def insert(self, node, relative_root=None):
+    def insert(self, node: Node, relative_root: Node = None):
         """
         :param node: A node object to be inserted
         :param relative_root: The root note relative to 'node'
@@ -66,10 +66,9 @@ class BinarySearchTree:
 
         node.set_color(Node.RED)
 
-        if self.__mode:
-            self.__bst_handler.insert_handler(node=node, relative_root=relative_root)
+        self.__bst_handler.insert_handler(node, relative_root if self.__mode == self.AVL else self.__root)
 
-    def delete(self, node):
+    def delete(self, node: Node):
         """
         :param node: A node to delete
         :return: None
@@ -99,10 +98,12 @@ class BinarySearchTree:
             self.delete(minimum)
             parent.set_left_node(minimum) if parent.get_left_node() == to_delete else parent.set_right_node(minimum)
 
-        if self.__mode:
+        if self.__mode is self.AVL:
             self.__bst_handler.delete_handler(parent)
+        elif self.__mode is self.RBT:
+            self.__bst_handler.delete_handler(node, self.__root)
 
-    def contains(self, node, current_node=None, mode=1):
+    def contains(self, node: Node, current_node: Node = None, mode=1):
         """
         Traverses in one direction of the tree based on the node's key.
         :param node: The target node
@@ -128,15 +129,14 @@ class BinarySearchTree:
 
         return None if mode == 1 else False
 
-    def __str__(self, current_node=None, internal_call=False):
+    def __str__(self, current_node: Node = None, internal_call=False):
         """
         Printed in sorted order (In order).
         Recursively prints out the node's left and right nodes until it has no children.
         :param current_node: Initially, the node is root, then its children.
         :param internal_call: A boolean if the function is being recursively called.
         """
-        if not current_node and not internal_call:
-            current_node = self.__root
+        current_node = self.__root if not current_node and not internal_call else current_node
 
         if current_node:
             self.__str__(current_node.get_left_node(), True)
@@ -145,8 +145,9 @@ class BinarySearchTree:
 
 
 if __name__ == '__main__':
-    tree = BinarySearchTree(BinarySearchTree.AVL)
+    tree = BinarySearchTree(BinarySearchTree.RBT)
 
-    for _ in range(20):
-        tree.insert(Node(random.randrange(1, 100)))
+    for _ in range(10):
+        r = random.randrange(1, 900)
+        tree.insert(Node(r))
     tree.__str__()
