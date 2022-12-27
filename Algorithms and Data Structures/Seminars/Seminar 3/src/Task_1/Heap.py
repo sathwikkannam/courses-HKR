@@ -78,6 +78,10 @@ class BinaryHeap:
 class BinaryHeapLinearTime:
 
     def __init__(self, heap: list):
+        """
+        Iteratively calls percolateDown() for nodes ranging from last internal node and root.
+        :param heap: A list
+        """
         self.__heap = heap
 
         last_internal_node_index = int((len(self.__heap) - 2) / 2)
@@ -86,6 +90,12 @@ class BinaryHeapLinearTime:
             self.percolateDown(i)
 
     def percolateDown(self, i):
+        """
+        Finds the smallest node relative to 'i' and swaps it with 'i' and the smallest.
+        Recursively perform the same steps for the smallest node.
+        :param i: Index of an internal node.
+        :return: None
+        """
         left = get_left_child_index(i)
         right = get_right_child_index(i)
         size = len(self.__heap)
