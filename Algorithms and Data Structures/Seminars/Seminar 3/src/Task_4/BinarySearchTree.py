@@ -2,7 +2,7 @@ import random
 
 import AVL
 import RedBlackTree
-from Task_4.Common.Node import Node
+from Common import Node
 
 
 def find_min_right(node):
@@ -24,13 +24,16 @@ def find_min_right(node):
 
 
 class BinarySearchTree:
-    AVL = 1  # AVL Tree
-    RBT = 2  # Red Black Tree
+    AVL = "AVL"  # AVL Tree
+    RBT = "RBT"  # Red Black Tree
 
-    def __init__(self, mode):
+    def __init__(self, mode=None):
         self.__root = None
         self.__mode = mode
         self.__bst_handler = AVL if mode is self.AVL else RedBlackTree if mode is self.RBT else None
+
+    def get_mode(self):
+        return self.__mode if self.__mode is None else "BST"
 
     def insert(self, node: Node, relative_root: Node = None):
         """
@@ -66,7 +69,8 @@ class BinarySearchTree:
 
         node.set_color(Node.RED)
 
-        self.__bst_handler.insert_handler(node, relative_root if self.__mode is self.AVL else self.__root)
+        if self.__mode:
+            self.__bst_handler.insert_handler(node, relative_root if self.__mode is self.AVL else self.__root)
 
     def delete(self, node: Node):
         """

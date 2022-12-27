@@ -1,4 +1,5 @@
 from Heap import *
+from Common import get_numbers
 import time
 
 
@@ -8,7 +9,7 @@ def main():
     for i in range(100000, 1000000 + 1, 100000):
         numbers = get_numbers(i)
 
-        for j in range(15):
+        for _ in range(15):
             binary_heap = BinaryHeap(i)
 
             start = time.time_ns()
@@ -20,19 +21,15 @@ def main():
         print(f"INPUTS: {i}, Binary Heap, Average time in nanoseconds: {round(sum(averages) / len(averages))}")
         averages.clear()
 
-        for j in range(15):
+        for _ in range(15):
             start = time.time_ns()
             BinaryHeapLinearTime(numbers)
             end = time.time_ns()
             averages.append(end - start)
 
-        print(f"INPUTS: {i}, Binary Heap Linear Time, Average time in nanoseconds: {round(sum(averages) / len(averages))}")
+        print(
+            f"INPUTS: {i}, Binary Heap Linear Time, Average time in nanoseconds: {round(sum(averages) / len(averages))}")
         averages.clear()
-
-
-def get_numbers(limit):
-    with open("Seminar 1 - File with random numbers.txt", "r") as f:
-        return list(map(int, f.readlines()[:limit]))
 
 
 if __name__ == '__main__':

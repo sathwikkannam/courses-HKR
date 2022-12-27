@@ -1,3 +1,4 @@
+
 class Node:
     BLACK = "BLACK"
     RED = "RED"
@@ -42,3 +43,8 @@ class Node:
 
     def get_color(self):
         return self.__color
+
+
+def get_numbers(limit):
+    with open("Seminar 1 - File with random numbers.txt", "r") as f:
+        return list(map(int, f.readlines()[:limit]))

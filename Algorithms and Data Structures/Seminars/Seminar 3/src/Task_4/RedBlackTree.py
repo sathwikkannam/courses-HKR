@@ -1,4 +1,4 @@
-from Task_4.Common.Node import Node
+from Common import Node
 
 
 def insert_handler(node: Node, root: Node):
