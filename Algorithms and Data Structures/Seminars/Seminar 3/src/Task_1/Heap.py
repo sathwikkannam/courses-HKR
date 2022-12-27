@@ -10,6 +10,15 @@ def get_parent_index_of(child_index):
     return int((child_index - 1) / 2)
 
 
+def array_to_string(heap):
+    return "".join(
+        f"Parent: {heap[i]} \t "
+        f"Left Child: {heap[get_left_child_index(i)]} \t "
+        f"Right child: {heap[get_right_child_index(i)]}\n"
+
+        for i in range(0, int(len(heap) / 2)))
+
+
 class BinaryHeap:
 
     def __init__(self, size):
@@ -63,13 +72,34 @@ class BinaryHeap:
         Change the order to fit a traversal order
         :return: None
         """
-        return "".join(
-            f"Parent: {self.__heap[i]} \t "
-            f"Left Child: {self.__heap[get_left_child_index(i)]} \t "
-            f"Right child: {self.__heap[get_right_child_index(i)]}\n"
-
-            for i in range(0, int(len(self.__heap) / 2)))
+        return array_to_string(self.__heap)
 
 
-class BinaryHeapLinearTime(BinaryHeap):
-    pass
+class BinaryHeapLinearTime:
+
+    def __init__(self, heap: list):
+        self.__heap = heap
+
+        last_internal_node_index = int((len(self.__heap) - 2) / 2)
+
+        for i in range(last_internal_node_index, -1, -1):
+            self.percolateDown(i)
+
+    def percolateDown(self, i):
+        left = get_left_child_index(i)
+        right = get_right_child_index(i)
+        size = len(self.__heap)
+        smallest = i  # As its minimum heap
+
+        if left < size and self.__heap[left] < self.__heap[i]:
+            smallest = left
+
+        if right < size and self.__heap[right] < self.__heap[smallest]:
+            smallest = right
+
+        if smallest is not i:
+            self.__heap[i], self.__heap[smallest] = self.__heap[smallest], self.__heap[i]
+            return self.percolateDown(smallest)
+
+    def __str__(self):
+        return array_to_string(self.__heap)

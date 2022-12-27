@@ -1,4 +1,4 @@
-from BinaryHeap import *
+from Heap import *
 import time
 
 
@@ -17,7 +17,17 @@ def main():
             end = time.time_ns()
             averages.append(end - start)
 
-        print(f"INPUTS: {i}, Binary Heap, Time in nanoseconds: {round(sum(averages) / len(averages))}")
+        print(f"INPUTS: {i}, Binary Heap, Average time in nanoseconds: {round(sum(averages) / len(averages))}")
+        averages.clear()
+
+        for j in range(15):
+            start = time.time_ns()
+            BinaryHeapLinearTime(numbers)
+            end = time.time_ns()
+            averages.append(end - start)
+
+        print(f"INPUTS: {i}, Binary Heap Linear Time, Average time in nanoseconds: {round(sum(averages) / len(averages))}")
+        averages.clear()
 
 
 def get_numbers(limit):
