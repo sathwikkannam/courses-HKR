@@ -30,7 +30,7 @@ class BinarySearchTree:
     def __init__(self, mode):
         self.__root = None
         self.__mode = mode
-        self.__bst_handler = AVL if mode == self.AVL else RedBlackTree if mode == self.RBT else None
+        self.__bst_handler = AVL if mode is self.AVL else RedBlackTree if mode is self.RBT else None
 
     def insert(self, node: Node, relative_root: Node = None):
         """
@@ -47,7 +47,7 @@ class BinarySearchTree:
         if relative_root is None:
             relative_root = self.__root
 
-        if node.get_key() == relative_root.get_key():
+        if node.get_key() is relative_root.get_key():
             return
 
         if node.get_key() < relative_root.get_key():
@@ -66,7 +66,7 @@ class BinarySearchTree:
 
         node.set_color(Node.RED)
 
-        self.__bst_handler.insert_handler(node, relative_root if self.__mode == self.AVL else self.__root)
+        self.__bst_handler.insert_handler(node, relative_root if self.__mode is self.AVL else self.__root)
 
     def delete(self, node: Node):
         """
@@ -96,7 +96,7 @@ class BinarySearchTree:
         elif to_delete.get_left_node() and to_delete.get_right_node():
             minimum = find_min_right(to_delete)
             self.delete(minimum)
-            parent.set_left_node(minimum) if parent.get_left_node() == to_delete else parent.set_right_node(minimum)
+            parent.set_left_node(minimum) if parent.get_left_node() is to_delete else parent.set_right_node(minimum)
 
         if self.__mode is self.AVL:
             self.__bst_handler.delete_handler(parent)
@@ -118,8 +118,8 @@ class BinarySearchTree:
         if current_node is None:
             current_node = self.__root
 
-        if node.get_key() == current_node.get_key():
-            return current_node if mode == 1 else True
+        if node.get_key() is current_node.get_key():
+            return current_node if mode is 1 else True
 
         elif node.get_key() < current_node.get_key() and current_node.get_left_node():
             return self.contains(node, current_node.get_left_node())
@@ -127,7 +127,7 @@ class BinarySearchTree:
         elif node.get_key() > current_node.get_key() and current_node.get_right_node():
             return self.contains(node, current_node.get_right_node())
 
-        return None if mode == 1 else False
+        return None if mode is 1 else False
 
     def __str__(self, current_node: Node = None, internal_call=False):
         """
