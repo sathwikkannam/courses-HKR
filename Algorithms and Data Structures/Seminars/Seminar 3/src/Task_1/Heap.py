@@ -79,7 +79,7 @@ class BinaryHeapLinearTime:
 
     def __init__(self, heap: list):
         """
-        Iteratively calls percolateDown() for nodes ranging from last internal node and root.
+        Iteratively calls percolateDown() for nodes ranging from the last internal node and root.
         :param heap: A list
         """
         self.__heap = heap
@@ -89,26 +89,26 @@ class BinaryHeapLinearTime:
         for i in range(last_internal_node_index, -1, -1):
             self.percolateDown(i)
 
-    def percolateDown(self, i):
+    def percolateDown(self, internal_node):
         """
         Finds the smallest node relative to 'i' and swaps it with 'i' and the smallest.
         Recursively perform the same steps for the smallest node.
-        :param i: Index of an internal node.
+        :param internal_node: Index of an internal node.
         :return: None
         """
-        left = get_left_child_index(i)
-        right = get_right_child_index(i)
+        left = get_left_child_index(internal_node)
+        right = get_right_child_index(internal_node)
         size = len(self.__heap)
-        smallest = i  # As its minimum heap
+        smallest = internal_node  # As its minimum heap
 
-        if left < size and self.__heap[left] < self.__heap[i]:
+        if left < size and self.__heap[left] < self.__heap[internal_node]:
             smallest = left
 
         if right < size and self.__heap[right] < self.__heap[smallest]:
             smallest = right
 
-        if smallest is not i:
-            self.__heap[i], self.__heap[smallest] = self.__heap[smallest], self.__heap[i]
+        if smallest is not internal_node:
+            self.__heap[internal_node], self.__heap[smallest] = self.__heap[smallest], self.__heap[internal_node]
             return self.percolateDown(smallest)
 
     def __str__(self):

@@ -33,7 +33,7 @@ class BinarySearchTree:
         self.__bst_handler = AVL if mode is self.AVL else RedBlackTree if mode is self.RBT else None
 
     def get_mode(self):
-        return self.__mode if self.__mode is None else "BST"
+        return self.__mode if not self.__mode else "BST"
 
     def insert(self, node: Node, relative_root: Node = None):
         """
@@ -67,9 +67,8 @@ class BinarySearchTree:
             relative_root.set_right_node(node)
             relative_root.get_right_node().set_parent(relative_root)
 
-        node.set_color(Node.RED)
-
         if self.__mode:
+            node.set_color(Node.RED)
             self.__bst_handler.insert_handler(node, relative_root if self.__mode is self.AVL else self.__root)
 
     def delete(self, node: Node):
