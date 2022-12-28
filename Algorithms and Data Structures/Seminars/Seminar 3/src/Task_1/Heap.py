@@ -11,6 +11,11 @@ def get_parent_index_of(child_index):
 
 
 def array_to_string(heap):
+    """
+    Change the order to fit a traversal order
+    :param heap: A heapify heap
+    :return: None
+    """
     return "".join(
         f"Parent: {heap[i]} \t "
         f"Left Child: {heap[get_left_child_index(i)]} \t "
@@ -68,10 +73,6 @@ class BinaryHeap:
         self.__heap[a], self.__heap[b] = self.__heap[b], self.__heap[a]
 
     def __str__(self):
-        """
-        Change the order to fit a traversal order
-        :return: None
-        """
         return array_to_string(self.__heap)
 
 
@@ -104,6 +105,7 @@ class BinaryHeapLinearTime:
         if left < size and self.__heap[left] < self.__heap[internal_node]:
             smallest = left
 
+        # Smallest == 'internal node' if the above condition isn't met
         if right < size and self.__heap[right] < self.__heap[smallest]:
             smallest = right
 

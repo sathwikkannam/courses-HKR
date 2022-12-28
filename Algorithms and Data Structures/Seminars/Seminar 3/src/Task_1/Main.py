@@ -1,3 +1,5 @@
+import os
+
 from Heap import *
 from Common import get_numbers
 import time
@@ -5,6 +7,7 @@ import time
 
 # Running time test cases for Binary heap.
 def main():
+    os.chdir("..")
     averages = []
     for i in range(100000, 1000000 + 1, 100000):
         numbers = get_numbers(i)

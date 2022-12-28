@@ -1,4 +1,5 @@
 
+
 class Node:
     BLACK = "BLACK"
     RED = "RED"
