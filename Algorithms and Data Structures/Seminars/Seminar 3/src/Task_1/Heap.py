@@ -1,18 +1,19 @@
-def get_right_child_index(parent_index):
-    return int((2 * parent_index) + 2)
+def get_right_child_index(parent_index) -> int:
+    return (2 * parent_index) + 2
 
 
-def get_left_child_index(parent_index):
-    return int((2 * parent_index) + 1)
+def get_left_child_index(parent_index) -> int:
+    return (2 * parent_index) + 1
 
 
-def get_parent_index_of(child_index):
-    return int((child_index - 1) / 2)
+def get_parent_index_of(child_index) -> int:
+    return (child_index - 1) / 2
 
 
 def array_to_string(heap):
     """
     Change the order to fit a traversal order
+    Level order is just the array.
     :param heap: A heapify heap
     :return: None
     """
@@ -93,25 +94,23 @@ class BinaryHeapLinearTime:
     def percolateDown(self, internal_node):
         """
         Finds the smallest node relative to 'i' and swaps it with 'i' and the smallest.
-        Recursively perform the same steps for the smallest node.
         :param internal_node: Index of an internal node.
         :return: None
         """
         left = get_left_child_index(internal_node)
         right = get_right_child_index(internal_node)
-        size = len(self.__heap)
-        smallest = internal_node  # As its minimum heap
+        smallest_node = internal_node  # As its minimum heap
 
-        if left < size and self.__heap[left] < self.__heap[internal_node]:
-            smallest = left
+        if left in range(len(self.__heap)) and self.__heap[left] < self.__heap[internal_node]:
+            smallest_node = left
 
-        # Smallest == 'internal node' if the above condition isn't met
-        if right < size and self.__heap[right] < self.__heap[smallest]:
-            smallest = right
+        # Smallest == 'internal node' if the above condition isn't met, else we compare the left node with the right.
+        if right in range(len(self.__heap)) and self.__heap[right] < self.__heap[smallest_node]:
+            smallest_node = right
 
-        if smallest is not internal_node:
-            self.__heap[internal_node], self.__heap[smallest] = self.__heap[smallest], self.__heap[internal_node]
-            return self.percolateDown(smallest)
+        if smallest_node is not internal_node:
+            self.__heap[internal_node], self.__heap[smallest_node] = self.__heap[smallest_node], self.__heap[internal_node]
+            return self.percolateDown(smallest_node)
 
     def __str__(self):
         return array_to_string(self.__heap)

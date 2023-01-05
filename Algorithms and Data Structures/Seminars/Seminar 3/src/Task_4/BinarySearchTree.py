@@ -1,5 +1,3 @@
-import random
-
 import AVL
 import RedBlackTree
 from Common import Node
@@ -7,7 +5,7 @@ from Common import Node
 
 def find_min_right(node):
     """
-    Basically, a linkedlist traversal until a node's right_node is null.
+    Find minimum node in the node's subtree which can't have a left child.
     :param node: A node.
     :return: Node with a minimum key.
     """
@@ -15,7 +13,7 @@ def find_min_right(node):
     current_node = node
 
     while current_node.get_right_node() is None:
-        if current_node.get_right_node() < minimum_node or None:
+        if current_node.get_right_node() < minimum_node or None and not current_node.get_left_node():
             minimum_node = current_node.get_right_node()
 
         current_node = current_node.get_right_node()
@@ -24,8 +22,8 @@ def find_min_right(node):
 
 
 class BinarySearchTree:
-    AVL = "AVL"  # AVL Tree
-    RBT = "RBT"  # Red Black Tree
+    AVL, RBT = "AVL", "RBT"  # AVL Tree and Red Black Tree
+    PRE_ORDER, IN_ORDER, POST_ORDER, LEVEL_ORDER = 1, 2, 3, 4
 
     def __init__(self, mode=None):
         self.__root = None
@@ -33,7 +31,7 @@ class BinarySearchTree:
         self.__bst_handler = AVL if mode is self.AVL else RedBlackTree if mode is self.RBT else None
 
     def get_mode(self):
-        return self.__mode if not self.__mode else "BST"
+        return self.__mode if self.__mode else "BST"
 
     def insert(self, node: Node, relative_root: Node = None):
         """
@@ -101,11 +99,6 @@ class BinarySearchTree:
             self.delete(minimum)
             parent.set_left_node(minimum) if parent.get_left_node() is to_delete else parent.set_right_node(minimum)
 
-        if self.__mode is self.AVL:
-            self.__bst_handler.delete_handler(parent)
-        elif self.__mode is self.RBT:
-            self.__bst_handler.delete_handler(node, self.__root)
-
     def contains(self, node: Node, current_node: Node = None, mode=1):
         """
         Traverses in one direction of the tree based on the node's key.
@@ -122,7 +115,7 @@ class BinarySearchTree:
             current_node = self.__root
 
         if node.get_key() is current_node.get_key():
-            return current_node if mode is 1 else True
+            return current_node if mode == 1 else True
 
         elif node.get_key() < current_node.get_key() and current_node.get_left_node():
             return self.contains(node, current_node.get_left_node())
@@ -130,27 +123,44 @@ class BinarySearchTree:
         elif node.get_key() > current_node.get_key() and current_node.get_right_node():
             return self.contains(node, current_node.get_right_node())
 
-        return None if mode is 1 else False
+        return None if mode == 1 else False
 
-    def __str__(self, current_node: Node = None, internal_call=False):
+    def __str__(self, current_node: Node = None, internal_call=False, mode=None):
         """
-        Printed in sorted order (In order).
-        Recursively prints out the node's left and right nodes until it has no children.
         :param current_node: Initially, the node is root, then its children.
         :param internal_call: A boolean if the function is being recursively called.
+        :param mode: To indicate which order to print.
         """
         current_node = self.__root if not current_node and not internal_call else current_node
 
-        if current_node:
-            self.__str__(current_node.get_left_node(), True)
-            print(current_node.get_key())
-            self.__str__(current_node.get_right_node(), True)
+        if not current_node:
+            return
 
+        if mode is self.IN_ORDER or not mode:  # Default case: Prints in order traversal
+            self.__str__(current_node.get_left_node(), True, mode)
+            print(current_node.get_key(), end=" ")
+            self.__str__(current_node.get_right_node(), True, mode)
 
-if __name__ == '__main__':
-    tree = BinarySearchTree(BinarySearchTree.RBT)
+        elif mode is self.PRE_ORDER:
+            print(current_node.get_key(), end=" ")
+            self.__str__(current_node.get_left_node(), True, mode)
+            self.__str__(current_node.get_right_node(), True, mode)
 
-    for _ in range(10):
-        r = random.randrange(1, 900)
-        tree.insert(Node(r))
-    tree.__str__()
+        elif mode is self.POST_ORDER:
+            self.__str__(current_node.get_left_node(), True, mode)
+            self.__str__(current_node.get_right_node(), True, mode)
+            print(current_node.get_key(), end=" ")
+
+        elif mode is self.LEVEL_ORDER:
+            queue = [current_node]
+
+            while len(queue) != 0:
+                node = queue.pop()
+                print(node.get_key(), end=" ")
+
+                if node.get_left_node():
+                    queue.append(node.get_left_node())
+                if node.get_right_node():
+                    queue.append(node.get_right_node())
+
+            return

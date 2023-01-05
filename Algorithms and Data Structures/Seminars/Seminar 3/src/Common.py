@@ -1,5 +1,3 @@
-
-
 class Node:
     BLACK = "BLACK"
     RED = "RED"
@@ -17,6 +15,9 @@ class Node:
 
     def set_left_node(self, node):
         self.__left_node = node
+
+    def set_key(self, key):
+        self.__key = key
 
     def get_left_node(self):
         return self.__left_node

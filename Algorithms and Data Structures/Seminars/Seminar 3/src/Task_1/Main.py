@@ -7,7 +7,7 @@ import time
 
 # Running time test cases for Binary heap.
 def main():
-    os.chdir("..")
+    os.chdir("..")  # To access 'Seminar 1 - File with random numbers' file.
     averages = []
     for i in range(100000, 1000000 + 1, 100000):
         numbers = get_numbers(i)

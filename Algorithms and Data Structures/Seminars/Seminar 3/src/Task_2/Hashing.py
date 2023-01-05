@@ -1,15 +1,19 @@
 from itertools import chain
 
+from Task_2.Pair import Pair
+
 
 class Hashing:
-    CHAINING = 1
-    LINEAR_PROBING = 2
-    QUADRATIC_PROBING = 3
+    CHAINING, LINEAR_PROBING, QUADRATIC_PROBING = 1, 2, 3
 
     def __init__(self, size, mode):
+        """
+        We can rehash the hashtable with different sizes by creating a new Hashing object and providing different size.
+        :param size: Size of the hash table
+        :param mode: To select the collision avoided.
+        """
         self.__hash_table = [[] if mode == self.CHAINING else None for _ in range(size)]
         self.__size = size
-        self.__mode = mode
 
         match mode:
             case self.CHAINING:
@@ -19,13 +23,16 @@ class Hashing:
             case self.QUADRATIC_PROBING:
                 self.__collision_handler = QuadraticProbing()
 
-    def insert(self, value):
-        index = self.__hash__(value)
+    def get_mode(self) -> str:
+        return type(self.__collision_handler).__name__
 
-        if self.__mode:
-            self.__collision_handler.insert(self.__hash_table, value, index, self.__size)
+    def insert(self, pair: Pair):
+        index = self.__hash__(pair.get_key())
 
-    def __hash__(self, key=None):
+        if self.__collision_handler:
+            self.__collision_handler.insert(self.__hash_table, pair.get_value(), index, self.__size)
+
+    def __hash__(self, key=None) -> int:
         """
         Here any hash functions can be placed.
         :param key: A key
@@ -33,11 +40,8 @@ class Hashing:
         """
         return key % self.__size
 
-    def get_mode(self):
-        return self.__mode
-
-    def __str__(self):
-        return "".join(f"{i} -> {node.__str__()}\n" for i, node, in enumerate(self.__hash_table))
+    def __str__(self) -> str:
+        return "".join(f"{i} -> {node.__str__().__str__()}\n" for i, node, in enumerate(self.__hash_table))
 
 
 class Chaining:
@@ -61,6 +65,8 @@ class LinearProbing(Chaining):
                 hash_table[i] = value
                 return
 
+        raise IndexError
+
 
 class QuadraticProbing(Chaining):
     def insert(self, hash_table, value, index, size):
@@ -75,5 +81,7 @@ class QuadraticProbing(Chaining):
                 hash_table[index] = value
                 return
 
-    def __quad_hash(self, i, value, size):
-        return (value + pow(i, 2)) % size
+        raise IndexError
+
+    def __quad_hash(self, i, key, size) -> int:
+        return (key + pow(i, 2)) % size

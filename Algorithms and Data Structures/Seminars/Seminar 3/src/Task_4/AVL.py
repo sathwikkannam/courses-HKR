@@ -1,38 +1,14 @@
 from Common import Node
 
 
-def delete_handler(parent: Node):
-    if not parent:
-        return
-
-    parent.set_height(__get_balance(parent, mode=2))
-    parent_balance = __get_balance(parent)
-    left_balance = __get_balance(parent.get_left_node())
-    right_balance = __get_balance(parent.get_right_node())
-
-    if parent_balance > 1 and left_balance >= 0:
-        return __right_rotate(parent)
-
-    elif parent_balance < - 1 and right_balance <= 0:
-        return __left_rotate(parent)
-
-    elif parent_balance > 1 and left_balance < 0:
-        parent.set_left_node(__left_rotate(parent.get_right_node()))
-        return __right_rotate(parent)
-
-    elif parent_balance < -1 and right_balance > 0:
-        parent.set_right_node(__right_rotate(parent.get_right_node()))
-        return __left_rotate(parent)
-
-
 def insert_handler(relative_root: Node, node: Node):
     """
-    :param relative_root: Root of 'node'
+    :param relative_root: Parent of 'node'
     :param node: The latest inserted node
     :return: None
     """
     relative_root.set_height(__get_balance(relative_root, mode=2))
-    balance = __get_balance(node)
+    balance = __get_balance(relative_root)
 
     # Left-left dominant
     #     3                  2
