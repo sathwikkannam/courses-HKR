@@ -5,6 +5,10 @@ import Common.Utilities;
 public class InsertionSortRecursive {
 
 
+    /**
+     * @param numbers A list of random numbers
+     * @param upperBound An index to sort until.
+     */
     public static void sort(int[] numbers, int upperBound){
         // If the size of the array is 1.
         if(upperBound <= 1){

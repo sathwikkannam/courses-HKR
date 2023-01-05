@@ -15,26 +15,14 @@ public class QuickSortIterative {
         }
     }
 
-    private static int partition(int[] numbers, int lowerBound, int upperBound){
 
-        int leftPointer = lowerBound - 1; // We decrement left pointer to prevent indexOutOfBoundsException
-
-        for (int rightPointer = lowerBound; rightPointer < upperBound; rightPointer++) {
-            if (numbers[rightPointer] <= numbers[upperBound]) {
-
-                // We swap the elements i and j, so elements before i are smaller and elements between leftPointer and rightPointer are greater.
-                // If the element is equal, then it can either be swapped and not.
-                Utilities.swap(numbers, ++leftPointer, rightPointer);
-            }
-        }
-        Utilities.swap(numbers, leftPointer + 1, upperBound); // Swap the pivot with leftPointer, so the pivot is in its final position.
-
-        return leftPointer + 1;
-
-    }
-
-
-    //https://www.geeksforgeeks.org/iterative-quick-sort/
+    /**
+     * Iteratively partition n iterations until bounds is empty.
+     * @param numbers A list of numbers.
+     * @param lowerBound Lowest index to iterate from.
+     * @param upperBound Highest index to iterate to.
+     * @param method A pivot selection strategy.
+     */
     public static void sort(int[] numbers, int lowerBound, int upperBound, String method) {
 
         int i = -1; // indicates if the "bounds" array is empty.
@@ -46,17 +34,12 @@ public class QuickSortIterative {
 
             Range range = bounds[i--];
 
-            switch (method) {
-                case "Median" -> Pivot.swapMedianOfThree(numbers, range.leftPointer, range.rightPointer);
-                case "First" -> Pivot.swapFirst(numbers, range.leftPointer, range.rightPointer);
-                case "Random" -> Pivot.swapRandom(numbers, range.leftPointer, range.rightPointer);
-            }
-
-            int pivot_index = partition(numbers, range.leftPointer, range.rightPointer);
+            Pivot.swapPivot(numbers, range.leftPointer, range.rightPointer, method);
+            int pivot_index = Utilities.partition(numbers, range.leftPointer, range.rightPointer);
 
 
             //right subset of the array.
-            if (pivot_index + 1 < range.rightPointer) { // The next partition must be smaller than previous partition.
+            if (pivot_index + 1 < range.rightPointer) { // The next partition must be smaller than the previous partition.
                 bounds[++i] = new Range(pivot_index + 1, range.rightPointer);
             }
 

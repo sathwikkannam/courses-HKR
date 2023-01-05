@@ -14,9 +14,9 @@ public class QueueWithTwoStacks <T>{
     }
 
 
-    /*
-        Time complexity - O(1)
-        @Param item is added to input.
+    /**
+     * Time complexity - O(1)
+     * @param item An element to add to input stack
      */
     public void add(T item) {
         input.add(item);
@@ -24,11 +24,12 @@ public class QueueWithTwoStacks <T>{
     }
 
 
-    /*
-       Time complexity:
-            Best case: O(1) when output is not empty;
-            Worst case: O(N) when output is empty, then we need to swap elements from input to output to swap the order of pop.
-
+    /**
+     * Time complexity:
+     *      Best case: O(1) when output is not empty;
+     *      Worst case: O(N) when output is empty,
+     *      then we need to swap elements from input to output to swap the order of pop.
+     * @return Top of output stack
      */
     public T peek(){
         if (output.isEmpty()) {
@@ -44,15 +45,19 @@ public class QueueWithTwoStacks <T>{
     }
 
 
+    /**
+     * @return Size of output stack
+     */
     public int size(){
         return this.output.size();
     }
 
 
-    /*
-       Time complexity same as peek()
-
+    /**
+     * Same complexity as peek()
+     * @return pop of output stack
      */
+
     public T poll(){
         if (output.isEmpty()) {
 
@@ -68,6 +73,11 @@ public class QueueWithTwoStacks <T>{
     }
 
 
+    /**
+     * Swap element from one stack to another stack.
+     * @param from An input stack
+     * @param to An output stack
+     */
     private void invertOrder(Stack<T> from, Stack<T> to){
         while(!from.isEmpty()){
             to.push(from.pop());

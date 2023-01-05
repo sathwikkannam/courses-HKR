@@ -6,10 +6,11 @@ import Common.Node;
 public class MyLinkedList<T extends Node <T> > {
     private T head;
 
-    /*
-        If there are no nodes, then head == item
-        Else we iterate over all nodes until we find a node with null pointer,
-        Then we set that node's pointer to item.
+    /**
+     * If there are no nodes, then head == item
+     * Else we iterate over all nodes until we find a node with null pointer,
+     * Then we set that node's pointer to item.
+     * @param item A node to add to the end of linkedList.
      */
     public void add(T item) {
         // The new node's next pointer is always null.
@@ -25,9 +26,10 @@ public class MyLinkedList<T extends Node <T> > {
     }
 
 
-    /*
-        If the index is 0, the head node's pointer is head and its pointer is null.
-        Else, we set the node's pointer to the node after it, and null if there are no nodes after the index.
+    /**
+     * If the index is 0, the head node's pointer is head and its pointer is null.
+     * Else, we set the node's pointer to the node after it, and null if there are no nodes after the index.
+     * @param index A value to indicate which node to delete.
      */
     public void remove(int index) {
         T node = head;
@@ -68,8 +70,10 @@ public class MyLinkedList<T extends Node <T> > {
     }
 
 
-
-    // Iterate through all nodes until we reach a node with a null pointer.
+    /**
+     * Iterate through all nodes until we reach a node with a null pointer.
+     * @return Size of LinkedList.
+     */
     public int size(){
         int i = 0;
         T node = head;

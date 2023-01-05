@@ -3,7 +3,7 @@ package Task_2;
 
 import java.util.Stack;
 
-//https://stackoverflow.com/questions/12470626/how-can-one-implement-a-queue-with-only-a-stack-implementation
+
 public class QueueWithOneStack <T>{
     private final Stack<T> stack;
 
@@ -13,21 +13,21 @@ public class QueueWithOneStack <T>{
     }
 
 
-    /*
-       Time complexity - O(1)
-
-       @Param item it added to stack.
+    /**
+     * Time complexity - O(1)
+     * @param item An element to add to stack
      */
     public void add(T item){
         stack.add(item);
     }
 
 
-    /*
-       Time complexity - O(N)
-
-       Pop all elements in the stack until we only have one element (the one at the bottom).
-       Then we add back all popped elements.
+    /**
+     * Time complexity - O(N)
+     * Pop all elements in the stack until we only have one element (the one at the bottom).
+     * Then we add back all popped elements.
+     *
+     * @return top of stack
      */
     public T peek(){
         if(stack.isEmpty()){
@@ -44,16 +44,18 @@ public class QueueWithOneStack <T>{
     }
 
 
+    /**
+     * @return Size of stack
+     */
     public int size(){
         return this.stack.size();
     }
 
 
-
-    /*
-        Time complexity - O(N)
-
-        Same as peek()
+    /**
+     * Time complexity - O(N)
+     * Same operation as peek()
+     * @return An element in stack
      */
     public T poll(){
         if(stack.isEmpty()){
