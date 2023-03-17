@@ -7,5 +7,5 @@
 
 
 # Pinouts
-![ports](/Images/ports.jpg)
-![pinout](/Images/pinout.png)
+![ports](Images/ports.jpg)
+![pinout](Images/pinout.png)
