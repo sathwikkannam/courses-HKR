@@ -9,3 +9,4 @@
 # Pinouts
 ![ports](Images/ports.jpg)
 ![pinout](Images/pinout.png)
+![Arduino_nano](Images/Arduino-Nano-pinout-4172312602.jpg)
