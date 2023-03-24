@@ -14,7 +14,7 @@
 #### [Applied Mathematics and Statistics - MA212A](https://www.hkr.se/en/course/MA212A/course-syllabus)
 #### [Data Communication - DA270C](https://www.hkr.se/en/course/DA270C/course-syllabus)
 #### [Wireless Communication - DA372D](https://www.hkr.se/en/course/DA372D/course-syllabus)
-#### [Sensor Technology for Embedded systems - FY263A](https://www.hkr.se/en/course/FY263B/course-syllabus)
+#### [Sensor Technology for Embedded systems - FY263B](https://www.hkr.se/en/course/FY263B/course-syllabus)
 #### [Computer Security - DA273C](https://www.hkr.se/en/course/DA273C/course-syllabus)
 
 # Year 3
