@@ -31,10 +31,8 @@ if volume_input >= 100:
         small += remaining_volume // SL
         break
 
-
 price = ((big * 60000) + (small * 10000) + (med * 30000))
 space_left = volume_input - ((big * 80) + (small * 20) + (med * 50))
-
 
 print(f"\nPacking plan\n------------\n{big} big bags\n{med} medium bags\n{small} small bags\n")
 print(f"Space left : {space_left}L")
