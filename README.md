@@ -19,8 +19,8 @@
 
 # Year 3
 #### [Research Methodology in Computer Science - DA311A](https://www.hkr.se/en/course/DA311A/course-syllabus)
-#### [Development for Mobile Applications - DA324A](https://www.hkr.se/en/course/DA324A/course-syllabus)
+#### [Development for Mobile Applications - DA324B](https://www.hkr.se/en/course/DA324B/course-syllabus)
 #### [Internet of Things Systems Design - DT373B](https://www.hkr.se/en/course/DT373B/course-syllabus)
-#### [Machine Learning with Data Acquisition - DT374B](https://www.hkr.se/en/course/DT374B/course-syllabus)
+#### [Machine Learning with Data Acquisition - DT374C](https://www.hkr.se/en/course/DT374C/course-syllabus)
 #### [Systems Engineering - DT337B](https://www.hkr.se/en/course/DT337B/course-syllabus)
 #### [Degree Project in Computer Engineering - DT339E](https://www.hkr.se/en/course/DT339E/course-syllabus)
