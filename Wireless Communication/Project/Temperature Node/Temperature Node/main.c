@@ -1,8 +1,8 @@
 /*
- * test.c
+ * Temperature Node.c
  *
- * Created: 2023-05-29 12:08:00
- * Author : SAKA0191
+ * Created: 5/29/2023 8:08:44 PM
+ * Author : Sathwik kannam
  */ 
 
 #include <avr/io.h>
