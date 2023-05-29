@@ -1,14 +1,15 @@
 /*
- * Temperature Node.c
+ * test.c
  *
- * Created: 5/29/2023 8:08:44 PM
- * Author : Sathwik kannam
+ * Created: 2023-05-29 12:08:00
+ * Author : SAKA0191
  */ 
 
 #include <avr/io.h>
 #include "usart.h"
 #include <util/delay.h>
 #include <string.h>
+#include <avr/interrupt.h>
 
 #define LED_DDRx DDRD
 #define LED_PIN PIND0
@@ -24,19 +25,31 @@
 #define TX_RF_DATA_INDEX_FROM           14	// Data index starts from index 14.
 #define TOTAL_FIELDS_LENGTH             15	// Except data.
 #define FRAME_DATA_LENGTH_WITHOUT_DATA  11	// Except length, frame type, and data.
-#define RX_RF_DATA_INDEX_FROM           8
+#define RX_RF_DATA_INDEX_FROM           8	
 #define ADDRESS_16_SIZE					8
 
 
 // Temperature Node
 // This node transmits the temperature when requested.
+	
+// Store the frame length specified in the incoming frame.
+int frameLength = 0;
+volatile int i = 0;
 
-
+// Functions
 void tx_frame(uint8_t * destination_64, uint8_t * msg);
 void arrayCopy(uint8_t * from, uint8_t * to, int length, int offset);
+int frameReceived(void);
+
+// Contains incoming data
+volatile uint8_t incomingData[256];
 
 int main() {
-	int temperature = 200;
+	//Enable global interrupts.
+	sei();
+	
+	// Temperature
+	int temperature = 150;	
 	
 	// Set LED is as OUTPUT
 	LED_DDRx |= (1<<LED_PIN);
@@ -46,34 +59,48 @@ int main() {
 	
 	// 64-bit (mac) address of coordinator.
 	uint8_t coordinatorAddress[] = {0x00, 0x13, 0xA2, 0x00, 0x41, 0xC7, 0x20, 0x1C};
-	
-	// This is the converted uint8_t array of int temperature.
+		
+	// This is the converted uint8_t array of int temperature. 
 	uint8_t temp_char[11];
-	
-	while(1){
-		if(usart_recieve() == START_DELIMITER){
-			_delay_ms(500);
+		
+	while(frameReceived() == 1){
+		// Turn on LED. Just to indicate the frame is received.
+		LED_PORTx |= (1<<LED_PIN);
 			
-			// Turn on LED.
-			LED_PORTx |= (1<<LED_PIN);
+		// Converts int to char array.
+		itoa(temperature, temp_char, 10);
 			
-			// Converts int to char array.
-			itoa(temperature, temp_char, 10);
+		// Transmits frame with temperature as message.
+		tx_frame(coordinatorAddress, temp_char);
 			
-			// Transmits frame with temperature as message.
-			tx_frame(coordinatorAddress, temp_char);
+		_delay_ms(1000);
 			
-			_delay_ms(1000);
-			
-			// Turn off LED.
-			LED_PORTx &= ~(1<<LED_PIN);
-		}
+		// Turn off LED.
+		LED_PORTx &= ~(1<<LED_PIN);
+		
+		// Reset i and frame length for other incoming frames.	
+		i = 0;
+		frameLength = 0;
+		
 	}
-	
 	
 	return 0;
 }
 
+
+int frameReceived(void){
+	while(1){
+		if(i >= 2){
+			frameLength = ((incomingData[1] & 0xFF) << 8) | (incomingData[2] & 0xFF);
+			// + 3 for START DELIMITER, FRAME TYPE, FRAME ID.
+			if(i == frameLength + 3){
+				return 1;
+			}
+		}
+	}
+	
+	return 0;
+}
 
 void tx_frame(uint8_t * destination_64, uint8_t * msg){
 	// Calculate length of message.
@@ -103,7 +130,7 @@ void tx_frame(uint8_t * destination_64, uint8_t * msg){
 	// Add message to packet.
 	arrayCopy(msg, packet, msg_length, TX_RF_DATA_INDEX_FROM);
 	
-	// Calculate checksum, the first three elements are frame delimiter, and 2 bytes of frame length.
+	// Calculate checksum, the first three elements are frame delimiter, and 2 bytes of frame length. 
 	for (int i = 3; i < sizeof(packet); i++) {
 		sum += packet[i];
 	}
@@ -122,5 +149,10 @@ void arrayCopy(uint8_t * from, uint8_t * to, int length, int offset){
 	for (int i = 0; i < length; i++){
 		to[i + offset] = *from++;
 	}
+	
+}
+
+ISR(USART_RX_vect){
+	incomingData[i++] = UDR0;
 	
 }
