@@ -38,7 +38,6 @@
 // Functions
 void tx_frame(uint8_t * destination_64, uint8_t * msg);
 void arrayCopy(uint8_t * from, uint8_t * to, int length, int offset);
-uint8_t * parseData(uint8_t * data, int length);
 
 // Very important, don't poll UDRO if RXCIE0 is enabled, and vice versa. Then it won't receive the full frame.
 
@@ -73,7 +72,7 @@ int main() {
 			Frame Length (byte 1)
 			Frame Length (byte 2)
 			Frame Type - 0x81 for 16-bit addressing.
-			Source address - 16-bit of destination.
+			Source address - 16-bit address of source.
 			RSSI
 			OPTIONS
 			RF Data - payload of the frame.
@@ -135,7 +134,7 @@ int main() {
 		Frame Length (byte 2)
 		Frame Type - 0x00 for 64-bit addressing.
 		Frame ID - 0x00 for no acknowledgment response.
-		Destination - 64-bit of destination.
+		Destination - 64-bit address of destination.
 		RF Data - payload of the frame.
 		Checksum - Excluding frame length, frame delimiter, frame type.
 	}
