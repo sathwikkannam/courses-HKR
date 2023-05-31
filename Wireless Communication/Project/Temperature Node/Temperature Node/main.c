@@ -35,7 +35,6 @@
 // Temperature Node
 // This node transmits the temperature when requested.
 
-
 // Functions
 void tx_frame(uint8_t * destination_64, uint8_t * msg);
 void arrayCopy(uint8_t * from, uint8_t * to, int length, int offset);
@@ -59,6 +58,30 @@ int main() {
 	// This is the converted uint8_t array of int temperature.
 	uint8_t temp_char[11];
 	
+	
+	
+	/*
+		Read from UART byte by byte.
+		When we received three bytes, the frame length (n) can be calculated.
+		So, we poll 'n' times, and one additional byte for the checksum.
+	
+	
+		Format of 0x81 Rx (Receive) Frame:
+		
+		{
+			START DELIMITER - 0x7E
+			Frame Length (byte 1)
+			Frame Length (byte 2)
+			Frame Type - 0x81 for 16-bit addressing.
+			Source address - 16-bit of destination.
+			RSSI
+			OPTIONS
+			RF Data - payload of the frame.
+			Checksum - Excluding frame length, frame delimiter, frame type.
+			
+		}
+	
+	*/
 	
 	while(1){
 		uint8_t frame[256];
@@ -100,7 +123,24 @@ int main() {
 	return 0;
 }
 
-
+/*
+	Creates a frame with using 0x00 TX (Transmit) with 64-bit addressing frame. 
+	However, it is converted to 16-bit addressing when the node receives the frame.
+	
+	Format of 0x00 TX (Transmit) frame:
+	
+	{
+		START DELIMITER - 0x7E
+		Frame Length (byte 1)
+		Frame Length (byte 2)
+		Frame Type - 0x00 for 64-bit addressing.
+		Frame ID - 0x00 for no acknowledgment response.
+		Destination - 64-bit of destination.
+		RF Data - payload of the frame.
+		Checksum - Excluding frame length, frame delimiter, frame type.
+	}
+	
+*/
 void tx_frame(uint8_t * destination_64, uint8_t * msg){
 	// Calculate length of message.
 	const int msg_length = strlen((const char *) msg);
