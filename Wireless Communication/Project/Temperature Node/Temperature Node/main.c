@@ -75,7 +75,7 @@ int main() {
 			Source address - 16-bit address of source.
 			RSSI
 			OPTIONS
-			RF Data - payload of the frame.
+			RF Data - Payload of the frame.
 			Checksum - Excluding frame length, frame delimiter, frame type.
 			
 		}
@@ -104,13 +104,14 @@ int main() {
 		sizeOfFrame = length + 3;
 		
 		// Payload of the frame.
-		uint8_t rfData[sizeOfFrame - RX_RF_DATA_INDEX_FROM];
+		uint8_t rfData[sizeOfFrame - RX_RF_DATA_INDEX_FROM + 1];
 		
 		// Parse the frame to so 'rfData' only contains the payload.
 		for (int i = RX_RF_DATA_INDEX_FROM; i < sizeOfFrame - 1; i++){
 			rfData[i - RX_RF_DATA_INDEX_FROM] = frame[i];
 		}
 		
+		rfData[sizeOfFrame + 1] = '\0';
 		
 		// Here we send necessary frames based on the payload.
 		if(strcmp(rfData, "Temperature")){
