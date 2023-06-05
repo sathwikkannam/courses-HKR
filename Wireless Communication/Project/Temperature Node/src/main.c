@@ -82,7 +82,7 @@ int main() {
 
 
         // Here we send necessary frames based on the payload.
-        if (strstr("Temperature", rfData) == 0) {
+        if (strstr("Temperature", rfData) != NULL) {
             itoa(temperature, temp_char, 10);
             tx_frame(coordinatorAddress, temp_char);
         }
