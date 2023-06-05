@@ -1,0 +1,3 @@
+[submodule "Wireless Communication/Project/ZigBeetle"]
+	path = Wireless Communication/Project/ZigBeetle
+	url = https://github.com/sathwikkannam/ZigBeetle.git
