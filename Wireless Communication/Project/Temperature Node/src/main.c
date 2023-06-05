@@ -9,8 +9,9 @@
 // This node transmits the temperature when requested.
 
 // Functions
-void tx_frame(uint8_t * destination_64, uint8_t * msg);
-void arrayCopy(uint8_t * from, uint8_t * to, int length, int offset);
+void tx_frame(uint8_t *destination_64, uint8_t *msg);
+
+void arrayCopy(uint8_t *from, uint8_t *to, int length, int offset);
 
 int main() {
     // Temperature
@@ -50,7 +51,7 @@ int main() {
 
     */
 
-    while(1){
+    while (1) {
         uint8_t frame[256];
         frame[0] = START_DELIMITER;
         uint16_t length = 0;
@@ -58,13 +59,13 @@ int main() {
 
 
         // Capture the full frame based on the specified frame length.
-        if(uart_receive() == START_DELIMITER){
+        if (uart_receive() == START_DELIMITER) {
             frame[1] = uart_receive();
             frame[2] = uart_receive();
             length = (((frame[1] & 0xFF) << 8) | (frame[2] & 0xFF) + 1);
 
             // Here we need to read one more byte for the checksum.
-            for (int m = 0; m < length; m++){
+            for (int m = 0; m < length; m++) {
                 frame[m + 3] = uart_receive();
             }
         }
@@ -75,15 +76,15 @@ int main() {
         uint8_t rfData[sizeOfFrame - RX_RF_DATA_INDEX_FROM + 1];
 
         // Parse the frame to so 'rfData' only contains the payload.
-        for (int i = RX_RF_DATA_INDEX_FROM; i < sizeOfFrame - 1; i++){
+        for (int i = RX_RF_DATA_INDEX_FROM; i < sizeOfFrame - 1; i++) {
             rfData[i - RX_RF_DATA_INDEX_FROM] = frame[i];
         }
 
 
         // Here we send necessary frames based on the payload.
-        if(strstr("Temperature", rfData) == 0){
+        if (strstr("Temperature", rfData) == 0) {
             itoa(temperature, temp_char, 10);
-            tx_frame(coordinatorAddress,temp_char);
+            tx_frame(coordinatorAddress, temp_char);
         }
 
 
@@ -110,7 +111,7 @@ int main() {
 	}
 
 */
-void tx_frame(uint8_t * destination_64, uint8_t * msg){
+void tx_frame(uint8_t *destination_64, uint8_t *msg) {
     // Calculate the length of the message.
     const int msg_length = strlen((const char *) msg);
 
@@ -153,8 +154,8 @@ void tx_frame(uint8_t * destination_64, uint8_t * msg){
 
 }
 
-void arrayCopy(uint8_t * from, uint8_t * to, int length, int offset){
-    for (int i = 0; i < length; i++){
+void arrayCopy(uint8_t *from, uint8_t *to, int length, int offset) {
+    for (int i = 0; i < length; i++) {
         to[i + offset] = *from++;
     }
 

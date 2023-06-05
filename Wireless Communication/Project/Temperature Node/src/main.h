@@ -20,11 +20,11 @@
 #define DEFAULT_APS_ENCRYPTION          0x00
 #define DEFAULT_TIMEOUT                 0x00
 #define DEFAULT_FRAME_ID                0x00
-#define DESTINATION_64_BYTE_INDEX_FROM  5	// 64-bit destination starts at index 5
-#define TX_RF_DATA_INDEX_FROM           14	// Data index starts from index 14.
-#define TOTAL_FIELDS_LENGTH             15	// Except data.
-#define FRAME_DATA_LENGTH_WITHOUT_DATA  11	// Except length, frame type, and data.
+#define DESTINATION_64_BYTE_INDEX_FROM  5    // 64-bit destination starts at index 5
+#define TX_RF_DATA_INDEX_FROM           14    // Data index starts from index 14.
+#define TOTAL_FIELDS_LENGTH             15    // Except data.
+#define FRAME_DATA_LENGTH_WITHOUT_DATA  11    // Except length, frame type, and data.
 #define RX_RF_DATA_INDEX_FROM           8
-#define ADDRESS_16_SIZE					8
+#define ADDRESS_16_SIZE                 8
 
 #endif //TEMPERATURE_NODE_MAIN_H
