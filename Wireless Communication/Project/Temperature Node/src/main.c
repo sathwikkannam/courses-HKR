@@ -9,7 +9,7 @@
 // This node transmits the temperature when requested.
 
 // Functions
-void tx_frame(uint8_t *destination_64, uint8_t *msg);
+void txFrame(uint8_t *destination_64, uint8_t *msg);
 
 void arrayCopy(uint8_t *from, uint8_t *to, int length, int offset);
 
@@ -76,15 +76,12 @@ int main() {
         uint8_t rfData[sizeOfFrame - RX_RF_DATA_INDEX_FROM + 1];
 
         // Parse the frame to so 'rfData' only contains the payload.
-        for (int i = RX_RF_DATA_INDEX_FROM; i < sizeOfFrame - 1; i++) {
-            rfData[i - RX_RF_DATA_INDEX_FROM] = frame[i];
-        }
-
+        arrayCopy(frame, rfData, sizeOfFrame - 1, -RX_RF_DATA_INDEX_FROM);
 
         // Here we send necessary frames based on the payload.
         if (strstr("Temperature", rfData) != NULL) {
             itoa(temperature, temp_char, 10);
-            tx_frame(coordinatorAddress, temp_char);
+            txFrame(coordinatorAddress, temp_char);
         }
 
 
@@ -111,7 +108,7 @@ int main() {
 	}
 
 */
-void tx_frame(uint8_t *destination_64, uint8_t *msg) {
+void txFrame(uint8_t *destination_64, uint8_t *msg) {
     // Calculate the length of the message.
     const int msg_length = strlen((const char *) msg);
 
