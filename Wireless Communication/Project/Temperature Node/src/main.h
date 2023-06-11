@@ -27,4 +27,7 @@
 #define RX_RF_DATA_INDEX_FROM           8
 #define ADDRESS_16_SIZE                 8
 
+void txFrame(uint8_t *destination_64, uint8_t *msg);
+void arrayCopy(uint8_t *from, uint8_t *to, int start, int length, int offset);
+
 #endif //TEMPERATURE_NODE_MAIN_H

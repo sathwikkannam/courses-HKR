@@ -8,11 +8,6 @@
 // Temperature Node
 // This node transmits the temperature when requested.
 
-// Functions
-void txFrame(uint8_t *destination_64, uint8_t *msg);
-
-void arrayCopy(uint8_t *from, uint8_t *to, int length, int offset);
-
 int main() {
     // Temperature
     int temperature = 5;
@@ -76,7 +71,7 @@ int main() {
         uint8_t rfData[sizeOfFrame - RX_RF_DATA_INDEX_FROM + 1];
 
         // Parse the frame to so 'rfData' only contains the payload.
-        arrayCopy(frame, rfData, sizeOfFrame - 1, -RX_RF_DATA_INDEX_FROM);
+        arrayCopy(frame, rfData, RX_RF_DATA_INDEX_FROM, sizeOfFrame - 1, -RX_RF_DATA_INDEX_FROM);
 
         // Here we send necessary frames based on the payload.
         if (strstr("Temperature", rfData) != NULL) {
@@ -128,13 +123,13 @@ void txFrame(uint8_t *destination_64, uint8_t *msg) {
     frame[4] = DEFAULT_FRAME_ID;
 
     // Add 64-bit address to the frame.
-    arrayCopy(destination_64, frame, ADDRESS_16_SIZE, DESTINATION_64_BYTE_INDEX_FROM);
+    arrayCopy(destination_64, frame, 0, ADDRESS_16_SIZE, DESTINATION_64_BYTE_INDEX_FROM);
 
     // Add options
     frame[13] = (DEFAULT_TIMEOUT | DEFAULT_APS_ENCRYPTION | DEFAULT_DISABLE_RETRIES);
 
     // Add message/
-    arrayCopy(msg, frame, msg_length, TX_RF_DATA_INDEX_FROM);
+    arrayCopy(msg, frame, 0, msg_length, TX_RF_DATA_INDEX_FROM);
 
     // Calculate checksum, the first three elements are frame delimiter, and 2 bytes of frame length.
     for (int i = 3; i < sizeof(frame); i++) {
@@ -151,8 +146,8 @@ void txFrame(uint8_t *destination_64, uint8_t *msg) {
 
 }
 
-void arrayCopy(uint8_t *from, uint8_t *to, int length, int offset) {
-    for (int i = 0; i < length; i++) {
+void arrayCopy(uint8_t *from, uint8_t *to, int start, int length, int offset) {
+    for (int i = start; i < length; i++) {
         to[i + offset] = *from++;
     }
 
