@@ -28,6 +28,7 @@
 
 
 void servo_init(void);
+
 void set_angle(int angle);
 
 #endif //ROBOTPROJECT_SERVO_H

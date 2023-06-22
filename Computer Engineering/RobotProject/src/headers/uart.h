@@ -2,8 +2,8 @@
 // Created by Sathwik kannam on 3/14/2023.
 //
 
-#ifndef ROBOTPROJECT_USART_H
-#define ROBOTPROJECT_USART_H
+#ifndef ROBOTPROJECT_UART_H
+#define ROBOTPROJECT_UART_H
 
 #include <avr/io.h>
 #include <stdlib.h>
@@ -19,11 +19,15 @@
 volatile uint8_t command;
 
 
-void usart_init(void);
-void usart_send_char(uint8_t data);
-void usart_send_8bit(uint8_t data);
-void usart_send_16bit(uint16_t data);
-uint8_t usart_recieve();
+void uart_init(void);
+
+void uart_send_char(uint8_t data);
+
+void uart_send_8bit(uint8_t data);
+
+void uart_send_16bit(uint16_t data);
+
+uint8_t uart_recieve();
 
 
-#endif //ROBOTPROJECT_USART_H
+#endif //ROBOTPROJECT_UART_H

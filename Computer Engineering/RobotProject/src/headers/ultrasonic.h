@@ -66,6 +66,7 @@ volatile uint16_t pulse_width = 0; // Stores the time taken to reach the receive
 volatile uint8_t i = 0;
 
 void ultrasonic_init();
+
 void trigger(void);
 
 #endif //ROBOTPROJECT_ULTRASONIC_H

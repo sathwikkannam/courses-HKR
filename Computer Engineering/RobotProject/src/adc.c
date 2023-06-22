@@ -5,7 +5,7 @@
 #include "headers/adc.h"
 
 void set_prescaler(void) {
-    switch(PRESCALER){ // Set Prescaler.
+    switch (PRESCALER) { // Set Prescaler.
         case 2:
             ADCSRA |= _BV(ADPS0);
             break;
@@ -43,11 +43,10 @@ void adc_init() {
 }
 
 
-
 void pin_to_mux(uint8_t pin) {
     ADMUX &= ~_BV(MUX3) & ~_BV(MUX2) & ~_BV(MUX1) & ~_BV(MUX0); // Reset MUX.
 
-    switch(pin){ // Sets MUX values based on pins.
+    switch (pin) { // Sets MUX values based on pins.
         case ADC0D:
             ADMUX &= ~(_BV(MUX3) | _BV(MUX2) | _BV(MUX1) | _BV(MUX0));
             break;
@@ -58,7 +57,7 @@ void pin_to_mux(uint8_t pin) {
             ADMUX |= _BV(MUX1);
             break;
         case ADC3D:
-            ADMUX |= _BV(MUX1)| _BV(MUX0);
+            ADMUX |= _BV(MUX1) | _BV(MUX0);
             break;
         case ADC4D:
             ADMUX |= _BV(MUX2);
@@ -81,7 +80,7 @@ uint16_t read_adc(uint8_t pin) {
     pin_to_mux(pin); // Change channel
     conversion_init();
 
-    while(ADCSRA & _BV(ADSC));
+    while (ADCSRA & _BV(ADSC));
 
     return ADC;
 

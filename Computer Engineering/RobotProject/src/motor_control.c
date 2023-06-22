@@ -6,7 +6,7 @@
 #include "headers/motor_control.h"
 
 void start_timer(void) {
-    switch(PRESCALER){ // Sets MUX values based on pins.
+    switch (PRESCALER) { // Sets MUX values based on pins.
         case 0:
             TCCR0B |= _BV(CS00);
             break;
@@ -30,7 +30,7 @@ void start_timer(void) {
 
 void set_speed(int left_motor_speed, int right_motor_speed) {
     if (left_motor_speed >= MOTOR_MINIMUM_SPEED && left_motor_speed <= MOTOR_MAXIMUM_SPEED &&
-        right_motor_speed >= MOTOR_MINIMUM_SPEED && right_motor_speed <= MOTOR_MAXIMUM_SPEED){
+        right_motor_speed >= MOTOR_MINIMUM_SPEED && right_motor_speed <= MOTOR_MAXIMUM_SPEED) {
 
 
         //Set OCnx values

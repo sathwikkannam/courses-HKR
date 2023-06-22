@@ -4,7 +4,7 @@
 
 #include "headers/ultrasonic.h"
 
-void ultrasonic_init(){
+void ultrasonic_init() {
     // Set Trigger pin as OUTPUT, and ECHO pin as INPUT.
     TRIGGER_DDRx |= _BV(TRIGGER_PIN);
     ECHO_DDRx &= ~_BV(ECHO_PIN);
@@ -19,7 +19,7 @@ void ultrasonic_init(){
     sei();
 
     // Automatic mode.
-    if(TIMER2_OVERFLOW != 0){
+    if (TIMER2_OVERFLOW != 0) {
         // Set TOP value.
         OCR2A = 255;
 
@@ -36,7 +36,7 @@ void ultrasonic_init(){
 }
 
 
-void trigger(void){
+void trigger(void) {
     TRIGGER_PORTx |= _BV(TRIGGER_PIN);
     _delay_ms(TRIGGER_FREQUENCY);
     TRIGGER_PORTx &= ~_BV(TRIGGER_PIN);
@@ -44,41 +44,40 @@ void trigger(void){
 }
 
 
+ISR(ECHO_INTx_VECTOR) {
+    // ECHO pin goes from HIGH to LOW, when signal received.
+    if ((ECHO_PORTx & _BV(ECHO_PIN)) == 0) {
+        pulse_width = TCNT2;
 
-ISR(ECHO_INTx_VECTOR){
-        // ECHO pin goes from HIGH to LOW, when signal received.
-        if((ECHO_PORTx & _BV(ECHO_PIN)) == 0){
-            pulse_width = TCNT2;
-
-            if(pulse_width == 35){
-                pulse_width = 80;
-            }
-
-            // Start auto-triggering again.
-            TCCR2B |= _BV(WGM12);
-
-            // The ECHO pin is set HIGH when triggered. So, the timer starts here.
-        }else{
-            // Stop auto-triggering.
-            TCCR2B &= ~_BV(WGM12);
+        if (pulse_width == 35) {
+            pulse_width = 80;
         }
 
-        // Reset ticks.
-        TCNT2 = 0;
+        // Start auto-triggering again.
+        TCCR2B |= _BV(WGM12);
+
+        // The ECHO pin is set HIGH when triggered. So, the timer starts here.
+    } else {
+        // Stop auto-triggering.
+        TCCR2B &= ~_BV(WGM12);
+    }
+
+    // Reset ticks.
+    TCNT2 = 0;
 
 
 }
 
 // Auto-triggering every ~ 0.19s.
-ISR(TIMER2_COMPA_vect){
-        i = (i > TIMER2_OVERFLOW)? 0 : i + 1;
+ISR(TIMER2_COMPA_vect) {
+    i = (i > TIMER2_OVERFLOW) ? 0 : i + 1;
 
-        if(i == 0){
-            TRIGGER_PORTx |= _BV(TRIGGER_PIN);
+    if (i == 0) {
+        TRIGGER_PORTx |= _BV(TRIGGER_PIN);
 
-        }else if(i == TIMER2_OVERFLOW){
-            TRIGGER_PORTx &= ~_BV(TRIGGER_PIN);
+    } else if (i == TIMER2_OVERFLOW) {
+        TRIGGER_PORTx &= ~_BV(TRIGGER_PIN);
 
-        }
+    }
 
 }

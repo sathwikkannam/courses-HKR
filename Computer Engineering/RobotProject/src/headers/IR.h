@@ -19,6 +19,7 @@
 
 
 void initIRSensors();
+
 uint16_t getTrackDirection();
 
 #endif //ROBOTPROJECT_IR_H

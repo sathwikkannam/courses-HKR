@@ -5,7 +5,7 @@
 
 #include "headers/servo.h"
 
-void servo_init(void){
+void servo_init(void) {
     // Set Servo pin as OUTPUT.
     SERVO_DDRx |= _BV(SERVO_PIN);
 
@@ -16,7 +16,7 @@ void servo_init(void){
 }
 
 
-void set_angle(int angle){
+void set_angle(int angle) {
     //			   (SERVO_MAX - SERVO_MIN)
     // SERVO_MIN + ----------------------- x angle
     //                        180

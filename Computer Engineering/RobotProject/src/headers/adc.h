@@ -16,9 +16,13 @@
 #define AREF REFS0
 
 void set_prescaler(void);
+
 void adc_init();
+
 void pin_to_mux(uint8_t pin);
+
 void conversion_init(void);
+
 uint16_t read_adc(uint8_t pin);
 
 

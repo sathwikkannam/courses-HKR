@@ -32,7 +32,9 @@
 #define PRESCALER 8
 
 void start_timer(void);
+
 void set_speed(int left_motor_speed, int right_motor_speed);
+
 void motors_init(void);
 
 

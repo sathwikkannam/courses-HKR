@@ -8,7 +8,7 @@
 
 #include "headers/IR.h"
 #include "headers/motor_control.h"
-#include "headers/usart.h"
+#include "headers/uart.h"
 #include "headers/ultrasonic.h"
 #include "headers/servo.h"
 
