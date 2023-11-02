@@ -1,9 +1,6 @@
 [submodule "Wireless Communication/Project/ZigBeetle"]
 	path = Wireless Communication/Project/ZigBeetle
 	url = https://github.com/sathwikkannam/ZigBeetle.git
-[submodule "Development-for-Mobile-Applications"]
-	path = Development-for-Mobile-Applications
-	url = https://github.com/sathwikkannam/Development-for-Mobile-Applications.git
 [submodule "Machine-Learning-with-Data-Acquisition"]
 	path = Machine-Learning-with-Data-Acquisition
 	url = https://github.com/sathwikkannam/Machine-Learning-with-Data-Acquisition.git
