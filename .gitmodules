@@ -4,3 +4,9 @@
 [submodule "Machine-Learning-with-Data-Acquisition"]
 	path = Machine-Learning-with-Data-Acquisition
 	url = https://github.com/sathwikkannam/Machine-Learning-with-Data-Acquisition.git
+[submodule "Development for Mobile Applications/Labs"]
+	path = Development for Mobile Applications/Labs
+	url = https://github.com/sathwikkannam/Development-for-Mobile-Applications.git
+[submodule "Development for Mobile Applications/IMEI-Scanner-App"]
+	path = Development for Mobile Applications/IMEI-Scanner-App
+	url = https://github.com/Michelow1305/IMEI-Scanner-App.git
