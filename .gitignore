@@ -75,6 +75,7 @@ Test/
 !Computer Engineering/RobotProject/include/
 !Computer Engineering/RobotProject/platformio.ini
 !/.gitignore
+!requirements.txt
 #-----------------------EXCEPTIONS-------------------------------------------------------------------
 
 
