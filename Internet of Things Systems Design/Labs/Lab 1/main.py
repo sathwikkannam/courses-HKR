@@ -1,29 +1,35 @@
 import os
 import asyncio
-from azure.iot.device import IoTHubDeviceClient
+from azure.iot.device.aio import IoTHubDeviceClient
 import time
 import random
 
-CONNECTION_STRING = os.getenv('CONNECTION_STRING')
+
+async def send_telemetry(device_client):
+    while True:
+        # Simulate the sensors.
+        temperature = random.randint(25, 100)
+        humidity = random.randint(50, 100)
+
+        # Send the telemetry.
+        print(f"Sending temp: {temperature}")
+        await device_client.send_message({"temp": temperature})
+        time.sleep(10)  # Wait for 10 seconds
+
+        print(f"Sending humidity: {humidity}")
+        await device_client.send_message({"humidity": humidity})
+        time.sleep(20)  # Wait for 20 seconds
 
 
 async def main():
-    device_client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
+    # Fetch the connection string from an environment variable
+    conn_str = os.getenv("CONNECTION_STRING")
 
-    await device_client.connect()
+    # Create an instance of the device client using the connection string
+    device_client = IoTHubDeviceClient.create_from_connection_string(conn_str)
 
-    messageCounter = 0
-
-    while True:
-        msg = "Message: " + str(messageCounter) + " --- Temp. " + str(20 + random.randint(1, 6))
-
-        print("Sending message...", msg)
-        await device_client.send_message(msg)
-        print("Message successfully sent!")
-
-        time.sleep(5 + random.randint(1, 5))
-        messageCounter += 1
-    await device_client.shutdown()
+    # Start sending telemetry
+    await send_telemetry(device_client)
 
 
 if __name__ == "__main__":
