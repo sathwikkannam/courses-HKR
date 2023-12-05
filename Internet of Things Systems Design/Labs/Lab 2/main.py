@@ -3,9 +3,7 @@ import random
 import time
 from azure.iot.device import IoTHubDeviceClient, Message
 
-
-
-CONNECTION_STRING = "HostName=iot-course-basic.azure-devices.net;DeviceId=my-laptop;SharedAccessKey=ucKdyaN0+zGu5ytR5moL2eGmvdtHqFbATAIoTF8oj48="
+CONNECTION_STRING = os.getenv("CONNECTION_STRING")
 
 TEMPERATURE = 20.0
 MSG_TXT = '{{"temperature": {temperature}}}'
@@ -23,7 +21,7 @@ def run_telemetry_sample(client):
         temperature = TEMPERATURE + (random.random() * 15)
         msg_txt_formatted = MSG_TXT.format(temperature=temperature)
         message = Message(msg_txt_formatted)
-        
+
         # Send the message.
         print("Sending message: {}".format(message))
         client.send_message(message)
@@ -48,6 +46,7 @@ def main():
         # Upon application exit, shut down the client
         print("Shutting down IoTHubClient")
         client.shutdown()
+
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,93 @@
+[
+  {
+    "temperature": 24.701479946473114,
+    "EventProcessedUtcTime": "2023-12-03T15:07:54.8392397Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2023-12-03T14:59:26.2000000Z",
+    "IoTHub": {
+      "MessageId": null,
+      "CorrelationId": null,
+      "ConnectionDeviceId": "my-laptop",
+      "ConnectionDeviceGenerationId": "638358288595456530",
+      "EnqueuedTime": "2023-12-03T14:59:25.5900000Z"
+    }
+  },
+  {
+    "temperature": 33.34695155502486,
+    "EventProcessedUtcTime": "2023-12-03T15:07:54.8392397Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2023-12-03T14:59:35.7470000Z",
+    "IoTHub": {
+      "MessageId": null,
+      "CorrelationId": null,
+      "ConnectionDeviceId": "my-laptop",
+      "ConnectionDeviceGenerationId": "638358288595456530",
+      "EnqueuedTime": "2023-12-03T14:59:35.6690000Z"
+    }
+  },
+  {
+    "temperature": 33.47225106340349,
+    "EventProcessedUtcTime": "2023-12-03T15:07:54.8392397Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2023-12-03T14:59:45.8250000Z",
+    "IoTHub": {
+      "MessageId": null,
+      "CorrelationId": null,
+      "ConnectionDeviceId": "my-laptop",
+      "ConnectionDeviceGenerationId": "638358288595456530",
+      "EnqueuedTime": "2023-12-03T14:59:45.7470000Z"
+    }
+  },
+  {
+    "temperature": 23.939423379956985,
+    "EventProcessedUtcTime": "2023-12-03T15:07:54.8392397Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2023-12-03T14:59:55.9200000Z",
+    "IoTHub": {
+      "MessageId": null,
+      "CorrelationId": null,
+      "ConnectionDeviceId": "my-laptop",
+      "ConnectionDeviceGenerationId": "638358288595456530",
+      "EnqueuedTime": "2023-12-03T14:59:55.7950000Z"
+    }
+  },
+  {
+    "temperature": 31.559116028014508,
+    "EventProcessedUtcTime": "2023-12-03T15:07:54.8392397Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2023-12-03T15:00:05.9980000Z",
+    "IoTHub": {
+      "MessageId": null,
+      "CorrelationId": null,
+      "ConnectionDeviceId": "my-laptop",
+      "ConnectionDeviceGenerationId": "638358288595456530",
+      "EnqueuedTime": "2023-12-03T15:00:05.8570000Z"
+    }
+  },
+  {
+    "temperature": 22.525349542788145,
+    "EventProcessedUtcTime": "2023-12-03T15:07:54.8392397Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2023-12-03T15:00:16.0760000Z",
+    "IoTHub": {
+      "MessageId": null,
+      "CorrelationId": null,
+      "ConnectionDeviceId": "my-laptop",
+      "ConnectionDeviceGenerationId": "638358288595456530",
+      "EnqueuedTime": "2023-12-03T15:00:15.9360000Z"
+    }
+  },
+  {
+    "temperature": 25.450070804196816,
+    "EventProcessedUtcTime": "2023-12-03T15:07:54.8392397Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2023-12-03T15:00:26.1440000Z",
+    "IoTHub": {
+      "MessageId": null,
+      "CorrelationId": null,
+      "ConnectionDeviceId": "my-laptop",
+      "ConnectionDeviceGenerationId": "638358288595456530",
+      "EnqueuedTime": "2023-12-03T15:00:26.0030000Z"
+    }
+  }
+]
