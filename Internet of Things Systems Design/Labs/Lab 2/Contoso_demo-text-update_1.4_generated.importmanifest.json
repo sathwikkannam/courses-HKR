@@ -1,0 +1,39 @@
+{
+    "compatibility": [
+        {
+            "manufacturer": "Contoso",
+            "model": "Video"
+        }
+    ],
+    "createdDateTime": "2023-12-05T16:33:42.426Z",
+    "files": [
+        {
+            "filename": "demo_update.txt",
+            "hashes": {
+                "sha256": "ijDIK12X+3RucIVUv9hXSR+fAUrEtybrCor9NWaD8GQ="
+            },
+            "sizeInBytes": 27
+        }
+    ],
+    "instructions": {
+        "steps": [
+            {
+                "type": "inline",
+                "files": [
+                    "demo_update.txt"
+                ],
+                "handler": "microsoft/script:1",
+                "handlerProperties": {
+                    "installedCriteria": "1.0"
+                }
+            }
+        ]
+    },
+    "isDeployable": true,
+    "manifestVersion": "5.0",
+    "updateId": {
+        "name": "demo-text-update",
+        "provider": "Contoso",
+        "version": "1.4"
+    }
+}
