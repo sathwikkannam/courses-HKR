@@ -2,7 +2,7 @@ import time
 import os
 import RPi.GPIO as GPIO
 from flask import Flask, jsonify, render_template, request
-# from mpu6050 import mpu6050
+from mpu6050 import mpu6050
 from azure.iot.device import IoTHubDeviceClient, Message
 import logging
 import cv2
@@ -66,6 +66,14 @@ def get_update():
     capture()
     button_status = GPIO.input(button)
     return jsonify({'button_status': button_status})
+
+
+@app.route("/data")
+def data():
+    sensor = mpu6050(0x68)
+    ax, ay, az = sensor.get_accel_data()
+    gx, gy, gz = sensor.get_gyro_data()
+    return jsonify({'ax': ax, 'ay': ay, 'az': az, 'gx': gx, 'gy': gz})
 
 
 @app.route("/allow")

@@ -5,6 +5,7 @@
    <link rel="stylesheet" href="/nordsec-6WupqPeXIUkAeOkL/stylesheet?id=o8kGvQhJKEETp0ka"></head>
 
    <body>
+   		<h2 id="accelerometerData">Accelerometer Data: </h2>
 		<h1>RPi GPIO Control</h1>
 		<h2> Sensor Status </h2>
 		<h3 id="buttonStatus"> BUTTON ==> {{ button }}</h3>
@@ -55,4 +56,21 @@ $(document).ready(function(){
         });
     }, 5000); // milliseconds
 });
+</script>
+<script>
+	$(document).ready(function(){
+        setInterval(function(){
+            $.ajax({
+                url: "/data",
+                type: "GET",
+                success: function(response){
+                    // Update the page with the new data
+                    $("#accelerometerData").text("Accelerometer Data: " + JSON.stringify(response));
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        }, 1000); // Fetch data every second
+    });
 </script>
