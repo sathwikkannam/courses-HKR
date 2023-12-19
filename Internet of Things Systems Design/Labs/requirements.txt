@@ -2,3 +2,6 @@ azure-iot-device==2.12.0
 Flask==3.0.0
 opencv-python==4.8.1.78
 RPi.GPIO==0.7.1
+boto3==1.34.3
+mpu6050-raspberrypi==1.2
+pandas==2.1.4

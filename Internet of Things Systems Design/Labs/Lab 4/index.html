@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+   <head>
+      <title>GPIO Control</title>
+      <link rel="stylesheet" href='../static/master.css'/>
+   <link rel="stylesheet" href="/nordsec-WE2rpkpXftywBxCg/stylesheet?id=ENhxSXbsZNUL4vW8"></head>
+
+   <body>
+		<h1>RPi GPIO Control</h1>
+		<h2> Sensor Status </h2>
+		<h3 id="buttonStatus"> BUTTON ==> {{ button }}</h3>
+		<br>
+		
+		<h2> Actuator Status </h2>
+		<h3> RED LED ==>  {{ ledRed  }}</h3>
+		<h3> YLW LED ==>  {{ ledYlw  }}</h3>
+		<br>
+		<h2> Commands </h2>
+		<h3> 
+			RED LED Ctrl ==> 
+			<a href="/ledRed/on" class="button">TURN ON</a>  
+			<a href="/ledRed/off"class="button">TURN OFF</a>
+		</h3>
+		<h3> 
+			YLW LED Ctrl ==> 
+			<a href="/ledYlw/on" class="button">TURN ON</a>  
+			<a href="/ledYlw/off"class="button">TURN OFF</a>
+		</h3>		
+		<h1>Image Capture</h1>
+		<img src="/static/boogeraids.jpg" alt="Captured Image" width="640" height="480">
+		<br>
+		<a href="/allow" class="button">Allow</a>  
+		<a href="/deny"class="button">Deny</a>
+	</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    setInterval(function(){
+        $.ajax({
+            url: "/get_update",
+            type: "GET",
+            success: function(response){
+				// Check the response from the server
+				if(response.button_status == 1){
+					// Change the button's text to "ON" or something cool
+					$("#buttonStatus").text("BUTTON ==> 1");
+					$("img").attr("src", "/static/boogeraids.jpg?"+new Date().getTime());
+				} else {
+					// Change it back to "OFF" or something else
+					$("#buttonStatus").text("BUTTON ==> 0");
+				}
+			},
+            error: function(error){
+                console.log(error);
+            }
+        });
+    }, 600000); // milliseconds
+});
+</script>
