@@ -16,7 +16,7 @@ while time.time() < end_time:
     ax, ay, az = sensor.get_accel_data()
     gx, gy, gz = sensor.get_gyro_data()
     data.append([ax, ay, az, gx, gy, gz])
-    time.sleep(1 / 50)
+    time.sleep(1 / FREQUENCY)
 
 df = pd.DataFrame(data, columns=['ax', 'ay', 'az', 'gx', 'gy', 'gz'])
 df['class'] = _class
