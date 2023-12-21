@@ -1,5 +1,6 @@
 import boto3
 import json
+import os
 
 
 def detect_faces(target_file, region):
@@ -49,8 +50,8 @@ def compare_faces(bucket, sourceFile, targetFile, region):
 
 def compare_faces(bucket, sourceFile, targetFile, region):
     client = boto3.client('rekognition', region_name=region,
-                          aws_access_key_id="AKIA4G43GKNBFHMCH3XE",
-                          aws_secret_access_key="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"
+                          aws_access_key_id=os.getenv('ACCESS_KEY_ID'),
+                          aws_secret_access_key=os.getenv('SECRET_ACCESS_KEY')
                           )
 
     imageTarget = open(targetFile, 'rb')

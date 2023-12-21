@@ -1,4 +1,3 @@
-import time
 import os
 import RPi.GPIO as GPIO
 from flask import Flask, jsonify, render_template, request
@@ -51,7 +50,7 @@ def capture():
     cap.release()
 
 
-def run_telemetry_sample(ledRedSts, ledYlwSts):
+def transmit_leds_telemetry(ledRedSts, ledYlwSts):
     client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
     client.connect()
     msg_txt_formatted = JSON_MSG.format(red=ledRedSts, yellow=ledYlwSts)
@@ -133,7 +132,7 @@ def action(deviceName, action):
         'ledYlw': ledYlwSts,
     }
 
-    run_telemetry_sample(ledRedSts, ledYlwSts)
+    transmit_leds_telemetry(ledRedSts, ledYlwSts)
     return render_template('index.html', **templateData)
 
 
