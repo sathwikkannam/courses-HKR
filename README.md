@@ -23,4 +23,4 @@
 #### [Internet of Things Systems Design - DT373B](https://www.hkr.se/en/course/DT373B/course-syllabus)
 #### [Machine Learning with Data Acquisition - DT374C](https://www.hkr.se/en/course/DT374C/course-syllabus)
 #### [Systems Engineering - DT337B](https://www.hkr.se/en/course/DT337B/course-syllabus)
-#### [Degree Project in Computer Engineering - DT339E](https://www.hkr.se/en/course/DT339E/course-syllabus)
+#### [Bachelor Thesis in Computer Engineering - DT339F](https://www.hkr.se/en/course/DT339F/course-syllabus)
