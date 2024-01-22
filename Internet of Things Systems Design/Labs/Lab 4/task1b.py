@@ -20,3 +20,5 @@ while time.time() < end_time:
 
 df = pd.DataFrame(data, columns=['ax', 'ay', 'az', 'gx', 'gy', 'gz'])
 df['class'] = _class
+
+df.to_csv('data.csv', index=True)
