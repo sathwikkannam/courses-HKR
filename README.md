@@ -2,7 +2,7 @@
 #### [Introductory course for Engineers - DT101D](https://www.hkr.se/en/course/DT101D/course-syllabus)
 #### [Fundamental Programming - DA110F](https://www.hkr.se/en/course/DA110F/course-syllabus)
 #### [Mathematics for Engineers - MA110B](https://www.hkr.se/en/course/MA110B/course-syllabus)
-#### [Database Techniques - DA113E](https://www.hkr.se/en/course/DA113E/course-syllabus)
+#### [Database Technique - DA113E](https://www.hkr.se/en/course/DA113E/course-syllabus)
 #### [Object-Oriented Programming - DA114E](https://www.hkr.se/en/course/DA114E/course-syllabus)
 #### [Calculus and Algebra - MA111B](https://www.hkr.se/en/course/MA111B/course-syllabus)
 #### [Programming for Embedded Systems - DT131D](https://www.hkr.se/en/course/DT131D/course-syllabus)
