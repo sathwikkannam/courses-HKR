@@ -1,3 +1,7 @@
+# Race
+
+![Video race]([https://example.com/path/to/your/video.gif](https://github.com/sathwikkannam/courses-HKR/blob/master/Computer%20Engineering/RobotProject/Images/Robot%20race.mp4))
+
 # 4WD BT Robot Car V2.0 Description
 #### [4WD BT Robot Car V2.0](https://wiki.keyestudio.com/KS0470_Keyestudio_4WD_BT_Robot_Car_V2.0_Kit_for_Arduino)
 #### [3 Channel Infrared Tracking Sensor](https://wiki.keyestudio.com/KS0470_Keyestudio_4WD_BT_Robot_Car_V2.0_Kit_for_Arduino#Project_10:_Line_Tracking_Robot)
