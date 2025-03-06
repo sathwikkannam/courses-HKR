@@ -1,6 +1,9 @@
 # Race
 
-![Video race]([https://example.com/path/to/your/video.gif](https://github.com/sathwikkannam/courses-HKR/blob/master/Computer%20Engineering/RobotProject/Images/Robot%20race.mp4))
+<video width="320" height="240" controls>
+  <source src="[https://example.com/path/to/your/video.mp4](https://github.com/sathwikkannam/courses-HKR/blob/master/Computer%20Engineering/RobotProject/Images/Robot%20race.mp4)" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 # 4WD BT Robot Car V2.0 Description
 #### [4WD BT Robot Car V2.0](https://wiki.keyestudio.com/KS0470_Keyestudio_4WD_BT_Robot_Car_V2.0_Kit_for_Arduino)
