@@ -86,6 +86,8 @@ R -Umeå/
 !requirements.txt
 !Internet of Things Systems Design/Labs/Lab 3/templates
 !Internet of Things Systems Design/Labs/Lab 4/templates
+!Internet of Things Systems Design/Labs/Lab 2/media/*.png
+!Internet of Things Systems Design/Labs/Lab 2/README.md
 #-----------------------EXCEPTIONS-------------------------------------------------------------------
 
 
